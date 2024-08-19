@@ -52,7 +52,7 @@ const DropdownNotification = () => {
             <ul className="flex h-auto flex-col overflow-y-auto">
               <li>
                 <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-200 dark:border-strokedark dark:hover:bg-meta-4"
                   href="#"
                 >
                   <p className="text-sm">
@@ -68,7 +68,7 @@ const DropdownNotification = () => {
               </li>
               <li>
                 <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-200 dark:border-strokedark dark:hover:bg-meta-4"
                   href="#"
                 >
                   <p className="text-sm">
@@ -83,7 +83,7 @@ const DropdownNotification = () => {
               </li>
               <li>
                 <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-200 dark:border-strokedark dark:hover:bg-meta-4"
                   href="#"
                 >
                   <p className="text-sm">
@@ -99,7 +99,7 @@ const DropdownNotification = () => {
               </li>
               <li>
                 <Link
-                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+                  className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-200 dark:border-strokedark dark:hover:bg-meta-4"
                   href="#"
                 >
                   <p className="text-sm">

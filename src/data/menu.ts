@@ -17,13 +17,13 @@ export const menus = [
     name: 'Dashboard',
     type: 'menu',
     icon: HiOutlineHome,
-    url: null
+    url: "/admin/dashboard"
   },
   {
     name: 'Profil Sekolah',
     type: 'menu',
     icon: GiNotebook,
-    url: null
+    url: "/admin/profil-sekolah"
   },
   {
     name: 'Data Pokok',
@@ -76,7 +76,7 @@ export const menus = [
       {
         name: 'Prestasi',
         type: 'menu',
-        url : '/admin/ekstrakurikuler',
+        url : '/admin/prestasi',
         icon: TfiMedall
       },
       {

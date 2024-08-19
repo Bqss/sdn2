@@ -9,6 +9,9 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -23,5 +26,6 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/databases/seeders/index.js"],
+  
   "exclude": ["node_modules"]
 }
