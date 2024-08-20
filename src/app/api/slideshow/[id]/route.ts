@@ -188,7 +188,7 @@ export async function DELETE(
 
   try {
     await firestore().collection("slideshow").doc(params.id).delete();
-    await storage().bucket().file(dataPegawai.data()?.foto).delete();
+    await storage().bucket().file(dataPegawai.data()?.gambar).delete();
     return Response.json({
       message: "Data slideshow berhasil dihapus",
       success: true,

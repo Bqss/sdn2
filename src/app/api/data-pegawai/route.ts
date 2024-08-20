@@ -61,14 +61,10 @@ export async function POST(request: Request) {
           contentType: file.type,
         },
       });
-
-      // Get the file URL
       payload.foto = `pegawai/${fileName}`;
       payload.order = parseInt(payload.order.toString(), 10) as any;
     }
 
-    // Add the file URL to the payload
-    // Save the payload to Firestore
     await firestore().collection("pegawai").add(payload);
 
     return new Response(null, { status: 200 });

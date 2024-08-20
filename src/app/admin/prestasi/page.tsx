@@ -234,7 +234,7 @@ export default function Page() {
                     <DialogClose className='px-5 py-2 rounded-md text-sm bg-slate-100'>
                       Cancel
                     </DialogClose>
-                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdatePrestasi : false}>
+                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdatePrestasi : isAddingPrestasi}>
                       {isOnUpdateProcess ? "Simpan" : "Tambahkan"}
                     </LoadingButton>
                   </div>

@@ -123,9 +123,6 @@ export default function Page() {
       const {created_at, ...restData} = data.data;
       newsForm.reset(restData);
       newsForm.setValue("id", data.data.id);
-      queryClientInstance.invalidateQueries({
-        queryKey: ["news"],
-      });
       setIsOnUpdateProcess(true);
       setIsOpenPegawaiModal(true);
     } catch (err) {
@@ -222,7 +219,7 @@ export default function Page() {
                     <DialogClose className='px-5 py-2 rounded-md text-sm bg-slate-100'>
                       Cancel
                     </DialogClose>
-                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdatingNews : false}>
+                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdatingNews : isAddingNews}>
                       {isOnUpdateProcess ? "Simpan" : "Tambahkan"}
                     </LoadingButton>
                   </div>

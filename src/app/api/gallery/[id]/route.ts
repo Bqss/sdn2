@@ -183,7 +183,7 @@ export async function DELETE(
 
   try {
     await firestore().collection("gallery").doc(params.id).delete();
-    await storage().bucket().file(dataPegawai.data()?.thumbnail).delete();
+    await storage().bucket().file(dataPegawai.data()?.foto).delete();
     return Response.json({
       message: "Gallery berhasil dihapus",
       success: true,

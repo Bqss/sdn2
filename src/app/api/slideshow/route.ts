@@ -82,9 +82,6 @@ export async function POST(request: Request) {
       payload.gambar = `slideshow/${fileName}`;
       payload.order = parseInt(payload.order.toString(), 10) as any;
     }
-    // Add the file URL to the payload
-    // Save the payload to Firestore
-    console.log(payload);
     await firestore().collection("slideshow").add(payload);
     return new Response(null, { status: 200 });
   } catch (error) {

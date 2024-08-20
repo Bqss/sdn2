@@ -16,6 +16,8 @@ import { AxiosError } from 'axios';
 const Ckeditor = dynamic(() => import('@/components/Atoms/Ckeditor'), { ssr: false });
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ProfileService } from '@/services/profile';
+import LoadingButton from '@/components/Atoms/LoadingButton';
+import { queryClientInstance } from '../layout';
 
 
 const ProfileSchema = yup.object({
@@ -31,11 +33,9 @@ function Page() {
 
   useSetTitle('Profil Sekolah');
  
-
   const { mutateAsync, isPending, isSuccess } = useMutation({
     mutationFn: ProfileService.updateProfile,
   });
-
 
   const { isLoading, data } = useQuery({
     queryKey: ['profile'],
@@ -44,8 +44,11 @@ function Page() {
   })
 
   const onSubmit = async (data: any) => {
-    mutateAsync(data).then(() => {
-      alert('Data berhasil update')
+    mutateAsync(data).then((data) => {
+      alert(data.message)
+      queryClientInstance.invalidateQueries({
+        queryKey: ["profile"]
+      })
     }).catch((error: AxiosError) => {
       if (error.response) {
         const { data } = error.response;
@@ -61,14 +64,6 @@ function Page() {
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(ProfileSchema),
-    defaultValues: {
-      profile_singkat: '',
-      profile_lengkap: '',
-      visi: '',
-      misi: '',
-      tujuan: '',
-      sejarah: '',
-    }
   });
 
   useEffect(() => {
@@ -163,7 +158,7 @@ function Page() {
                 {errors.sejarah && <span className="text-red-500 text-xs mt-1">{errors.sejarah.message}</span>}
               </div>
               <div className="flex justify-end">
-                <Button type="submit">Simpan</Button>
+                <LoadingButton isLoading={isPending} type="submit">Simpan</LoadingButton>
               </div>
             </form>
           )}

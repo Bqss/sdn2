@@ -47,13 +47,13 @@ export default function Page() {
 
   const { toggleLoader } = useDashboardLayoutContext();
   const [isOpenPegawaiModal, setIsOpenPegawaiModal] = useState(false);
-
-  const { isPending: isGettingDetailSlideShow, data: detailSlideshow, mutateAsync: getDetailSlideshow } = useMutation({
+ 
+  const { mutateAsync: getDetailSlideshow } = useMutation({
     mutationFn: SlideshowService.getSlideshowById,
     mutationKey: ["detailSlideshow"],
   });
 
-  const { isPending: isDeletingSlideshow, mutateAsync: deletePegawai } = useMutation({
+  const {  mutateAsync: deletePegawai } = useMutation({
     mutationFn: SlideshowService.deleteSlideshow,
   });
 
@@ -252,7 +252,7 @@ export default function Page() {
                     <DialogClose className='px-5 py-2 rounded-md text-sm bg-slate-100'>
                       Cancel
                     </DialogClose>
-                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdateSlideshow : false}>
+                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdateSlideshow : isAddingSlideshow}>
                       {isOnUpdateProcess ? "Simpan" : "Tambahkan"}
                     </LoadingButton>
                   </div>

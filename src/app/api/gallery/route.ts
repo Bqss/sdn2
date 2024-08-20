@@ -61,18 +61,14 @@ export async function POST(request: Request) {
       const bucket = storage().bucket();
       const fileName = `${Date.now()}_${file.name}`;
       const fileRef = bucket.file(`gallery/${fileName}`);
-      // Upload the file to Firebase Storage
       await fileRef.save(Buffer.from(await file.arrayBuffer()), {
         metadata: {
           contentType: file.type,
         },
       });
-      // Get the file URL
       payload.foto = `gallery/${fileName}`;
     }
 
-    // Add the file URL to the payload
-    // Save the payload to Firestore
     await firestore()
       .collection("gallery")
       .add({

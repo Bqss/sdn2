@@ -36,12 +36,12 @@ export default function Page() {
   const { toggleLoader } = useDashboardLayoutContext();
   const [isOpenEsktrakurikulerModal, setIsOpenEkstrakurikulerModal] = useState(false);
 
-  const { isPending: isGettingEkstrakurikuler, data: detailEkstrakurikuler, mutateAsync: getDetailEkstrakurikuler } = useMutation({
+  const { data: detailEkstrakurikuler, mutateAsync: getDetailEkstrakurikuler } = useMutation({
     mutationFn: EkstrakurikulerService.getEkstrakurikulerById,
     mutationKey: ["detailEkstrakurikuler"],
   });
 
-  const { isPending: isDeletingEkstrakurikuler, mutateAsync: deleteEkstrakurikuler } = useMutation({
+  const { mutateAsync: deleteEkstrakurikuler } = useMutation({
     mutationFn: EkstrakurikulerService.deleteEkstrakurikuler,
   });
 
@@ -169,7 +169,7 @@ export default function Page() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Deskripsi <span className="text-red-500">*</span></FormLabel>
-                        <Textarea placeholder="" {...field}/>
+                        <Textarea placeholder="" {...field} />
                         <FormMessage />
                       </FormItem>
                     )}
@@ -192,7 +192,7 @@ export default function Page() {
                     <DialogClose className='px-5 py-2 rounded-md text-sm bg-slate-100'>
                       Cancel
                     </DialogClose>
-                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdateEkstrakurikuler : false}>
+                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdateEkstrakurikuler : isAddingEkstrakurikuler}>
                       {isOnUpdateProcess ? "Simpan" : "Tambahkan"}
                     </LoadingButton>
                   </div>

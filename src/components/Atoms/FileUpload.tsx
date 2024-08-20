@@ -2,6 +2,11 @@ import Image from 'next/image';
 import React, { memo, ReactNode, use, useMemo, useState } from 'react';
 import { FaXmark } from "react-icons/fa6";
 import { UseFormSetValue } from 'react-hook-form';
+import { BsFileEarmarkPdf } from "react-icons/bs";
+import { FaRegFileWord } from "react-icons/fa";
+import { SiMicrosoftexcel } from "react-icons/si";
+import { PiMicrosoftPowerpointLogo } from "react-icons/pi";
+import { FaFile } from "react-icons/fa";
 
 interface FileUploadProps {
   multiple?: boolean;
@@ -89,13 +94,42 @@ const FileResultPreview = ({ file, handleRemove }: { file: UploadedFile, handleR
     return file.file_path.split('.').pop()?.match(/[^?]+/)?.[0];
   }, [file.file_path]);
 
+  const icon = useMemo(() => {
+    const imageExt = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
+
+    const fileType = imageExt.includes(file.file_path.split('.').pop()?.toLowerCase() ?? '') ? 'image' : file.file_path.split('.').pop()?.toLowerCase();
+
+    if (fileType === 'image') {
+      return <Image src={file.preview} width={80} height={80} alt='file' />
+    }
+ 
+    switch (fileType) {
+      case 'pdf':
+        return <BsFileEarmarkPdf size={50} />;
+      case 'doc':
+      case 'docx':
+        return <FaRegFileWord size={50} />;
+      case 'xls':
+      case 'xlsx':
+        return <SiMicrosoftexcel size={50} />;
+      case 'ppt':
+      case 'pptx':
+        return <PiMicrosoftPowerpointLogo size={50} />;
+      default:
+        return <FaFile size={50} />;
+    }
+
+
+
+  },[file]);
+
   return (
     <div>
       <div className='p-2 w-fit rounded-md border border-slate-400 relative '>
         <button title='Hapus gambar' type='button' onClick={() => handleRemove()} className='p-1 bg-red-600 border border-black text-white top-0 -translate-y-1/2 translate-x-1/2 cursor-pointer rounded-full absolute right-0 '>
           <FaXmark size={10} />
         </button>
-        <Image src={file.preview} width={80} height={80} alt='file' />
+        {icon}
       </div>
       <div className='text-xs mt-1 text-ellipsis'>{`${filename}.${fileExt}`}</div>
     </div>
@@ -131,29 +165,40 @@ const FileUploadPreview = memo(({ file, index, handleRemoveFile }: { file: File,
     inner = <Image src={filePreview} width={80} height={80} alt={file.name} />
   } else {
     const fileType = file.type.split('/')[1];
-    let icon = '';
+    let icon ;
     switch (fileType) {
       case 'pdf':
-        icon = 'pdf-icon';
+        icon = <BsFileEarmarkPdf size={50} />;
         break;
       case 'doc':
       case 'docx':
-        icon = 'word-icon';
+        icon = <FaRegFileWord size={50} />;
         break;
       case 'xls':
       case 'xlsx':
-        icon = 'excel-icon';
+        icon = <SiMicrosoftexcel size={50} />;
         break;
       case 'ppt':
       case 'pptx':
-        icon = 'powerpoint-icon';
+        icon = <PiMicrosoftPowerpointLogo size={50} />;
         break;
       default:
-        icon = 'generic-file-icon';
+        icon = <FaFile size={50} />;
         break;
     }
 
-    return <div className={icon}></div>;
+    return (
+      <div>
+        <div className='p-2 w-fit rounded-md border border-slate-400 relative '>
+          <button title='Hapus gambar' type='button' onClick={() => handleRemoveFile(index)} className='p-1 bg-red-600 border border-black text-white top-0 -translate-y-1/2 translate-x-1/2 cursor-pointer rounded-full absolute right-0 '>
+            <FaXmark size={10} />
+          </button>
+          {icon}
+        </div>
+        <div className='text-sm mt-1 text-ellipsis'>{fileName + "." + fileExt}</div>
+        <div className='text-xs mt-1'>{fileSize}</div>
+      </div>
+    );
   }
 
   return (
@@ -169,6 +214,8 @@ const FileUploadPreview = memo(({ file, index, handleRemoveFile }: { file: File,
     </div>
   );
 });
+
+FileUploadPreview.displayName = 'FileUploadPreview';
 
 FileUpload.displayName = 'FileUpload';
 

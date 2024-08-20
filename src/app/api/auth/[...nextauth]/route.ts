@@ -1,9 +1,9 @@
 import { firestore } from "@/lib/firebase";
-import nextAuth from "next-auth";
+import nextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
-const handler = nextAuth({
+export const authOptions :AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -12,21 +12,26 @@ const handler = nextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log(credentials )
-        if (credentials?.email == 'null' || credentials?.password == 'null') {
+        if (credentials?.email == "null" || credentials?.password == "null") {
           throw new Error("Missing credentials");
         }
         const user = await firestore()
           .collection("users")
           .where("email", "==", credentials?.email)
-          .get();
+          .get(); 
+
+
         if (user.empty) {
           throw new Error("User not found");
         }
 
         if (
-          bcrypt.compareSync(credentials?.password as string, user.docs[0].data().password)
+          bcrypt.compareSync(
+            credentials?.password as string,
+            user.docs[0].data().password
+          )
         ) {
+          console.log("password udh bener");
           return {
             id: user.docs[0].id,
             username: user.docs[0].data().username,
@@ -46,6 +51,8 @@ const handler = nextAuth({
     verifyRequest: "/auth/verify-request",
     newUser: "/auth/new-user",
   },
-});
+};
+
+const handler = nextAuth(authOptions);
 
 export { handler as GET, handler as POST };

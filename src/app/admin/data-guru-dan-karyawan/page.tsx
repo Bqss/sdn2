@@ -22,6 +22,7 @@ import LoadingButton from '@/components/Atoms/LoadingButton';
 import useDashboardLayoutContext from '@/hooks/useDashboardLayoutContext';
 import { queryClientInstance } from '../layout';
 import Ckeditor from '@/components/Atoms/Ckeditor';
+import { Textarea } from '@/components/ui/textarea';
 
 function Page() {
 
@@ -33,7 +34,7 @@ function Page() {
     nama: yup.string().required(),
     order: yup.number().required(),
     jabatan: yup.string().required(),
-    deskripsi: yup.string().required(),
+    deskripsi: yup.string().nullable(),
     foto: yup.mixed().nullable(),
   });
 
@@ -217,7 +218,7 @@ function Page() {
                         <FormItem >
                           <FormLabel>Deskripsi</FormLabel>
                           <FormControl>
-                            <Input placeholder="Deskripsi jabatan"{...field} />
+                            <Textarea placeholder='Masukkan deskripsi pegawai' {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -230,15 +231,7 @@ function Page() {
                         <FormItem >
                           <FormLabel>Foto</FormLabel>
                           <FormControl>
-                            <Ckeditor
-                              id="text-case"
-                              data={newsForm.watch('profile_singkat')}
-                              className={errors.profile_singkat ? 'border-red-500' : ''}
-                              onChange={(event, editor) => {
-                                console.log("called")
-                                setValue('profile_singkat', editor.getData());
-                              }}
-                            />
+                            <FileUpload {...field} files={pegawaiForm.watch("foto") as any} setFiles={pegawaiForm.setValue} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -267,8 +260,8 @@ function Page() {
                 ))}
               </div>
             ) : (
-              <div className="text-center px-5 py-15 rounded-md bg-gray-200 mt-5">
-                <p className="text-gray-400">Data guru dan karyawan belum tersedia</p>
+              <div className="text-center px-5 py-15 text-sm rounded-md bg-gray-50 mt-5">
+                <p className="text-black">Data guru dan karyawan belum tersedia</p>
               </div>
             )}
           </div>
@@ -281,7 +274,7 @@ function Page() {
 
 const PegawaiCard = ({ dataPegawai, handleClickEdit, handleClickDelete }: { dataPegawai: any, handleClickEdit: (id: string) => void, handleClickDelete: (id: string) => void }) => {
   return (
-    <div className='p-1 rounded-lg border border-gray-400 group cursor-pointer overflow-hidden hover:scale-105 transition-all duration-200 relative'>
+    <div className='p-.5 rounded-lg border flex flex-col border-gray-400 group cursor-pointer overflow-hidden hover:scale-105 transition-all duration-200 relative'>
       <Image src={dataPegawai?.foto} width={100} height={100} className='w-full aspect-square rounded-md object-cover  transition-all duration-300' alt={dataPegawai?.nama} />
       <div className='opacity-0 group-hover:opacity-100 grid place-content-center absolute inset-0 bg-black/20 transition-opacity duratin-300 ease-in-out'>
         <div className="flex gap-2">
@@ -294,7 +287,7 @@ const PegawaiCard = ({ dataPegawai, handleClickEdit, handleClickDelete }: { data
         </div>
       </div>
 
-      <div className='mt-1 bg-black space-y-1 text-white py-5 px-3 rounded-md'>
+      <div className='mt-1 flex-1 bg-black space-y-1 text-white py-5 px-3 rounded-md'>
         <h3 className='text-base font-medium'>{dataPegawai?.nama}</h3>
         <hr className='border-top border-white' />
         <p>{dataPegawai?.jabatan}</p>

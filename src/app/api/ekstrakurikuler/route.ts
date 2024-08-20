@@ -88,7 +88,6 @@ export async function POST(request: Request) {
       }
     );
   } catch (error) {
-    console.log(error);
     if (error instanceof yup.ValidationError) {
       return new Response(
         JSON.stringify({

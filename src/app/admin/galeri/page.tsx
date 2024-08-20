@@ -156,7 +156,7 @@ export default function Page() {
             <DialogTrigger className='bg-black text-white px-5 py-2 rounded-md hover:bg-black/80'>Tambahkan Gallery</DialogTrigger>
             <DialogContent className="sm:max-w-2xl">
               <DialogHeader>
-                <DialogTitle >{!isOnUpdateProcess ? "Tambahkan Berita" : "Edit Berita"}</DialogTitle>
+                <DialogTitle >{!isOnUpdateProcess ? "Tambahkan Gallery" : "Edit Gallery"}</DialogTitle>
               </DialogHeader>
               <Form {...galleryForm}>
                 <form onSubmit={galleryForm.handleSubmit(onSubmit)} className=" mt-3 flex flex-col gap-3">
@@ -191,7 +191,7 @@ export default function Page() {
                     name="foto"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>foto <span className="text-red-500">*</span></FormLabel>
+                        <FormLabel>Foto <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
                           <FileUpload setFiles={galleryForm.setValue} files={galleryForm.watch("foto") as any} {...field} />
                         </FormControl>
@@ -204,7 +204,7 @@ export default function Page() {
                     <DialogClose className='px-5 py-2 rounded-md text-sm bg-slate-100'>
                       Cancel
                     </DialogClose>
-                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdatingGallery : false}>
+                    <LoadingButton type="submit" isLoading={isOnUpdateProcess ? isUpdatingGallery : isAddingGallery}>
                       {isOnUpdateProcess ? "Simpan" : "Tambahkan"}
                     </LoadingButton>
                   </div>
