@@ -29,8 +29,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { NewsService } from "@/services/news";
 import Image from "next/image";
-import { FaTrashAlt } from "react-icons/fa";
-import { Badge } from "@/components/ui/badge";
+import { makeEllipsis } from "@/lib/utils";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 
 interface DatatableProps {
@@ -100,24 +101,35 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         size: 180,
         enableHiding: false,
         cell: ({ row }) => {
-          const slidesow = row.original;
+          const berita = row.original;
           return (
             <div className="flex justify-center">
               <Button
                 variant="default"
                 size="sm"
                 className="mr-2"
-                onClick={() => handleEdit(slidesow.id)}
+                onClick={() => handleEdit(berita.id)}
               >
                 <FaPencilAlt />
               </Button>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => handleDelete(slidesow.id)}
-              >
-                <FaTrashAlt />
-              </Button>
+
+              <AlertDialog >
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size={"sm"}>
+                    <FaRegTrashCan />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Apakah anda yakin ?</AlertDialogTitle>
+                    <AlertDialogDescription>Apakah anda yakin untuk menghapus berita <b>{berita.judul}</b>, proses ini akan menghapus data berita terkait dan tidak dapat di kembalikan.</AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={() => handleDelete(berita.id)}>Hapus</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           )
         },
@@ -133,7 +145,7 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         accessorKey: "deskripsi",
         header: "Deskripsi",
         cell: ({ row }) => (
-          <div className="capitalize">{row.getValue("deskripsi")}</div>
+          <div className="capitalize">{makeEllipsis(row.getValue("deskripsi"), 50)}</div>
         ),
       },
       {
@@ -152,7 +164,7 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
       {
         accessorKey: "created_at",
         header: "Publish pada",
-        cell : ({ row }) => {
+        cell: ({ row }) => {
           const date = new Date(row.getValue("created_at")._seconds * 1000);
           return date?.toLocaleDateString("id-ID", {
             timeZone: "Asia/Jakarta",
@@ -194,8 +206,8 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
 
   return (
 
-        <div className="w-full">
-          {/* <div className="flex items-center py-4">
+    <div className="w-full">
+      {/* <div className="flex items-center py-4">
             <Input
               placeholder="Filter emails..."
               value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -205,108 +217,108 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
               className="max-w-sm"
             />
           </div> */}
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <TableRow key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <TableHead key={header.id}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
-                        </TableHead>
-                      )
-                    })}
-                  </TableRow>
-                ))}
-              </TableHeader>
-              <TableBody>
-                {isFetching ? (
-                  <tr>
-                    <td colSpan={table.getVisibleLeafColumns().length}>
-                      <div className="flex items-center justify-center w-full h-24 bg-white">
-                        <div className="h-7 w-7 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
-                      </div>
-                    </td>
-                  </tr>
-                ) : table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
-                    <TableRow
-                      key={row.id}
-                      data-state={row.getIsSelected() && "selected"}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
-                      No results.
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {isFetching ? (
+              <tr>
+                <td colSpan={table.getVisibleLeafColumns().length}>
+                  <div className="flex items-center justify-center w-full h-24 bg-white">
+                    <div className="h-7 w-7 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
+                  </div>
+                </td>
+              </tr>
+            ) : table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-          <div className="flex items-center justify-end space-x-2 py-4">
-            <div className="flex-1 text-sm text-muted-foreground">
-              {table.getFilteredSelectedRowModel().rows.length > 0 ? (
-                <span>
-                  {table.getFilteredSelectedRowModel().rows.length} rows selected from {slideshows?.rowCount} total
-                </span>
-              ) : (
-                <span>
-                  {table.getFilteredRowModel().rows.length} rows displayed from {slideshows?.rowCount} total
-                </span>
-              )}
-            </div>
-            <div className="space-x-2">
-              <Button
-                variant={"secondary"}
-                onClick={() => table.firstPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                <FiChevronsLeft />
-              </Button>
-              <Button
-                variant={"secondary"}
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                <FiChevronLeft />
-              </Button>
-              <Button
-                variant={"secondary"}
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                <FiChevronRight />
-              </Button>
-              <Button
-                variant={"secondary"}
-                onClick={() => table.lastPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                <FiChevronsRight />
-              </Button>
-            </div>
-          </div>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length > 0 ? (
+            <span>
+              {table.getFilteredSelectedRowModel().rows.length} rows selected from {slideshows?.rowCount} total
+            </span>
+          ) : (
+            <span>
+              {table.getFilteredRowModel().rows.length} rows displayed from {slideshows?.rowCount} total
+            </span>
+          )}
         </div>
-     
+        <div className="space-x-2">
+          <Button
+            variant={"secondary"}
+            onClick={() => table.firstPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <FiChevronsLeft />
+          </Button>
+          <Button
+            variant={"secondary"}
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <FiChevronLeft />
+          </Button>
+          <Button
+            variant={"secondary"}
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <FiChevronRight />
+          </Button>
+          <Button
+            variant={"secondary"}
+            onClick={() => table.lastPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <FiChevronsRight />
+          </Button>
+        </div>
+      </div>
+    </div>
+
   )
 }

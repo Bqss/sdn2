@@ -17,7 +17,6 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from "@/components/ui/input"
 import {
   Table,
   TableBody,
@@ -32,6 +31,10 @@ import { SlideshowService } from "@/services/slideshow";
 import Image from "next/image";
 import { FaTrashAlt } from "react-icons/fa";
 import { Badge } from "@/components/ui/badge";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { AlertDialogFooter, AlertDialogHeader } from "@/components/ui/alert-dialog";
+import { makeEllipsis } from "@/lib/utils";
 
 
 interface DatatableProps {
@@ -101,24 +104,36 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         size: 150,
         enableHiding: false,
         cell: ({ row }) => {
-          const slidesow = row.original;
+          const slideshow = row.original;
           return (
             <div className="flex justify-center">
               <Button
                 variant="default"
                 size="sm"
                 className="mr-2"
-                onClick={() => handleEdit(slidesow.id)}
+                onClick={() => handleEdit(slideshow.id)}
               >
                 <FaPencilAlt />
               </Button>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => handleDelete(slidesow.id)}
-              >
-                <FaTrashAlt />
-              </Button>
+              <AlertDialog >
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size={"sm"}>
+                    <FaRegTrashCan />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Apakah anda yakin ?</AlertDialogTitle>
+                    <AlertDialogDescription>Apakah anda yakin untuk menghapus data pegawai dari guru <b>{slideshow.judul}</b>, proses ini akan menghapus data pegawai terkait dan tidak dapat di kembalikan.</AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={() => handleDelete(slideshow.id)}>
+                      Hapus
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           )
         },
@@ -127,14 +142,14 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         accessorKey: "judul",
         header: "Judul",
         cell: ({ row }) => (
-          <div className="capitalize">{row.getValue("judul")}</div>
+          <div className="capitalize">{makeEllipsis(row.getValue("judul"),20)}</div>
         ),
       },
       {
         accessorKey: "deskripsi",
         header: "Deskripsi",
         cell: ({ row }) => (
-          <div className="capitalize">{row.getValue("deskripsi")}</div>
+          <div className="capitalize">{makeEllipsis(row.getValue("deskripsi"),40)}</div>
         ),
       },
       {

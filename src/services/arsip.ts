@@ -40,5 +40,6 @@ export class ArsipService {
 
   static async deleteArsip(id: string) {
     const result = await axiosInstance.delete(`/arsip-file/${id}`);
+    return result.data;
   }
 }

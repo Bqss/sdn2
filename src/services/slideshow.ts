@@ -35,9 +35,11 @@ export class SlideshowService {
         "Content-Type": "multipart/form-data",
       },
     });
+    return result.data;
   }
 
   static async deleteSlideshow(id: string) {
     const result = await axiosInstance.delete(`/slideshow/${id}`);
+    return result.data;
   }
 }

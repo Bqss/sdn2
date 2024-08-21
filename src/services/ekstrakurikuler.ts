@@ -40,5 +40,6 @@ export class EkstrakurikulerService {
 
   static async deleteEkstrakurikuler(id: string) {
     const result = await axiosInstance.delete(`/ekstrakurikuler/${id}`);
+    return result.data;
   }
 }

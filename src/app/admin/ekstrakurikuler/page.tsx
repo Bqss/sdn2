@@ -18,9 +18,9 @@ import LoadingButton from "@/components/Atoms/LoadingButton";
 import FileUpload from "@/components/Atoms/FileUpload";
 import Datatable from "./datatable";
 import { EkstrakurikulerService } from "@/services/ekstrakurikuler";
-import { Select } from "@/components/ui/select";
-import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 export default function Page() {
   useSetTitle("Ekstrakurikuler");
@@ -36,7 +36,7 @@ export default function Page() {
   const { toggleLoader } = useDashboardLayoutContext();
   const [isOpenEsktrakurikulerModal, setIsOpenEkstrakurikulerModal] = useState(false);
 
-  const { data: detailEkstrakurikuler, mutateAsync: getDetailEkstrakurikuler } = useMutation({
+  const { mutateAsync: getDetailEkstrakurikuler } = useMutation({
     mutationFn: EkstrakurikulerService.getEkstrakurikulerById,
     mutationKey: ["detailEkstrakurikuler"],
   });
@@ -62,36 +62,33 @@ export default function Page() {
     try {
       if (isOnUpdateProcess) {
         const { id, ...restData } = data;
-        try {
-          const result = await updateEkstrakurikuler({ id: data.id, payload: restData });
-          alert(result?.message);
-          queryClientInstance.invalidateQueries({
-            queryKey: ["ekstrakurikuler"],
-          });
-          setIsOnUpdateProcess(false);
-          setIsOpenEkstrakurikulerModal(false);
-          prestasiForm.reset();
-          return;
-        } catch (err) {
-          console.log(err);
-        }
+
+        const result = await updateEkstrakurikuler({ id: data.id, payload: restData });
+        toast.success(result.message);
+        queryClientInstance.invalidateQueries({
+          queryKey: ["ekstrakurikuler"],
+        });
+        setIsOnUpdateProcess(false);
+        setIsOpenEkstrakurikulerModal(false);
+        prestasiForm.reset();
+        return;
+
 
       } else {
         const { id, ...restData } = data;
-        try {
-          const result = await addEkstrakurikuler(restData);
-          alert(result.message);
-          queryClientInstance.invalidateQueries({
-            queryKey: ["ekstrakurikuler"],
-          });
-          setIsOpenEkstrakurikulerModal(false);
-          prestasiForm.reset();
-        } catch (err) {
-          console.log(err);
-        }
+        const result = await addEkstrakurikuler(restData);
+        toast.success(result.message);
+        queryClientInstance.invalidateQueries({
+          queryKey: ["ekstrakurikuler"],
+        });
+        setIsOpenEkstrakurikulerModal(false);
+        prestasiForm.reset();
+
       }
     } catch (err) {
-      alert("Data gagal ditambahkan");
+      if (err instanceof AxiosError) {
+        alert(err.response?.data.message);
+      }
     }
   }
 
@@ -115,28 +112,32 @@ export default function Page() {
       setIsOnUpdateProcess(true);
       setIsOpenEkstrakurikulerModal(true);
     } catch (err) {
-      alert("Data gagal diambil");
+      if (err instanceof AxiosError) {
+        alert(err.response?.data.message);
+      }
     } finally {
       toggleLoader(false);
     }
   }
 
   const handleClickDelete = async (id: string) => {
-    const confirmed = confirm("Apakah anda yakin ingin menghapus data ini?");
-    if (confirmed) {
-      toggleLoader(true);
-      try {
-        await deleteEkstrakurikuler(id);
-        queryClientInstance.invalidateQueries({
-          queryKey: ["ekstrakurikuler"],
-        });
-        alert("Data berhasil dihapus");
-      } catch (err) {
-        alert("Data gagal dihapus");
-      } finally {
-        toggleLoader(false);
+
+    toggleLoader(true);
+    try {
+      const result = await deleteEkstrakurikuler(id);
+      queryClientInstance.invalidateQueries({
+        queryKey: ["ekstrakurikuler"],
+      });
+      toast.success(result.message);
+
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
       }
+    } finally {
+      toggleLoader(false);
     }
+
   }
   return (
     <Card className='py-5 text-sm'>
@@ -181,7 +182,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>Thumbnail <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
-                          <FileUpload setFiles={prestasiForm.setValue} files={prestasiForm.watch("thumbnail") as any} {...field} />
+                          <FileUpload maxSize={2} accept="image/*" setFiles={prestasiForm.setValue} files={prestasiForm.watch("thumbnail") as any} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

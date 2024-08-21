@@ -21,6 +21,8 @@ import Datatable from "./datatable";
 const Ckeditor = dynamic(() => import('@/components/Atoms/Ckeditor'), { ssr: false });
 import { NewsService } from "@/services/news";
 import dynamic from "next/dynamic";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 export default function Page() {
   useSetTitle('Berita');
@@ -70,35 +72,28 @@ export default function Page() {
     try {
       if (isOnUpdateProcess) {
         const { id, ...restData } = data;
-        try {
-          const result = await updateNews({ id: data.id, payload: restData });
-          alert(result.message);
-          queryClientInstance.invalidateQueries({
-            queryKey: ["news"],
-          });
-          setIsOpenPegawaiModal(false);
-          newsForm.reset();
-          return;
-        } catch (err) {
-          console.log(err);
-        }
-
+        const result = await updateNews({ id: data.id, payload: restData });
+        toast.success(result.message);
+        queryClientInstance.invalidateQueries({
+          queryKey: ["news"],
+        });
+        setIsOpenPegawaiModal(false);
+        newsForm.reset();
+        return;
       } else {
         const { id, ...restData } = data;
-        try {
-          await addNews(restData);
-          alert("Data slideshow berhasil ditambahkan");
-          queryClientInstance.invalidateQueries({
-            queryKey: ["news"],
-          });
-          setIsOpenPegawaiModal(false);
-          newsForm.reset();
-        } catch (err) {
-          console.log(err);
-        }
+        const result = await addNews(restData);
+        toast.success(result.message);
+        queryClientInstance.invalidateQueries({
+          queryKey: ["news"],
+        });
+        setIsOpenPegawaiModal(false);
+        newsForm.reset();
       }
     } catch (err) {
-      alert("Data gagal ditambahkan");
+      if (err instanceof AxiosError) {
+        toast.error(err?.response?.data.message);
+      }
     }
   }
 
@@ -120,33 +115,36 @@ export default function Page() {
     toggleLoader(true);
     try {
       const data = await getDetailBerita(id);
-      const {created_at, ...restData} = data.data;
+      const { created_at, ...restData } = data.data;
       newsForm.reset(restData);
       newsForm.setValue("id", data.data.id);
       setIsOnUpdateProcess(true);
       setIsOpenPegawaiModal(true);
     } catch (err) {
-      alert("Data gagal diambil");
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      }
     } finally {
       toggleLoader(false);
     }
   }
 
   const handleClickDelete = async (id: string) => {
-    const confirmed = confirm("Apakah anda yakin ingin menghapus data ini?");
-    if (confirmed) {
-      toggleLoader(true);
-      try {
-        await deleteNews(id);
-        queryClientInstance.invalidateQueries({
-          queryKey: ["news"],
-        });
-        alert("Data berhasil dihapus");
-      } catch (err) {
-        alert("Data gagal dihapus");
-      } finally {
-        toggleLoader(false);
+    toggleLoader(true);
+    try {
+      const result = await deleteNews(id);
+      queryClientInstance.invalidateQueries({
+        queryKey: ["news"],
+      });
+      toast.success(result.message);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      } else {
+        toast.error("Terjadi kesalahan, silahkan coba lagi");
       }
+    } finally {
+      toggleLoader(false);
     }
   }
 
@@ -162,56 +160,57 @@ export default function Page() {
                 <DialogTitle >{!isOnUpdateProcess ? "Tambahkan Berita" : "Edit Berita"}</DialogTitle>
               </DialogHeader>
               <Form {...newsForm}>
-                <form onSubmit={newsForm.handleSubmit(onSubmit)} className=" mt-3 flex flex-col gap-3">
-                  <FormField
-                    control={newsForm.control}
-                    name="judul"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Judul <span className="text-red-500">*</span></FormLabel>
-                        <FormControl>
-                          <Input placeholder="Masukkan judul slideshow" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={newsForm.control}
-                    name="deskripsi"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Deskripsi <span className="text-red-500">*</span></FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Masukkan deskripsi" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={newsForm.control}
-                    name="thumbnail"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Thumbnail <span className="text-red-500">*</span></FormLabel>
-                        <FormControl>
-                          <FileUpload setFiles={newsForm.setValue} files={newsForm.watch("thumbnail") as any} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div>
-                    <label htmlFor="" className="block text-sm mb-2 ">Content <span className="text-red-500 font-bold ">*</span></label>
-                    <div className="text-sm">
-                      <Ckeditor
-                        id="content"
-                        data={newsForm.watch("content")}
-                        onChange={(event, editor) => {
-                          newsForm.setValue('content', editor.getData());
-                        }}
-                      />
+                <form onSubmit={newsForm.handleSubmit(onSubmit)} className=" mt-3">
+                  <div className="max-h-[60vh]  flex flex-col gap-3 overflow-y-auto">
+                    <FormField
+                      control={newsForm.control}
+                      name="judul"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Judul <span className="text-red-500">*</span></FormLabel>
+                          <FormControl>
+                            <Input placeholder="Masukkan judul slideshow" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={newsForm.control}
+                      name="deskripsi"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Deskripsi <span className="text-red-500">*</span></FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="Masukkan deskripsi" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={newsForm.control}
+                      name="thumbnail"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Thumbnail <span className="text-red-500">*</span></FormLabel>
+                          <FormControl>
+                            <FileUpload maxSize={5} accept="image/*" setFiles={newsForm.setValue} files={newsForm.watch("thumbnail") as any} {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div>
+                      <label htmlFor="" className="block text-sm mb-2 ">Content <span className="text-red-500 font-bold ">*</span></label>
+                      <div className="text-sm">
+                        <Ckeditor
+                          data={newsForm.watch("content")}
+                          onChange={(event, editor) => {
+                            newsForm.setValue('content', editor.getData());
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                   {/* <FormField  */}

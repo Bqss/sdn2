@@ -40,5 +40,6 @@ export class PrestasiService {
 
   static async deletePrestasi(id: string) {
     const result = await axiosInstance.delete(`/prestasi/${id}`);
+    return result.data;
   }
 }

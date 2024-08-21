@@ -18,8 +18,9 @@ export const queryClientInstance = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: false,
+      throwOnError: true,
     },
-  }
+  },
 });
 
 function DefaultLayout({ children }: { children: ReactNode, title: string }) {

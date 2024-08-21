@@ -1,18 +1,6 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSetTitle } from "@/hooks/useSetTitle";
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
 
 import { Input } from "@/components/ui/input"
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -31,6 +19,8 @@ import LoadingButton from "@/components/Atoms/LoadingButton";
 import FileUpload from "@/components/Atoms/FileUpload";
 import { Textarea } from "@/components/ui/textarea";
 import Datatable from "./datatable";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 export default function Page() {
   useSetTitle('Slideshow');
@@ -47,13 +37,13 @@ export default function Page() {
 
   const { toggleLoader } = useDashboardLayoutContext();
   const [isOpenPegawaiModal, setIsOpenPegawaiModal] = useState(false);
- 
+
   const { mutateAsync: getDetailSlideshow } = useMutation({
     mutationFn: SlideshowService.getSlideshowById,
     mutationKey: ["detailSlideshow"],
   });
 
-  const {  mutateAsync: deletePegawai } = useMutation({
+  const { mutateAsync: deletePegawai } = useMutation({
     mutationFn: SlideshowService.deleteSlideshow,
   });
 
@@ -82,8 +72,8 @@ export default function Page() {
     try {
       if (isOnUpdateProcess) {
         const { id, ...restData } = data;
-        await updateSlideshow({ id: data.id, payload: restData });
-        alert("Data slideshow berhasil diupdate");
+        const result = await updateSlideshow({ id: data.id, payload: restData });
+        toast.success(result.message);
         queryClientInstance.invalidateQueries({
           queryKey: ["slideshow"],
         });
@@ -92,8 +82,8 @@ export default function Page() {
         return;
       } else {
         const { id, ...restData } = data;
-        await addSlideshow(restData);
-        alert("Data slideshow berhasil ditambahkan");
+        const result = await addSlideshow(restData);
+        toast.success(result.message);
         queryClientInstance.invalidateQueries({
           queryKey: ["slideshow"],
         });
@@ -101,7 +91,11 @@ export default function Page() {
         slideshowForm.reset();
       }
     } catch (err) {
-      alert("Data gagal ditambahkan");
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      } else {
+        toast.error("Terjadi kesalahan, silahkan coba lagi");
+      }
     }
   }
 
@@ -128,27 +122,25 @@ export default function Page() {
       setIsOnUpdateProcess(true);
       setIsOpenPegawaiModal(true);
     } catch (err) {
-      alert("Data gagal diambil");
+      toast.error("Data gagal diambil, silahkan coba lagi");
     } finally {
       toggleLoader(false);
     }
   }
 
   const handleClickDelete = async (id: string) => {
-    const confirmed = confirm("Apakah anda yakin ingin menghapus data ini?");
-    if (confirmed) {
-      toggleLoader(true);
-      try {
-        await deletePegawai(id);
-        queryClientInstance.invalidateQueries({
-          queryKey: ["slideshow"],
-        });
-        alert("Data berhasil dihapus");
-      } catch (err) {
-        alert("Data gagal dihapus");
-      } finally {
-        toggleLoader(false);
-      }
+
+    toggleLoader(true);
+    try {
+      const result = await deletePegawai(id);
+      queryClientInstance.invalidateQueries({
+        queryKey: ["slideshow"],
+      });
+      toast.success(result.message);
+    } catch (err) {
+      toast.error("Data gagal dihapus, silahkan coba lagi");
+    } finally {
+      toggleLoader(false);
     }
   }
 
@@ -241,7 +233,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>Gambar <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
-                          <FileUpload setFiles={slideshowForm.setValue} files={slideshowForm.watch("gambar") as any} {...field} />
+                          <FileUpload maxSize={5} accept="image/*" setFiles={slideshowForm.setValue} files={slideshowForm.watch("gambar") as any} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

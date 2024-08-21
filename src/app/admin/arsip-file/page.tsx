@@ -18,6 +18,8 @@ import LoadingButton from "@/components/Atoms/LoadingButton";
 import FileUpload from "@/components/Atoms/FileUpload";
 import Datatable from "./datatable";
 import { ArsipService } from "@/services/arsip";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 
 export default function Page() {
@@ -25,6 +27,7 @@ export default function Page() {
 
   const [isOnUpdateProcess, setIsOnUpdateProcess] = useState(false);
   const slideshowSchema = yup.object({
+    id: yup.string().nullable(),
     nama: yup.string().required("Nama tidak boleh kosong"),
     file: yup.mixed().required("File tidak boleh kosong"),
     tag: yup.string().required("Tag tidak boleh kosong"),
@@ -59,35 +62,34 @@ export default function Page() {
     try {
       if (isOnUpdateProcess) {
         const { id, ...restData } = data;
-        try {
-          const result = await updateArsip({ id: data.id, payload: restData });
-          alert(result.message);
-          queryClientInstance.invalidateQueries({
-            queryKey: ["archives"],
-          });
-          setIsOpenArsipModal(false);
-          newsForm.reset();
-          return;
-        } catch (err) {
-          console.log(err);
-        }
+
+        const result = await updateArsip({ id: data.id, payload: restData });
+        toast.success(result.message);
+        queryClientInstance.invalidateQueries({
+          queryKey: ["archives"],
+        });
+        setIsOpenArsipModal(false);
+        newsForm.reset();
+        return;
+
 
       } else {
         const { id, ...restData } = data;
-        try {
-          const result = await addArsip(restData);
-          alert(result.message);
-          queryClientInstance.invalidateQueries({
-            queryKey: ["archives"],
-          });
-          setIsOpenArsipModal(false);
-          newsForm.reset();
-        } catch (err) {
-          console.log(err);
-        }
+        const result = await addArsip(restData);
+        toast.success(result.message);
+        queryClientInstance.invalidateQueries({
+          queryKey: ["archives"],
+        });
+        setIsOpenArsipModal(false);
+        newsForm.reset();
+
       }
     } catch (err) {
-      alert("Data gagal ditambahkan");
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      } else {
+        toast.error("Terjadi kesalahan, silahkan coba lagi");
+      }
     }
   }
 
@@ -114,28 +116,35 @@ export default function Page() {
       setIsOnUpdateProcess(true);
       setIsOpenArsipModal(true);
     } catch (err) {
-      alert("Data gagal diambil");
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      } else {
+        toast.error("Terjadi kesalahan, silahkan coba lagi ");
+      }
     } finally {
       toggleLoader(false);
     }
   }
 
   const handleClickDelete = async (id: string) => {
-    const confirmed = confirm("Apakah anda yakin ingin menghapus data ini?");
-    if (confirmed) {
-      toggleLoader(true);
-      try {
-        await deleteArsip(id);
-        queryClientInstance.invalidateQueries({
-          queryKey: ["archives"],
-        });
-        alert("Data berhasil dihapus");
-      } catch (err) {
-        alert("Data gagal dihapus");
-      } finally {
-        toggleLoader(false);
+
+    toggleLoader(true);
+    try {
+      const result = await deleteArsip(id);
+      queryClientInstance.invalidateQueries({
+        queryKey: ["archives"],
+      });
+      toast.success(result.message);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      } else {
+        toast.error("Terjadi kesalahan, silahkan coba lagi");
       }
+    } finally {
+      toggleLoader(false);
     }
+
   }
 
 
@@ -185,7 +194,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>File <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
-                          <FileUpload setFiles={newsForm.setValue} files={newsForm.watch("file") as any} {...field} />
+                          <FileUpload maxSize={10} setFiles={newsForm.setValue} files={newsForm.watch("file") as any} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

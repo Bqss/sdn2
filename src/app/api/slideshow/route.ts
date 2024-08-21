@@ -83,7 +83,9 @@ export async function POST(request: Request) {
       payload.order = parseInt(payload.order.toString(), 10) as any;
     }
     await firestore().collection("slideshow").add(payload);
-    return new Response(null, { status: 200 });
+    return Response.json({
+      message: "Data slideshow berhasil ditambahkan",
+    }, { status: 200 });
   } catch (error) {
     if (error instanceof yup.ValidationError) {
       return new Response(

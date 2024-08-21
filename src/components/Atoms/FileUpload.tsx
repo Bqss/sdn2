@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { memo, ReactNode, use, useMemo, useState } from 'react';
+import React, { memo, ReactNode, use, useMemo, useRef, useState } from 'react';
 import { FaXmark } from "react-icons/fa6";
 import { UseFormSetValue } from 'react-hook-form';
 import { BsFileEarmarkPdf } from "react-icons/bs";
@@ -7,12 +7,15 @@ import { FaRegFileWord } from "react-icons/fa";
 import { SiMicrosoftexcel } from "react-icons/si";
 import { PiMicrosoftPowerpointLogo } from "react-icons/pi";
 import { FaFile } from "react-icons/fa";
+import { toast } from 'sonner';
 
 interface FileUploadProps {
   multiple?: boolean;
   files?: (FileUploadProps["multiple"] extends true ? (File[] | UploadedFile[]) : (File | UploadedFile));
   setFiles: UseFormSetValue<any>; // Update the type of setFiles
   name: string;
+  accept?: string;
+  maxSize?: number;
 };
 
 interface UploadedFile {
@@ -20,9 +23,45 @@ interface UploadedFile {
   preview: string;
 }
 
-const FileUpload = React.forwardRef<any, FileUploadProps>(({ files, name, setFiles, multiple = false }, ref) => {
+const FileUpload = React.forwardRef<any, FileUploadProps>(({ files, name, accept, maxSize, setFiles, multiple = false }, ref) => {
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
+    if (!fileList) return;
+
+    const validFiles: File[] = [];
+    const invalidFiles: string[] = [];
+    let accepts = accept?.split(",");
+    accepts = accepts?.map((accept) => accept.trim());
+
+
+    for (let i = 0; i < fileList.length; i++) {
+      const file = fileList[i];
+      if (accepts?.includes("image/*") && !file.type.startsWith('image/')) {
+        invalidFiles.push(`${file.name} is not a valid image type.`);
+        continue
+      } else {
+        if ((accepts?.length ?? 0) > 0 && accepts?.includes(file.type)) {
+          invalidFiles.push(`${file.name} is not a valid file type.`);
+          continue
+        }
+      }
+      const sizeInMB = file.size / 1024 / 1024;
+      if (maxSize && sizeInMB > maxSize) {
+        invalidFiles.push(`${file.name} melebihi ukuran maksimum ${maxSize} MB.`);
+        continue;
+      }
+      validFiles.push(file);
+    }
+
+    if (invalidFiles.length > 0) {
+      toast.error(invalidFiles.join(' '));
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
+      return;
+    }
+
     if (multiple) {
       setFiles(name, fileList);
     } else {
@@ -44,7 +83,7 @@ const FileUpload = React.forwardRef<any, FileUploadProps>(({ files, name, setFil
     return (
       <div className='p-3 border rounded-md border-gray-200'>
         {!files && (
-          <input type="file" multiple={multiple} onChange={handleFileChange} />
+          <input type="file" ref={inputRef} multiple={multiple} onChange={handleFileChange} />
         )}
         {
           !!files && (
@@ -102,7 +141,7 @@ const FileResultPreview = ({ file, handleRemove }: { file: UploadedFile, handleR
     if (fileType === 'image') {
       return <Image src={file.preview} width={80} height={80} alt='file' />
     }
- 
+
     switch (fileType) {
       case 'pdf':
         return <BsFileEarmarkPdf size={50} />;
@@ -121,7 +160,7 @@ const FileResultPreview = ({ file, handleRemove }: { file: UploadedFile, handleR
 
 
 
-  },[file]);
+  }, [file]);
 
   return (
     <div>
@@ -141,8 +180,8 @@ const FileUploadPreview = memo(({ file, index, handleRemoveFile }: { file: File,
   let inner: ReactNode;
   const fileExt = useMemo(() => file.name.split('.').pop(), [file.name]);
   const filePreview = useMemo(() => {
-   return URL.createObjectURL(file);
-  },[file])
+    return URL.createObjectURL(file);
+  }, [file])
   const fileSize = useMemo(() => {
     let size = file.size;
     const units = ['B', 'KB', 'MB', 'GB', 'TB'];
@@ -165,7 +204,7 @@ const FileUploadPreview = memo(({ file, index, handleRemoveFile }: { file: File,
     inner = <Image src={filePreview} width={80} height={80} alt={file.name} />
   } else {
     const fileType = file.type.split('/')[1];
-    let icon ;
+    let icon;
     switch (fileType) {
       case 'pdf':
         icon = <BsFileEarmarkPdf size={50} />;

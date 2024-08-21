@@ -23,7 +23,9 @@ const SignIn: React.FC<SignInProps> = () => {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     const response = await signIn('credentials', { email, password, redirect: false });
-    setIsPending(false);
+
+    // setIsPending(false);
+    
     if (response?.ok) {
       router.push('/admin/dashboard');
     } else {

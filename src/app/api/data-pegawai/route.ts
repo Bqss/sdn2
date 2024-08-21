@@ -32,8 +32,6 @@ export async function GET() {
 
 }
 
-  
-
 export async function POST(request: Request) {
   const pegawaiSchema = yup.object({
     nama: yup.string().required(),
@@ -67,7 +65,9 @@ export async function POST(request: Request) {
 
     await firestore().collection("pegawai").add(payload);
 
-    return new Response(null, { status: 200 });
+    return Response.json({
+      message: "Data pegawai berhasil ditambahkan",
+    }, { status: 200 });
   } catch (error) {
     if (error instanceof yup.ValidationError) {
       return new Response(

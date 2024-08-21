@@ -277,3 +277,33 @@ span.flatpickr-weekday,
 [x-cloak] {
   display: none !important;
 }
+
+.ck-editor h1, .ck-editor h2, .ck-editor h3, .ck-editor h4, .ck-editor h5, .ck-editor h6 {
+  @apply !font-satoshi !font-bold;
+}
+
+.ck-editor h1{
+  @apply text-4xl;
+}
+.ck-editor h2{
+  @apply text-3xl;
+}
+.ck-editor h3{
+  @apply text-2xl;
+}
+.ck-editor h4{
+  @apply text-xl;
+}
+.ck-editor h5{
+  @apply text-lg;
+}
+.ck-editor h6{
+  @apply text-base;
+}
+
+.ck-editor ol , .ck-editor ul{
+  margin-left: 1.2em;
+}
+
+
+

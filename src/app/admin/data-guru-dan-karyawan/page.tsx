@@ -5,7 +5,7 @@ import { Dialog, DialogHeader } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { useSetTitle } from '@/hooks/useSetTitle';
 import { DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import React, { ReactNode, useState } from 'react'
+import React, { useState } from 'react'
 import { CiSearch } from "react-icons/ci";
 import * as yup from "yup";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -21,8 +21,11 @@ import Image from 'next/image';
 import LoadingButton from '@/components/Atoms/LoadingButton';
 import useDashboardLayoutContext from '@/hooks/useDashboardLayoutContext';
 import { queryClientInstance } from '../layout';
-import Ckeditor from '@/components/Atoms/Ckeditor';
+import { toast } from "sonner";
 import { Textarea } from '@/components/ui/textarea';
+import { AxiosError } from 'axios';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+
 
 function Page() {
 
@@ -79,18 +82,18 @@ function Page() {
     try {
       if (isOnUpdateProcess) {
         const { id, ...restData } = data;
-        await updateWorker({ id: data.id, payload: restData });
-        alert("Data berhasil diupdate");
+        const result = await updateWorker({ id: data.id, payload: restData });
+        toast.success(result.message);
         queryClientInstance.invalidateQueries({
-          queryKey: ["pegawai"],
+          queryKey: ["pegawai"]
         });
         setIsOpenPegawaiModal(false);
         pegawaiForm.reset();
         return;
       } else {
         const { id, ...restData } = data;
-        await addWorker(restData);
-        alert("Data berhasil ditambahkan");
+        const result = await addWorker(restData);
+        toast.success(result.message);
         queryClientInstance.invalidateQueries({
           queryKey: ["pegawai"],
         });
@@ -98,7 +101,9 @@ function Page() {
         pegawaiForm.reset();
       }
     } catch (err) {
-      alert("Data gagal ditambahkan");
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message)
+      }
     }
   }
 
@@ -123,34 +128,30 @@ function Page() {
       const data = await getDetailPegawai(id);
       pegawaiForm.reset(data.data);
       pegawaiForm.setValue("id", data.data.id);
-      queryClientInstance.invalidateQueries({
-        queryKey: ["pegawai"],
-      });
       setIsOnUpdateProcess(true);
       setIsOpenPegawaiModal(true);
     } catch (err) {
-      alert("Data gagal diambil");
+      toast.error("Data gagal diambil, silahkan coba lagi");
     } finally {
       toggleLoader(false);
     }
   }
 
   const handleClickDelete = async (id: string) => {
-    const confirmed = confirm("Apakah anda yakin ingin menghapus data ini?");
-    if (confirmed) {
-      toggleLoader(true);
-      try {
-        await deletePegawai(id);
-        queryClientInstance.invalidateQueries({
-          queryKey: ["pegawai"],
-        });
-        alert("Data berhasil dihapus");
-      } catch (err) {
-        alert("Data gagal dihapus");
-      } finally {
-        toggleLoader(false);
-      }
+
+    toggleLoader(true);
+    try {
+      const result = await deletePegawai(id);
+      queryClientInstance.invalidateQueries({
+        queryKey: ["pegawai"],
+      });
+      toast.success(result.message);
+    } catch (err) {
+      toast.error("Data gagal dihapus, silahkan coba lagi");
+    } finally {
+      toggleLoader(false);
     }
+
   }
 
   return (
@@ -231,7 +232,7 @@ function Page() {
                         <FormItem >
                           <FormLabel>Foto</FormLabel>
                           <FormControl>
-                            <FileUpload {...field} files={pegawaiForm.watch("foto") as any} setFiles={pegawaiForm.setValue} />
+                            <FileUpload {...field} maxSize={2} accept='image/*' files={pegawaiForm.watch("foto") as any} setFiles={pegawaiForm.setValue} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -278,9 +279,23 @@ const PegawaiCard = ({ dataPegawai, handleClickEdit, handleClickDelete }: { data
       <Image src={dataPegawai?.foto} width={100} height={100} className='w-full aspect-square rounded-md object-cover  transition-all duration-300' alt={dataPegawai?.nama} />
       <div className='opacity-0 group-hover:opacity-100 grid place-content-center absolute inset-0 bg-black/20 transition-opacity duratin-300 ease-in-out'>
         <div className="flex gap-2">
-          <Button size={"sm"} variant={"destructive"} onClick={() => handleClickDelete(dataPegawai?.id)}>
-            <FaRegTrashCan />
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive">
+                <FaRegTrashCan />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Apakah anda yakin ?</AlertDialogTitle>
+                <AlertDialogDescription>Apakah anda yakin untuk menghapus data pegawai dari guru <b>{dataPegawai.nama}</b>, proses ini akan menghapus data pegawai terkait dan tidak dapat di kembalikan.</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={() => handleClickDelete(dataPegawai.id)}>Hapus</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
           <Button variant={"outline"} size={"sm"} onClick={() => handleClickEdit(dataPegawai?.id)}>
             <GoPencil />
           </Button>

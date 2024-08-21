@@ -21,7 +21,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + ' min-h-screen antialiased'}>{children}
       </body>
-      <Toaster />
+      <Toaster toastOptions={{ 
+        classNames : {
+          success: 'bg-green-500',
+          error: 'bg-red-500',
+          warning: 'bg-yellow-500',
+          info: 'bg-blue-500'
+        }
+       }}/>
     </html>
   );
 }

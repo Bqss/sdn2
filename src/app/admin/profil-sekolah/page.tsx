@@ -10,7 +10,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 import dynamic from 'next/dynamic';
 import { AxiosError } from 'axios';
 const Ckeditor = dynamic(() => import('@/components/Atoms/Ckeditor'), { ssr: false });
@@ -45,13 +45,13 @@ function Page() {
 
   const onSubmit = async (data: any) => {
     mutateAsync(data).then((data) => {
-      alert(data.message)
+      toast.success(data.message);
       queryClientInstance.invalidateQueries({
         queryKey: ["profile"]
       })
-    }).catch((error: AxiosError) => {
-      if (error.response) {
-        const { data } = error.response;
+    }).catch((error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
       }
     })
   }
@@ -91,7 +91,6 @@ function Page() {
                   data={watch('profile_singkat')}
                   className={errors.profile_singkat ? 'border-red-500' : ''}
                   onChange={(event, editor) => {
-                    console.log("called")
                     setValue('profile_singkat', editor.getData());
                   }}
                 />

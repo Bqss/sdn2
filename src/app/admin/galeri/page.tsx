@@ -19,7 +19,9 @@ import FileUpload from "@/components/Atoms/FileUpload";
 import { Textarea } from "@/components/ui/textarea";
 import Datatable from "./datatable";
 import { GalleryService } from "@/services/gallery";
-import dynamic from "next/dynamic";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+
 
 export default function Page() {
   useSetTitle("Gallery");
@@ -67,35 +69,28 @@ export default function Page() {
     try {
       if (isOnUpdateProcess) {
         const { id, ...restData } = data;
-        try {
-          const result = await updateGallery({ id: data.id, payload: restData });
-          alert(result.message);
-          queryClientInstance.invalidateQueries({
-            queryKey: ["gallery"],
-          });
-          setIsOpenGalleryModal(false);
-          galleryForm.reset();
-          return;
-        } catch (err) {
-          console.log(err);
-        }
-
+        const result = await updateGallery({ id: data.id, payload: restData });
+        toast.success(result.data);
+        queryClientInstance.invalidateQueries({
+          queryKey: ["gallery"],
+        });
+        setIsOpenGalleryModal(false);
+        galleryForm.reset();
+        return;
       } else {
         const { id, ...restData } = data;
-        try {
-          await addGallery(restData);
-          alert("Data slideshow berhasil ditambahkan");
-          queryClientInstance.invalidateQueries({
-            queryKey: ["gallery"],
-          });
-          setIsOpenGalleryModal(false);
-          galleryForm.reset();
-        } catch (err) {
-          console.log(err);
-        }
+        const result = await addGallery(restData);
+        toast.success(result.message)
+        queryClientInstance.invalidateQueries({
+          queryKey: ["gallery"],
+        });
+        setIsOpenGalleryModal(false);
+        galleryForm.reset();
       }
     } catch (err) {
-      alert("Data gagal ditambahkan");
+      if (err instanceof AxiosError) {
+        alert(err.response?.data.message);
+      }
     }
   }
 
@@ -116,7 +111,7 @@ export default function Page() {
     toggleLoader(true);
     try {
       const data = await getDetailBerita(id);
-      const {created_at, ...restData} = data.data;
+      const { created_at, ...restData } = data.data;
       galleryForm.reset(restData);
       galleryForm.setValue("id", data.data.id);
       queryClientInstance.invalidateQueries({
@@ -125,7 +120,9 @@ export default function Page() {
       setIsOnUpdateProcess(true);
       setIsOpenGalleryModal(true);
     } catch (err) {
-      alert("Data gagal diambil");
+      if (err instanceof AxiosError) {
+        toast.error(err?.response?.data.message);
+      }
     } finally {
       toggleLoader(false);
     }
@@ -136,13 +133,16 @@ export default function Page() {
     if (confirmed) {
       toggleLoader(true);
       try {
-        await deleteGallery(id);
+        const result = await deleteGallery(id);
         queryClientInstance.invalidateQueries({
           queryKey: ["gallery"],
         });
-        alert("Data berhasil dihapus");
+        toast.success(result.message);
+
       } catch (err) {
-        alert("Data gagal dihapus");
+        if (err instanceof AxiosError) {
+          toast.error(err?.response?.data.message);
+        }
       } finally {
         toggleLoader(false);
       }
@@ -193,7 +193,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>Foto <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
-                          <FileUpload setFiles={galleryForm.setValue} files={galleryForm.watch("foto") as any} {...field} />
+                          <FileUpload maxSize={2} accept="image/*" setFiles={galleryForm.setValue} files={galleryForm.watch("foto") as any} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

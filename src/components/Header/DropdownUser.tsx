@@ -7,8 +7,8 @@ import { signOut } from 'next-auth/react';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const handleLogout = () => {
-    signOut();
+  const handleLogout = async() => {
+    const result = await signOut();
   }
 
   return (

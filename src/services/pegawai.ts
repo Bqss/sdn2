@@ -25,9 +25,11 @@ export class PegawaiService {
         "Content-Type": "multipart/form-data",
       },
     });
+    return result.data;
   }
 
   static async deletePegawai (id: string){
     const result = await axiosInstance.delete(`/data-pegawai/${id}`);
+    return result.data;
   }
 }

@@ -20,6 +20,8 @@ import Datatable from "./datatable";
 import { PrestasiService } from "@/services/prestasi";
 import { Select } from "@/components/ui/select";
 import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 export default function Page() {
   useSetTitle("Prestasi");
@@ -37,12 +39,12 @@ export default function Page() {
   const { toggleLoader } = useDashboardLayoutContext();
   const [isOpenPrestasiModal, setIsOpenPrestasiModal] = useState(false);
 
-  const { isPending: isGettingPrestasi, data: detailPrestasi, mutateAsync: getDetailPrestasi } = useMutation({
+  const { data: detailPrestasi, mutateAsync: getDetailPrestasi } = useMutation({
     mutationFn: PrestasiService.getPrestasiById,
     mutationKey: ["detailPrestasi"],
   });
 
-  const { isPending: isDeletingPrestasi, mutateAsync: deletePrestasi } = useMutation({
+  const { mutateAsync: deletePrestasi } = useMutation({
     mutationFn: PrestasiService.deletePrestasi,
   });
 
@@ -63,36 +65,32 @@ export default function Page() {
     try {
       if (isOnUpdateProcess) {
         const { id, ...restData } = data;
-        try {
-          const result = await updatePrestasi({ id: data.id, payload: restData });
-          alert(result?.message);
-          queryClientInstance.invalidateQueries({
-            queryKey: ["prestasi"],
-          });
-          setIsOnUpdateProcess(false);
-          setIsOpenPrestasiModal(false);
-          prestasiForm.reset();
-          return;
-        } catch (err) {
-          console.log(err);
-        }
+        const result = await updatePrestasi({ id: data.id, payload: restData });
+        toast.success(result.message);
+        queryClientInstance.invalidateQueries({
+          queryKey: ["prestasi"],
+        });
+        setIsOnUpdateProcess(false);
+        setIsOpenPrestasiModal(false);
+        prestasiForm.reset();
+        return;
+
 
       } else {
         const { id, ...restData } = data;
-        try {
-          const result = await addPrestasi(restData);
-          alert(result.message);
-          queryClientInstance.invalidateQueries({
-            queryKey: ["prestasi"],
-          });
-          setIsOpenPrestasiModal(false);
-          prestasiForm.reset();
-        } catch (err) {
-          console.log(err);
-        }
+        const result = await addPrestasi(restData);
+        toast.success(result.message);
+        queryClientInstance.invalidateQueries({
+          queryKey: ["prestasi"],
+        });
+        setIsOpenPrestasiModal(false);
+        prestasiForm.reset();
+
       }
     } catch (err) {
-      alert("Data gagal ditambahkan");
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      }
     }
   }
 
@@ -116,28 +114,29 @@ export default function Page() {
       });
       setIsOnUpdateProcess(true);
       setIsOpenPrestasiModal(true);
-    } catch (err) {
-      alert("Data gagal diambil");
+    } catch (err: any) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     } finally {
       toggleLoader(false);
     }
   }
 
   const handleClickDelete = async (id: string) => {
-    const confirmed = confirm("Apakah anda yakin ingin menghapus data ini?");
-    if (confirmed) {
-      toggleLoader(true);
-      try {
-        await deletePrestasi(id);
-        queryClientInstance.invalidateQueries({
-          queryKey: ["prestasi"],
-        });
-        alert("Data berhasil dihapus");
-      } catch (err) {
-        alert("Data gagal dihapus");
-      } finally {
-        toggleLoader(false);
-      }
+    toggleLoader(true);
+    try {
+      await deletePrestasi(id);
+      queryClientInstance.invalidateQueries({
+        queryKey: ["prestasi"],
+      });
+      toast.success("Data berhasil dihapus");
+    } catch (err) {
+      toast.error("Data gagal dihapus");
+    } finally {
+      toggleLoader(false);
     }
   }
   return (
@@ -197,7 +196,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>Foto <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
-                          <FileUpload setFiles={prestasiForm.setValue} files={prestasiForm.watch("foto") as any} {...field} />
+                          <FileUpload maxSize={2} accept="image/*"  setFiles={prestasiForm.setValue} files={prestasiForm.watch("foto") as any} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

@@ -40,5 +40,6 @@ export class GalleryService {
 
   static async deleteGallery(id: string) {
     const result = await axiosInstance.delete(`/gallery/${id}`);
+    return result.data;
   }
 }

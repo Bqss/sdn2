@@ -30,6 +30,8 @@ import Image from "next/image";
 import { FaTrashAlt } from "react-icons/fa";
 import { Badge } from "@/components/ui/badge";
 import { PrestasiService } from "@/services/prestasi";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 
 interface DatatableProps {
@@ -99,24 +101,35 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         size: 180,
         enableHiding: false,
         cell: ({ row }) => {
-          const slidesow = row.original;
+          const prestasi = row.original;
           return (
             <div className="flex justify-center">
               <Button
                 variant="default"
                 size="sm"
                 className="mr-2"
-                onClick={() => handleEdit(slidesow.id)}
+                onClick={() => handleEdit(prestasi.id)}
               >
                 <FaPencilAlt />
               </Button>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => handleDelete(slidesow.id)}
-              >
-                <FaTrashAlt />
-              </Button>
+              <AlertDialog >
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size={"sm"}>
+                    <FaRegTrashCan />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Apakah anda yakin ?</AlertDialogTitle>
+                    <AlertDialogDescription>Apakah anda yakin untuk menghapus prestasi <b>{prestasi.judul}</b>, proses ini akan menghapus data prestasi terkait dan tidak dapat di kembalikan.</AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={() => handleDelete(prestasi.id)}>Hapus</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+          
             </div>
           )
         },

@@ -1,5 +1,5 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
+
 import { FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { FaPencilAlt } from "react-icons/fa";
 import {
@@ -28,13 +28,12 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ArsipService } from "@/services/arsip";
-import Image from "next/image";
 import { FaTrashAlt } from "react-icons/fa";
-import FileUpload from "@/components/Atoms/FileUpload";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 
 interface DatatableProps {
-  // slideshows: Slideshow[];
   handleDelete: (id: string) => void;
   handleEdit: (id: string) => void;
 }
@@ -66,7 +65,7 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
     refetch();
   }, [pagination, refetch])
 
-  const columns: ColumnDef<Slideshow>[] = useMemo(() => {
+  const columns: ColumnDef<ArsipFile>[] = useMemo(() => {
     return [
       {
         id: "select",
@@ -100,24 +99,34 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         size: 180,
         enableHiding: false,
         cell: ({ row }) => {
-          const slidesow = row.original;
+          const arsip_file = row.original;
           return (
             <div className="flex justify-center">
               <Button
                 variant="default"
                 size="sm"
                 className="mr-2"
-                onClick={() => handleEdit(slidesow.id)}
+                onClick={() => handleEdit(arsip_file.id)}
               >
                 <FaPencilAlt />
               </Button>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => handleDelete(slidesow.id)}
-              >
-                <FaTrashAlt />
-              </Button>
+              <AlertDialog >
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" size={"sm"}>
+                    <FaRegTrashCan />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Apakah anda yakin ?</AlertDialogTitle>
+                    <AlertDialogDescription>Apakah anda yakin untuk menghapus file arsip <b>{arsip_file.nama}</b>, proses ini akan menghapus data file arsip terkait dan tidak dapat di kembalikan.</AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction className='bg-red-500 hover:bg-red-600' onClick={() => handleDelete(arsip_file.id)}>Hapus</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           )
         },

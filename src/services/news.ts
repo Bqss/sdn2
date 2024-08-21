@@ -40,5 +40,6 @@ export class NewsService {
 
   static async deleteNews(id: string) {
     const result = await axiosInstance.delete(`/news/${id}`);
+    return result.data;
   }
 }
