@@ -70,7 +70,7 @@ export default function Page() {
       if (isOnUpdateProcess) {
         const { id, ...restData } = data;
         const result = await updateGallery({ id: data.id, payload: restData });
-        toast.success(result.data);
+        toast.success(result.message);
         queryClientInstance.invalidateQueries({
           queryKey: ["gallery"],
         });

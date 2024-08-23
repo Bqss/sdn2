@@ -4,7 +4,7 @@ import { getDownloadURL } from "firebase-admin/storage";
 import * as yup from "yup";
 
 export async function GET() {
-  const pegawaiSekolah = await firestore().collection("pegawai").get();
+  const pegawaiSekolah = await firestore().collection("pegawai").orderBy("order","asc").get();
 
   try {
     const mappedData = await Promise.all(
@@ -37,7 +37,8 @@ export async function POST(request: Request) {
     nama: yup.string().required(),
     jabatan: yup.string().required(),
     order: yup.number().required(),
-    deskripsi: yup.string().required(),
+    is_male: yup.string().required(),
+    deskripsi: yup.string().nullable(),
     foto: yup.mixed().nullable(), 
   });
 
@@ -54,6 +55,7 @@ export async function POST(request: Request) {
       const fileRef = bucket.file(`pegawai/${fileName}`);
 
       // Upload the file to Firebase Storage
+
       await fileRef.save(Buffer.from(await file.arrayBuffer()), {
         metadata: {
           contentType: file.type,
@@ -62,8 +64,12 @@ export async function POST(request: Request) {
       payload.foto = `pegawai/${fileName}`;
       payload.order = parseInt(payload.order.toString(), 10) as any;
     }
+    const {order, ...restPayload} = payload;
 
-    await firestore().collection("pegawai").add(payload);
+    await firestore().collection("pegawai").add({
+      ...restPayload,
+      order: parseInt(order.toString(), 10),
+    });
 
     return Response.json({
       message: "Data pegawai berhasil ditambahkan",

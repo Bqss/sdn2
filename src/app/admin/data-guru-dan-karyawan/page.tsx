@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { Textarea } from '@/components/ui/textarea';
 import { AxiosError } from 'axios';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 
 function Page() {
@@ -35,8 +36,9 @@ function Page() {
   const formSchema = yup.object({
     id: yup.string().nullable(),
     nama: yup.string().required(),
-    order: yup.number().required(),
     jabatan: yup.string().required(),
+    order: yup.number().required(),
+    is_male: yup.string().required(),
     deskripsi: yup.string().nullable(),
     foto: yup.mixed().nullable(),
   });
@@ -193,7 +195,7 @@ function Page() {
                         <FormItem >
                           <FormLabel>Jabatan <span className="text-red-500">*</span></FormLabel>
                           <FormControl>
-                            <Input placeholder="Masukkan jabatan" {...field} />
+                            <Input placeholder="Masukkan jabatan pegawai" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -207,6 +209,36 @@ function Page() {
                           <FormLabel>Urutan <span className="text-red-500">*</span></FormLabel>
                           <FormControl>
                             <Input placeholder="urutan" type='number'  {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={pegawaiForm.control}
+                      name="is_male"
+                      render={({ field }) => (
+                        <FormItem >
+                          <FormLabel>Jenis Kelamin <span className="text-red-500">*</span></FormLabel>
+                          <FormControl>
+                            <RadioGroup
+                              onValueChange={field.onChange}
+                              value={field.value}
+                              className="flex gap-5 mt-4"
+                            >
+                              <FormItem className="flex items-center space-x-3 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="1" />
+                                </FormControl>
+                                <FormLabel className="font-normal">Laki-laki</FormLabel>
+                              </FormItem>
+                              <FormItem className="flex items-center space-x-3 space-y-0">
+                                <FormControl>
+                                  <RadioGroupItem value="0" />
+                                </FormControl>
+                                <FormLabel className="font-normal">Perempuan</FormLabel>
+                              </FormItem>
+                            </RadioGroup>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -255,7 +287,7 @@ function Page() {
           <div className="mt-6">
             {/* blank state */}
             {isLoading ? <p>Loading...</p> : data.data.length > 0 ? (
-              <div className="grid grid-cols-5 gap-3">
+              <div className="grid grid-cols-4 gap-3">
                 {data?.data.map((pegawai: any) => (
                   <PegawaiCard key={pegawai.id} handleClickDelete={handleClickDelete} handleClickEdit={handleClickEdit} dataPegawai={pegawai} />
                 ))}
@@ -276,7 +308,7 @@ function Page() {
 const PegawaiCard = ({ dataPegawai, handleClickEdit, handleClickDelete }: { dataPegawai: any, handleClickEdit: (id: string) => void, handleClickDelete: (id: string) => void }) => {
   return (
     <div className='p-.5 rounded-lg border flex flex-col border-gray-400 group cursor-pointer overflow-hidden hover:scale-105 transition-all duration-200 relative'>
-      <Image src={dataPegawai?.foto} width={100} height={100} className='w-full aspect-square rounded-md object-cover  transition-all duration-300' alt={dataPegawai?.nama} />
+      <Image src={dataPegawai.foto?? (dataPegawai.is_male == "1" ? "/images/guru-placeholder-male.jpg": "/images/guru-placeholder-female.png")} width={100} height={100} className='w-full aspect-square rounded-md object-cover  transition-all duration-300' alt={dataPegawai?.nama} />
       <div className='opacity-0 group-hover:opacity-100 grid place-content-center absolute inset-0 bg-black/20 transition-opacity duratin-300 ease-in-out'>
         <div className="flex gap-2">
           <AlertDialog>
@@ -303,8 +335,8 @@ const PegawaiCard = ({ dataPegawai, handleClickEdit, handleClickDelete }: { data
       </div>
 
       <div className='mt-1 flex-1 bg-black space-y-1 text-white py-5 px-3 rounded-md'>
-        <h3 className='text-base font-medium'>{dataPegawai?.nama}</h3>
-        <hr className='border-top border-white' />
+        <h3 className='text-sm font-bold'>{dataPegawai?.nama}</h3>
+        <hr className='border-top text-sm border-white' />
         <p>{dataPegawai?.jabatan}</p>
       </div>
     </div>

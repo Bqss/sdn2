@@ -160,6 +160,7 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
             src={row.getValue("gambar")}
             width={80}
             height={50}
+            className="rounded-lg"
             alt="Gambar"
           />
         ),
@@ -240,7 +241,7 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
               <TableRow>
                 <td colSpan={table.getVisibleLeafColumns().length}>
                   <div className="flex items-center justify-center w-full h-24 bg-white">
-                    <div className="h-7 w-7 animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></div>
+                    <div className="h-7 w-7 animate-spin rounded-full border-2 border-solid border-primary border-t-transparent"></div>
                   </div>
                 </td>
               </TableRow>

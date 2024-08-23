@@ -81,6 +81,8 @@ const config = {
         bodydark2: "#8A99AF",
         // primary: "#3C50E0",
         // secondary: "#80CAEE",
+        "front-primary": "#000",
+        "front-secondary": "#03346E",
         stroke: "#E2E8F0",
         graydark: "#333A48",
         whiten: "#F1F5F9",

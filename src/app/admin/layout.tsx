@@ -66,11 +66,8 @@ function DefaultLayout({ children }: { children: ReactNode, title: string }) {
                   {children}
                 </div>
               </main>
-              {/* <!-- ===== Main Content End ===== --> */}
             </div>
-            {/* <!-- ===== Content Area End ===== --> */}
           </div>
-          {/* <!-- ===== Page Wrapper End ===== --> */}
         </div>
       </QueryClientProvider>
     </ defaultLayoutContext.Provider>

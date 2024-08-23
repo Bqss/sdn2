@@ -63,8 +63,9 @@ export async function PUT(
     nama: yup.string().required(),
     jabatan: yup.string().required(),
     order: yup.number().required(),
-    deskripsi: yup.string().required(),
-    foto: yup.mixed().nullable(),
+    is_male: yup.string().required(),
+    deskripsi: yup.string().nullable(),
+    foto: yup.mixed().nullable(), 
   });
 
   const oldData = await firestore().collection("pegawai").doc(params.id).get();
@@ -111,11 +112,14 @@ export async function PUT(
       delete payload["foto[preview]"];
     }
 
+    const {order, ...restPayload} = payload;
+
     await firestore()
       .collection("pegawai")
       .doc(params.id)
       .set({
-        ...payload,
+        order: parseInt(order.toString(), 10),
+        ...restPayload,
       });
     return Response.json(
       {

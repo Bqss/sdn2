@@ -4,7 +4,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "ckbox/dist/styles/themes/lark.css";
 import "ckbox/dist/ckbox";
 
-export default function CKEditor({...props}) {
+export default function CKEditor({ ...props }) {
   const config = {
     ckbox: {
       tokenUrl: `/api/ckbox`,
@@ -42,8 +42,18 @@ export default function CKEditor({...props}) {
 
   return (
     <>
-      {/* <style>{`.ck-editor__editable_inline { min-height: 400px; }`}</style> */}
-      <CKEditorComponent editor={ClassicEditor} config={config} {...props}/>
+      {/* <style>{`.ck-editor__editable_inline { min-height: 400px; }`}</style>
+       */}
+      <style>{`
+        .ck-editor__editable_inline {
+          min-height: 400px;
+          white-space: normal; /* Ensure text wraps */
+          word-wrap: break-word; /* Break long words */
+          overflow-wrap: break-word; /* Break long words */
+          max-width: 100%; /* Ensure it doesn't overflow its container */
+        }
+      `}</style>
+      <CKEditorComponent editor={ClassicEditor} config={config} {...props} />
     </>
   );
 }
