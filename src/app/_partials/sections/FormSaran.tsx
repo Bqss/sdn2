@@ -92,7 +92,7 @@ const FormSaran = () => {
             />
           </div>
           <div className="flex justify-end mt-3">
-            <Button className='inline-flex gap-2 ml-auto'>
+            <Button className='bg-blue-500 hover:bg-blue-700 inline-flex gap-2 ml-auto'>
               <AiOutlineSend />
               <span>Kirim</span>
             </Button>

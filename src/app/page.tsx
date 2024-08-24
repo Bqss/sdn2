@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@/components/Templates/ThemeProvider";
 import { firestore, storage } from "@/lib/firebase";
 import { getDownloadURL } from "firebase-admin/storage";
 import { Metadata } from "next";
@@ -13,14 +12,15 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import HeroSection from "./_partials/HeroSection";
+import HeroSection from "./_partials/sections/HeroSection";
 import { Separator } from "@/components/ui/separator";
 import NewsCard from "./_partials/NewsCard";
 import EkskulCard from "./_partials/EkskulCard";
 import PrestasiCard from "./_partials/PrestasiCard";
 import Layout from "./_partials/layout";
-import PegawaiSection from "./_partials/PegawaiSection";
-import FormSaran from "./_partials/FormSaran";
+import PegawaiSection from "./_partials/sections/PegawaiSection";
+import FormSaran from "./_partials/sections/FormSaran";
+import ClientOnly from "@/components/Templates/ClientOnly";
 
 export const metadata: Metadata = {
   title: "SDN 2 Tamanharjo",
@@ -90,9 +90,9 @@ export default async function Home() {
       <section className="relative overflow-hidden">
         <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
         <div className="h-fit relative ">
-          <div className="text-center py-6 bg-white text-black font-bold text-3xl">Sambutan Kepala Sekolah</div>
-          <div className="flex gap-8 py-32 container">
-            <div className=" w-2/5 flex-shrink-0 p-5 rounded-lg">
+          <div className="text-center p-4 text-xl sm:text-3xl sm:p-6 bg-white text-black font-bold ">Sambutan Kepala Sekolah</div>
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 py-12 sm:py-32 container">
+            <div className=" w-full sm:w-2/5 border border-white flex-shrink-0 p-5 rounded-lg">
               <Image className="rounded-lg filter -z-1 brightness-75 w-full" src={"/images/kepala-sekolah.jpeg"} width={400} height={400} alt="kepsek" />
               <div className="flex flex-col items-center mt-4">
                 <span className="font-bold">Diana Juniarti, S.Pd, M.Pd</span>
@@ -100,7 +100,7 @@ export default async function Home() {
                 <span>Kepala Sekolah</span>
               </div>
             </div>
-            <div className="mt-14">
+            <div className="sm:mt-14">
               <p>Assalamu’alaikum Wr. Wb.<br /><br />
                 Puji syukur kami panjatkan kehadirat Allah SWT atas segala limpahan kasih, rahmat dan karunia-Nya.
                 Website MIN 2 Kota Malang (MINDATAMA) merupakan salah satu sarana untuk menyampaikan perkembangan terkini dari kegiatan yang berlangsung di MNDATAMA. Website ini tidak hanya digunakan untuk memberikan informasi kepada warga sekolah ataupun orangtua siswa saja, tetapi juga digunakan sebagai jembatan penghubung antara MINDATAMA dengan pihak luar untuk menjalin kerjasama. Harapannya website ini dapat bermanfaat bagi banyak pihak dan ikut memajukan pendidikan di Indonesia.
@@ -111,10 +111,10 @@ export default async function Home() {
         </div>
       </section>
       <section className="bg-[#03346E] ">
-        <div className="py-16 flex flex-col items-center grid-cols-3 container">
+        <div className="py-10 sm:py-16 flex flex-col items-center grid-cols-3 container">
           <h1 className="text-2xl text-center font-bold  text-white">Berita Terbaru</h1>
           <Separator className="my-2 w-20 bg-white" />
-          <div className="grid mt-16 grid-cols-3 gap-6">
+          <div className="grid mt-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6">
             {news.length > 0 ?
               news.map((berita: any) => <NewsCard key={berita.id} data={berita} />)
               : (
@@ -124,8 +124,8 @@ export default async function Home() {
               )
             }
           </div>
-          <div className="mt-16">
-            {news.length > 1 ? (
+          <div className="mt-10 sm:mt-16">
+            {news.length > 3 ? (
               <Link href={"/berita"} className="text-white px-6 py-2 border border-white rounded-md hover:text-gray-500">Lihat Berita Lainnya</Link>
             ) : null}
           </div>
@@ -133,20 +133,20 @@ export default async function Home() {
       </section>
       <section className="relative overflow-hidden">
         <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
-        <div className="h-fit relative py-16 flex flex-col items-center ">
+        <div className="h-fit relative py-10 sm:py-16 flex flex-col items-center ">
           <h1 className="text-2xl text-center font-bold  text-white">Ekstrakurikuler</h1>
           <Separator className="my-2 w-20 bg-white" />
-          <div className="grid grid-cols-3 mt-12 gap-6 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-8 sm:mt-12 gap-6 ">
             {ekskuls.map((ekskul: any) => <EkskulCard key={ekskul.id} data={ekskul} />)}
           </div>
         </div>
       </section>
       <section className="w-full relative overflow-hidden">
         <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
-        <div className="py-16 flex flex-col items-center relative ">
+        <div className="py-10 sm:py-16 flex flex-col items-center relative ">
           <h1 className="text-2xl text-center font-bold  text-white">Prestasi Terbaru</h1>
           <Separator className="my-2 w-20 bg-white" />
-          <div className="flex flex-col mt-16 w-full container">
+          <div className="flex flex-col mt-10 sm:mt-16 w-full container">
 
             {awards.length > 0 ?
               awards.map((award: any) => <PrestasiCard key={award.id} data={award} />)
@@ -158,21 +158,23 @@ export default async function Home() {
             }
           </div>
           <div className="mt-16">
-            {awards.length > 0 ? (
+            {awards.length > 3 ? (
               <Link href={"/prestasi"} className="text-white px-6 py-2 border border-white rounded-md hover:text-gray-500">Lihat Prestasi Lainnya</Link>
             ) : null}
           </div>
 
         </div>
       </section>
-      <PegawaiSection pegawai={pegawai} />
+      <ClientOnly>
+        <PegawaiSection pegawai={pegawai} />
+      </ClientOnly>
       <section className="relative overflow-hidden">
         <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
         <div className="py-16 flex flex-col items-center relative ">
           <h1 className="text-2xl text-center font-bold  text-white">Hubungi Kami</h1>
           <Separator className="my-2 w-20 bg-white" />
-          <div className="mt-16 w-full container mx-auto flex gap-10">
-            <div className="w-1/2 relative overflow-hidden rounded-md">
+          <div className="mt-10 lg:mt-16 w-full container mx-auto flex flex-col-reverse lg:flex-row gap-10">
+            <div className="lg:w-1/2 relative overflow-hidden rounded-md">
               <h3 className="text-2xl font-bold mb-4">Denah Lokasi</h3>
               <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.0077983704805!2d112.67826157550242!3d-7.894251878539822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd62bb82fa99057%3A0x77e46a8da7bb4d40!2sSDN%202%20Tamanharjo!5e0!3m2!1sid!2sid!4v1724347315808!5m2!1sid!2sid" width="600" height="450" style={{
                 border: 0,

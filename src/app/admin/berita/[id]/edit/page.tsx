@@ -164,7 +164,7 @@ export default function Page() {
               </div>
             </div>
             <div className="flex justify-end items-center mt-4 gap-3 ">
-              <Button variant={"secondary"} onClick={() => router.push("/admin/berita")}>
+              <Button variant={"secondary"} type="button" onClick={() => router.push("/admin/berita")}>
                 <span>Cancel</span>
               </Button>
               <LoadingButton

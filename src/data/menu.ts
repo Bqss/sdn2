@@ -7,74 +7,100 @@ import { FaPeopleLine } from "react-icons/fa6";
 import { TfiMedall } from "react-icons/tfi";
 import { VscFileSubmodule } from "react-icons/vsc";
 
-
 export const menus = [
   {
-    name: 'Dashboard',
-    type: 'menu',
+    name: "Dashboard",
+    type: "menu",
     icon: HiOutlineHome,
-    url: "/admin/dashboard"
+    url: "/admin/dashboard",
   },
   {
-    name: 'Profil Sekolah',
-    type: 'menu',
+    name: "Profil Sekolah",
+    type: "menu",
     icon: GiNotebook,
-    url: "/admin/profil-sekolah"
+    url: "/admin/profil-sekolah",
   },
   {
-    name: 'Data Pokok',
-    type: 'group',
+    name: "Data Pokok",
+    type: "group",
     url: null,
-    children : [
+    children: [
       {
-        name: 'Data Guru dan Karyawan',
-        type: 'menu',
-        url: '/admin/data-guru-dan-karyawan',
-        icon: PiNetwork
-      }
-    ]
+        name: "Data Guru dan Karyawan",
+        type: "menu",
+        url: "/admin/data-guru-dan-karyawan",
+        icon: PiNetwork,
+      },
+    ],
   },
   {
-    name: 'CMS',
-    type: 'group',
+    name: "CMS",
+    type: "group",
     url: null,
-    children : [
+    children: [
       {
-        name: 'Slideshow',
-        type: 'menu',
-        url: '/admin/slideshow',
-        icon: BiSlideshow
+        name: "Slideshow",
+        type: "menu",
+        url: "/admin/slideshow",
+        icon: BiSlideshow,
       },
       {
-        name: 'Berita',
-        type: 'menu',
-        url: '/admin/berita',
-        icon: LuNewspaper
+        name: "Berita",
+        type: "menu",
+        url: "/admin/berita",
+        icon: LuNewspaper,
       },
       {
-        name: 'Galeri',
-        type: 'menu',
-        url: '/admin/galeri',
-        icon: GiNotebook
+        name: "Galeri",
+        type: "menu",
+        url: "/admin/galeri",
+        icon: GiNotebook,
       },
       {
-        name: 'Ekstrakurikuler',
-        type: 'menu',
-        url: '/admin/ekstrakurikuler',
-        icon: FaPeopleLine
+        name: "Ekstrakurikuler",
+        type: "menu",
+        url: "/admin/ekstrakurikuler",
+        icon: FaPeopleLine,
       },
       {
-        name: 'Prestasi',
-        type: 'menu',
-        url : '/admin/prestasi',
-        icon: TfiMedall
+        name: "Prestasi",
+        type: "menu",
+        url: "/admin/prestasi",
+        icon: TfiMedall,
       },
       {
-        name: 'Arsip File',
-        url: '/admin/arsip-file',
-        type: 'menu',
-        icon: VscFileSubmodule
+        name: "Arsip File",
+        url: "/admin/arsip-file",
+        type: "menu",
+        icon: VscFileSubmodule,
       },
-    ]
+    ],
+  },
+];
+
+export const landingmenus = [
+  {
+    name: "Beranda",
+    url: "/",
+  },
+  {
+    name: "Tentang",
+    url: "/about",
+  },
+  {
+    name: "Visi Misi",
+    url: "/visi-misi",
+  },
+  {
+    name: "Berita",
+    url: "/berita"
+  },
+  {
+    name: "Prestasi",
+    url: "/prestasi"
+  },
+  {
+    name: "Gallery",
+    url: "/gallery"
   }
 ];

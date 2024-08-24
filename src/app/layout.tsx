@@ -20,7 +20,6 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-
       <body className={inter.className + ' min-h-screen antialiased'}>
           {children}
       </body>
@@ -32,8 +31,6 @@ export default function RootLayout({
           info: 'bg-blue-500'
         }
       }} />
-
-
     </html>
   );
 }
