@@ -21,7 +21,7 @@ export default async function Page() {
         <h1 className="text-center font-bold text-2xl mt-8">Gallery</h1>
         <Separator className="w-12 bg-white mx-auto mt-3" />
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
-          {galleries.length > 0 ? galleries.map((item) => <GalleryCard key={item.id} data={item} />) : (
+          {galleries.length > 0 ? galleries.map((item, i) => <GalleryCard delay={i * 0.1 + 1.5} key={item.id} data={JSON.stringify(item)} />) : (
             <div className="py-12 w-full border border-white rounded-lg mt-12">
               <div className="text-center">belum ada gallery yang ditambahkan</div>
             </div>

@@ -42,11 +42,9 @@ export default function CKEditor({ ...props }) {
 
   return (
     <>
-      {/* <style>{`.ck-editor__editable_inline { min-height: 400px; }`}</style>
-       */}
       <style>{`
         .ck-editor__editable_inline {
-          min-height: 400px;
+          min-height: 200px;
           white-space: normal; /* Ensure text wraps */
           word-wrap: break-word; /* Break long words */
           overflow-wrap: break-word; /* Break long words */

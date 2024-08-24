@@ -22,10 +22,8 @@ const PegawaiSection: FC<PegawaiSectionProps> = ({ pegawai }) => {
     "only screen and (min-width : 993px) and (max-width : 1200px)"
   );
 
-
   return (
     <section className="w-full relative overflow-hidden bg-[#03346E]">
-      {/* <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" /> */}
       <div className="py-16 sm:py-24 flex flex-col items-center relative ">
         <h1 className="text-2xl text-center font-bold  text-white">Data kepagawaian dan guru</h1>
         <Separator className="my-2 w-40 h-[2px] bg-white" />
@@ -44,9 +42,9 @@ const PegawaiSection: FC<PegawaiSectionProps> = ({ pegawai }) => {
             }}
             speed={1000}
           >
-            {pegawai.map((p: any) => (
+            {pegawai.map((p: any, i) => (
               <SwiperSlide key={p.id}>
-                < PegawaiCard key={p.id} data={p} />
+                < PegawaiCard key={p.id} data={p} delay={i * 0.07} />
               </SwiperSlide>
             ))}
           </Swiper>

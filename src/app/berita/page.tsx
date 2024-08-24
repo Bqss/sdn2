@@ -4,6 +4,7 @@ import Layout from "../_partials/layout";
 import { Separator } from "@/components/ui/separator";
 import NewsCard from "../_partials/NewsCard";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function Page({ searchParams }: { searchParams: any }) {
 
@@ -33,15 +34,18 @@ export default async function Page({ searchParams }: { searchParams: any }) {
 
   return (
     <Layout>
-      <div className="py-26 container">
-        <h1 className="text-center font-bold text-2xl mt-8">Berita Terbaru</h1>
-        <Separator className="w-20 bg-white mx-auto mt-3" />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-          {berita.length > 0 ? berita.map((item) => <NewsCard key={item.id} data={item} />) : (
-            <div className="py-12 w-full border border-white rounded-lg mt-12">
-              <div className="text-center">belum ada data berita yang ditambahkan</div>
-            </div>
-          )}
+      <div className="relative overflow-hidden">
+        <Image src={"/images/background-dark.png"} width={1440} height={900} className="absolute inset-0 w-full h-full object-cover filter brightness-150" alt="dark-bg" />
+        <div className="py-26 container relative ">
+          <h1 className="text-center font-bold text-2xl mt-8">Berita Terbaru</h1>
+          <Separator className="w-20 bg-white mx-auto mt-3" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12 ">
+            {berita.length > 0 ? berita.map((item, i) => <NewsCard key={item.id} delay={i * 0.05} data={JSON.stringify(item)} />) : (
+              <div className="py-12 w-full border border-white rounded-lg mt-12">
+                <div className="text-center">belum ada data berita yang ditambahkan</div>
+              </div>
+            )}
+          </div>
         </div>
         {pages > 1 && (
           <div className="flex justify-center gap-2 mt-8">
@@ -56,6 +60,7 @@ export default async function Page({ searchParams }: { searchParams: any }) {
             )}
           </div>
         )}
+
       </div>
     </Layout>
   );

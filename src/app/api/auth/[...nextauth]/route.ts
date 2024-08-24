@@ -3,7 +3,7 @@ import nextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
-export const authOptions :AuthOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -18,8 +18,7 @@ export const authOptions :AuthOptions = {
         const user = await firestore()
           .collection("users")
           .where("email", "==", credentials?.email)
-          .get(); 
-
+          .get();
 
         if (user.empty) {
           throw new Error("User not found");
@@ -44,6 +43,7 @@ export const authOptions :AuthOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 12 * 60 * 60,
   },
   pages: {
     signIn: "/auth/login",

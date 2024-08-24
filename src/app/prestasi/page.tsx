@@ -38,7 +38,7 @@ export default async function Page({ searchParams }: { searchParams: any }) {
         <h1 className="text-center font-bold text-2xl mt-8">Prestasi Terbaru</h1>
         <Separator className="w-20 bg-white mx-auto mt-3" />
         <div className="flex flex-col gap-8 mt-12">
-          {prestasi.length > 0 ? prestasi.map((item) => <PrestasiCard key={item.id} data={item} />) : 
+          {prestasi.length > 0 ? prestasi.map((item) => <PrestasiCard key={item.id} data={JSON.stringify(item)} />) : 
           <div className="py-12 w-full border border-white rounded-lg mt-12">
             <div className="text-center">belum ada data prestasi yang ditambahkan</div>
           </div>

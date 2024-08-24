@@ -40,19 +40,23 @@ const Header = () => {
 
   return (
     <>
-      <header className={cn(" fixed top-0 inset-x-0 transition-all duration-300 z-99 align-center p-4 sm:p-5", (isScrolled ? "bg-white text-black" : ""))}>
+      <header className={cn(" fixed top-0 inset-x-0 transition-all duration-300 z-99 align-center p-4 `", (isScrolled ? "bg-white text-black" : ""))}>
         <div className="container flex justify-between">
           <motion.span
-            initial={{ height: 0,opacity: 0, }}
-            animate={{ opacity: 1 , height: "auto"}}
-            transition={{ delay: 0.1 }}
+            initial={{ height: 0, opacity: 0, }}
+            animate={{ opacity: 1, height: "auto" }}
+            transition={{ delay: 0.1, duration: 0.3 }}
           >
             <Link href={"/"} className="flex items-center gap-2 justify-center">
               <Image src={"/images/tutwuri.png"} width={60} height={60} className="w-8 h-8 md:h-12 md:w-12" alt="tutwuri" />
               <span className="text-sm sm:text-xl  font-bold">SDN 2 TAMANHARJO</span>
             </Link>
           </motion.span>
-          <div className='lg:hidden'>
+          <motion.div
+            initial={{ height: 0, opacity: 0, }}
+            animate={{ opacity: 1, height: "auto" }}
+            transition={{ delay: 0.4, duration: 0.3 }}
+            className='lg:hidden'>
             <button className={cn("p-2 rounded-md border ", (isScrolled ? "border-black" : "border-white"))} onClick={handleOpenModal}>
               <RiMenu2Fill size={18} />
             </button>
@@ -78,28 +82,37 @@ const Header = () => {
                 </motion.div>
               )}
             </AnimatePresence>
+          </motion.div>
+          <div className="lg:flex gap-6 items-center hidden ">
+            <ul className="hidden lg:flex items-center text-base gap-6">
+              {
+                landingmenus.map((menu, i) => (
+                  <motion.li key={i}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+
+                    transition={{ duration: 0.3, delay: .5 + i * 0.1 }}
+                  >
+                    <Link href={menu.url} className={cn("hover:text-gray-500", (path == menu.url ? "text-yellow-500" : ""))}>{menu.name}</Link>
+                  </motion.li>
+                ))
+              }
+
+            </ul>
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+
+              transition={{ duration: 0.3, delay:  1.2 }}
+
+            >
+              <Link className="hidden lg:block px-6 py-2 hover:bg-blue-700 rounded-md bg-blue-500 text-white font-medium" href={"/auth/login"}>Login</Link>
+            </motion.div>
           </div>
-          <ul className="hidden lg:flex items-center text-base gap-6">
-            {
-              landingmenus.map((menu, i) => (
-                <motion.li key={i}
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-
-                  transition={{ duration: 0.3 , delay: .5 + i * 0.2}}
-                >
-                  <Link href={menu.url} className={cn("hover:text-gray-500", (path == menu.url ? "text-yellow-500" : ""))}>{menu.name}</Link>
-                </motion.li>
-              ))
-            }
-
-          </ul>
         </div>
       </header>
-
-
-
     </>
   );
 };

@@ -3,10 +3,7 @@ import { getDownloadURL } from "firebase-admin/storage";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { MdOutlineMail } from "react-icons/md";
-import { IoLocationOutline } from "react-icons/io5";
-import { MdOutlinePhone } from "react-icons/md";
-import { FaFax } from "react-icons/fa6";
+
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -21,6 +18,8 @@ import Layout from "./_partials/layout";
 import PegawaiSection from "./_partials/sections/PegawaiSection";
 import FormSaran from "./_partials/sections/FormSaran";
 import ClientOnly from "@/components/Templates/ClientOnly";
+import SambutanSection from "./_partials/sections/SambutanSection";
+import Contact from "./_partials/sections/Contact";
 
 export const metadata: Metadata = {
   title: "SDN 2 Tamanharjo",
@@ -84,39 +83,24 @@ export default async function Home() {
     }
   }));
 
+  let profile = (await firestore().collection("profile-sekolah").doc("profile").get()).data();
+  if(profile){
+    profile.foto_kepsek = await getDownloadURL(storage().bucket().file(profile.foto_kepsek)) 
+  }
+
+  console.log(profile)
+
   return (
     <Layout>
       <HeroSection slideshows={slideshows} />
-      <section className="relative overflow-hidden">
-        <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
-        <div className="h-fit relative ">
-          <div className="text-center p-4 text-xl sm:text-3xl sm:p-6 bg-white text-black font-bold ">Sambutan Kepala Sekolah</div>
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 py-12 sm:py-32 container">
-            <div className=" w-full sm:w-2/5 border border-white flex-shrink-0 p-5 rounded-lg">
-              <Image className="rounded-lg filter -z-1 brightness-75 w-full" src={"/images/kepala-sekolah.jpeg"} width={400} height={400} alt="kepsek" />
-              <div className="flex flex-col items-center mt-4">
-                <span className="font-bold">Diana Juniarti, S.Pd, M.Pd</span>
-                <Separator className="my-2 w-20 bg-white " />
-                <span>Kepala Sekolah</span>
-              </div>
-            </div>
-            <div className="sm:mt-14">
-              <p>Assalamu’alaikum Wr. Wb.<br /><br />
-                Puji syukur kami panjatkan kehadirat Allah SWT atas segala limpahan kasih, rahmat dan karunia-Nya.
-                Website MIN 2 Kota Malang (MINDATAMA) merupakan salah satu sarana untuk menyampaikan perkembangan terkini dari kegiatan yang berlangsung di MNDATAMA. Website ini tidak hanya digunakan untuk memberikan informasi kepada warga sekolah ataupun orangtua siswa saja, tetapi juga digunakan sebagai jembatan penghubung antara MINDATAMA dengan pihak luar untuk menjalin kerjasama. Harapannya website ini dapat bermanfaat bagi banyak pihak dan ikut memajukan pendidikan di Indonesia.
-                MINDATAMA... "Smart, Religious, and Fun"
-                <br /><br />Wassalamu'alaikum Wr. Wb.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SambutanSection  profile={profile}/>
       <section className="bg-[#03346E] ">
         <div className="py-10 sm:py-16 flex flex-col items-center grid-cols-3 container">
           <h1 className="text-2xl text-center font-bold  text-white">Berita Terbaru</h1>
           <Separator className="my-2 w-20 bg-white" />
           <div className="grid mt-16 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6">
             {news.length > 0 ?
-              news.map((berita: any) => <NewsCard key={berita.id} data={berita} />)
+              news.map((berita: any, i: number) => <NewsCard delay={i * 0.05} key={berita.id} data={JSON.stringify(berita)} />)
               : (
                 <div className="py-12 w-full border border-white rounded-lg mt-12">
                   <div className="text-center">belum ada data berita yang ditambahkan</div>
@@ -137,7 +121,7 @@ export default async function Home() {
           <h1 className="text-2xl text-center font-bold  text-white">Ekstrakurikuler</h1>
           <Separator className="my-2 w-20 bg-white" />
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-8 sm:mt-12 gap-6 ">
-            {ekskuls.map((ekskul: any) => <EkskulCard key={ekskul.id} data={ekskul} />)}
+            {ekskuls.map((ekskul: any, i : number) => <EkskulCard key={ekskul.id} data={ekskul} delay={i * 0.05} />)}
           </div>
         </div>
       </section>
@@ -149,9 +133,9 @@ export default async function Home() {
           <div className="flex flex-col mt-10 sm:mt-16 w-full container">
 
             {awards.length > 0 ?
-              awards.map((award: any) => <PrestasiCard key={award.id} data={award} />)
+              awards.map((award: any) => <PrestasiCard key={award.id} data={JSON.stringify(award)} />)
               : (
-                <div className="py-12 w-full border border-white rounded-lg mt-12">
+                <div className="py-12 w-full border border-white rounded-lg">
                   <div className="text-center">belum ada data berita yang ditambahkan</div>
                 </div>
               )
@@ -168,59 +152,13 @@ export default async function Home() {
       <ClientOnly>
         <PegawaiSection pegawai={pegawai} />
       </ClientOnly>
-      <section className="relative overflow-hidden">
-        <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
-        <div className="py-16 flex flex-col items-center relative ">
-          <h1 className="text-2xl text-center font-bold  text-white">Hubungi Kami</h1>
-          <Separator className="my-2 w-20 bg-white" />
-          <div className="mt-10 lg:mt-16 w-full container mx-auto flex flex-col-reverse lg:flex-row gap-10">
-            <div className="lg:w-1/2 relative overflow-hidden rounded-md">
-              <h3 className="text-2xl font-bold mb-4">Denah Lokasi</h3>
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.0077983704805!2d112.67826157550242!3d-7.894251878539822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd62bb82fa99057%3A0x77e46a8da7bb4d40!2sSDN%202%20Tamanharjo!5e0!3m2!1sid!2sid!4v1724347315808!5m2!1sid!2sid" width="600" height="450" style={{
-                border: 0,
-                width: "100%",
-              }} loading="lazy"></iframe>
-            </div>
-            <div className="flex flex-col gap-3 w-1/2 text-sm">
-              <h3 className="text-2xl font-bold mb-4">Kontak</h3>
-              <div className="flex gap-3 items-center">
-                <IoLocationOutline className="text-2xl" size={30} />
-                <div className="flex flex-col">
-                  <span>Alamat</span>
-                  <span>Jl. Tamanharjo No. 1, Kec. Lowokwaru, Kota Malang</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <MdOutlinePhone className="text-2xl" size={30} />
-                <div className="flex flex-col">
-                  <span>Telepon</span>
-                  <span>0341-123456</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <MdOutlineMail className="text-2xl" size={30} />
-                <div className="flex flex-col">
-                  <span>Email</span>
-                  <span>tes@gmail.com</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <FaFax className="text-2xl" size={30} />
-                <div className="flex flex-col">
-                  <span>Fax</span>
-                  <span>-</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="w-full relative py-16 overflow-hidden">
+      <Contact />
+      {/* <section className="w-full relative py-16 overflow-hidden">
         <h1 className="text-2xl text-center font-bold  text-white ">Kotak saran</h1>
         <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
         <Separator className="my-2 mx-auto w-20 h-[2px] bg-white" />
         <FormSaran />
-      </section>
+      </section> */}
 
     </Layout>
   );

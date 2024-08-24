@@ -8,6 +8,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { object, string } from 'yup';
 import { AiOutlineSend } from "react-icons/ai";
+import { motion } from 'framer-motion'
 
 const saranSchema = object().shape({
   nama: string().nullable(),
@@ -34,7 +35,16 @@ const FormSaran = () => {
   }
 
   return (
-    <div className='p-4 mt-10 container relative rounded-lg border border-[#6EACDA]'>
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: .25 }}
+      transition={{ duration: 0.4 }}
+      variants={{
+        visible: { opacity: 1, y: 0 },
+        hidden: { opacity: 0, y: 50 }
+      }}
+      className='p-4 mt-10 container relative rounded-lg border border-[#6EACDA]'>
       <Form {...saranForm}>
         <form onSubmit={saranForm.handleSubmit(onSubmit)} className=" mt-3">
           <div className="max-h-[60vh]  flex flex-col gap-3 px-3">
@@ -99,7 +109,7 @@ const FormSaran = () => {
           </div>
         </form>
       </Form>
-    </div>
+    </motion.div>
   )
 }
 
