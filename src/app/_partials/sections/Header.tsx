@@ -2,6 +2,7 @@
 import { landingmenus } from '@/data/menu';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -9,6 +10,7 @@ import React, { useEffect, useRef } from 'react';
 import { RiMenu2Fill } from "react-icons/ri";
 
 const Header = () => {
+  const { data: session } = useSession();
   const path = usePathname();
   const [isOpenMenuDropdown, setIsOpenMenuDropdown] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
@@ -104,11 +106,14 @@ const Header = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-
               transition={{ duration: 0.3, delay:  1.2 }}
-
             >
-              <Link className="hidden lg:block px-6 py-2 hover:bg-blue-700 rounded-md bg-blue-500 text-white font-medium" href={"/auth/login"}>Login</Link>
+               {session ? (
+                  <Link href={"/admin/dashboard"} className={cn("px-6 py-2 border  rounded-md" , (isScrolled ? "border-black text-black": "border-white" ))}>Dashboard</Link>
+                ) : (
+                  <Link href={"/auth/login"} className="hidden lg:block px-6 py-2 hover:bg-blue-700 rounded-md bg-blue-500 text-white font-medium">Login</Link>
+                )}
+             
             </motion.div>
           </div>
         </div>

@@ -4,11 +4,15 @@ import ClickOutside from '../ClickOutside';
 import UserOne from '../../images/user/user-01.png';
 import Image from 'next/image';
 import { signOut } from 'next-auth/react';
+import useDashboardLayoutContext from '@/hooks/useDashboardLayoutContext';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const {toggleLoader}=useDashboardLayoutContext();
   const handleLogout = async() => {
+    toggleLoader(true);
     const result = await signOut();
+    toggleLoader(false);
   }
 
   return (
