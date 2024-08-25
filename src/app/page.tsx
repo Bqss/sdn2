@@ -88,8 +88,6 @@ export default async function Home() {
     profile.foto_kepsek = await getDownloadURL(storage().bucket().file(profile.foto_kepsek)) 
   }
 
-  console.log(profile)
-
   return (
     <Layout>
       <HeroSection slideshows={slideshows} />
