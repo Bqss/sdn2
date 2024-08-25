@@ -51,7 +51,7 @@ export default function CKEditor({ ...props }) {
           max-width: 100%; /* Ensure it doesn't overflow its container */
         }
       `}</style>
-      <CKEditorComponent editor={ClassicEditor} config={config} {...props} />
+      <CKEditorComponent editor={ClassicEditor} config={config as any} {...props} />
     </>
   );
 }

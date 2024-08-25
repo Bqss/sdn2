@@ -155,7 +155,7 @@ export default function Page() {
                 <div className="text-sm">
                   <Ckeditor
                     data={newsForm.watch("content")}
-                    onChange={(event, editor) => {
+                    onChange={(event: any, editor: any) => {
                       newsForm.setValue('content', editor.getData());
                     }}
                   />

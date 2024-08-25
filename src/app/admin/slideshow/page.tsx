@@ -205,7 +205,7 @@ export default function Page() {
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
-                            value={field.value}
+                            value={(field.value ?? "") as string}
                             className="flex gap-5 mt-4"
                           >
                             <FormItem className="flex items-center space-x-3 space-y-0">

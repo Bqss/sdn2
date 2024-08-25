@@ -1,10 +1,8 @@
 "use client"
 import  Link  from 'next/link';
-import DropdownMessage from './DropdownMessage';
-import DropdownNotification from './DropdownNotification';
 import DropdownUser from './DropdownUser';
 import LogoIcon from '../../images/logo/logo-icon.svg';
-import DarkModeSwitcher from './DarkModeSwitcher';
+
 import Image from 'next/image';
 
 const Header = (props: {

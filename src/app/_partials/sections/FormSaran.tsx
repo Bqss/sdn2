@@ -55,7 +55,7 @@ const FormSaran = () => {
                 <FormItem>
                   <FormLabel>Nama</FormLabel>
                   <FormControl>
-                    <Input placeholder="Masukkan nama anda" {...field} />
+                    <Input placeholder="Masukkan nama anda" {...field} value={saranForm.watch("nama")??''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

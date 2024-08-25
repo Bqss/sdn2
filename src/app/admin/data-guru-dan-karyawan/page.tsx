@@ -76,7 +76,7 @@ function Page() {
       jabatan: "",
       order: 0,
       deskripsi: "",
-      foto: null,
+      foto: undefined,
     }
   })
 
@@ -251,7 +251,7 @@ function Page() {
                         <FormItem >
                           <FormLabel>Deskripsi</FormLabel>
                           <FormControl>
-                            <Textarea placeholder='Masukkan deskripsi pegawai' {...field} />
+                            <Textarea placeholder='Masukkan deskripsi pegawai' {...field} value={pegawaiForm.watch("deskripsi") ??""}  />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

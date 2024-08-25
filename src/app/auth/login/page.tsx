@@ -7,11 +7,8 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import LoadingButton from '@/components/Atoms/LoadingButton';
 import { Input } from '@/components/ui/input';
 
-interface SignInProps {
-  initialEmail: string;
-}
 
-const SignIn: React.FC<SignInProps> = () => {
+const SignIn: React.FC = () => {
 
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);

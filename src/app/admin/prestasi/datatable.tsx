@@ -179,7 +179,8 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         accessorKey: "created_at",
         header: "Publish pada",
         cell: ({ row }) => {
-          const date = new Date(row.getValue("created_at")._seconds * 1000);
+          const val = row.getValue("created_at") as any;
+          const date = new Date(val._seconds * 1000);
           return date?.toLocaleDateString("id-ID", {
             timeZone: "Asia/Jakarta",
             year: "numeric",

@@ -103,7 +103,7 @@ function Page() {
                     id="text-case"
                     data={watch('sambutan_kepsek')}
                     className={errors.sambutan_kepsek ? 'border-red-500' : ''}
-                    onChange={(event, editor) => {
+                    onChange={(event: any, editor: any) => {
                       setValue('sambutan_kepsek', editor.getData());
                     }}
                   />
@@ -111,7 +111,7 @@ function Page() {
                 </div>
                 <div>
                   <label className="mb-5 block" >Foto kepala sekolah <span className="text-red-500">*</span></label>
-                  <FileUpload name='foto_kepsek' setFiles={setValue} files={watch("foto_kepsek") as any} accept='image/*' maxSize={2}  />
+                  <FileUpload name='foto_kepsek' setFiles={setValue} files={watch("foto_kepsek") as any} accept='image/*' maxSize={2} />
                   {errors.foto_kepsek && <span className="text-red-500 text-xs mt-2">{errors.foto_kepsek.message}</span>}
                 </div>
               </div>
@@ -121,7 +121,7 @@ function Page() {
                   id="text-case"
                   data={watch('profile_lengkap')}
                   className={errors.profile_lengkap ? 'border-red-500' : ''}
-                  onChange={(event, editor) => {
+                  onChange={(event: any, editor: any) => {
                     setValue('profile_lengkap', editor.getData());
                   }}
                 />
@@ -132,8 +132,8 @@ function Page() {
                 <Ckeditor
                   id="text-case"
                   data={watch('visi')}
-                  className={errors.profile_singkat ? 'border-red-500' : '' + 'min-h-96'}
-                  onChange={(event, editor) => {
+                  className={errors.visi ? 'border-red-500' : '' + 'min-h-96'}
+                  onChange={(event: any, editor: any) => {
                     setValue('visi', editor.getData());
                   }}
                 />
@@ -144,8 +144,8 @@ function Page() {
                 <Ckeditor
                   id="text-case"
                   data={watch('misi')}
-                  className={errors.profile_singkat ? 'border-red-500' : ''}
-                  onChange={(event, editor) => {
+                  className={errors.misi ? 'border-red-500' : ''}
+                  onChange={(event: any, editor: any) => {
                     setValue('misi', editor.getData());
                   }}
                 />
@@ -157,7 +157,7 @@ function Page() {
                   id="text-case"
                   data={watch('tujuan')}
                   className={errors.tujuan ? 'border-red-500' : ''}
-                  onChange={(event, editor) => {
+                  onChange={(event: any, editor: any) => {
                     setValue('tujuan', editor.getData());
                   }}
                 />
@@ -168,8 +168,8 @@ function Page() {
                 <Ckeditor
                   id="text-case"
                   data={watch('sejarah')}
-                  className={errors.profile_singkat ? 'border-red-500' : ''}
-                  onChange={(event, editor) => {
+                  className={errors.sejarah ? 'border-red-500' : ''}
+                  onChange={(event: any, editor: any) => {
                     setValue('sejarah', editor.getData());
                   }}
                 />

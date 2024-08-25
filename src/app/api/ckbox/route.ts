@@ -1,13 +1,14 @@
 import { getToken } from "next-auth/jwt";
 import jwt from "jsonwebtoken";
+import { NextRequest } from "next/server";
 
-export async function GET(req) {
+export async function GET(req: NextRequest) {
   const token = await getToken({
     req
   });
 
   // Generate JWT token from payload
-  const secret = process.env.NEXTAUTH_SECRET; // Replace with your own secret key
+  const secret = process.env.NEXTAUTH_SECRET as string; // Replace with your own secret key
   if (!token) {
     return Response.json({ message: "Unauthorized" }, { status: 401 });
   }

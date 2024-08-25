@@ -149,7 +149,8 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         accessorKey: "file",
         header: "Format",
         cell: ({ row }) => {
-          const fileext = row.getValue("file")?.file_path.split('.').pop().toUpperCase();
+          const val = row.getValue("file") as any;
+          const fileext = val?.file_path.split('.').pop().toUpperCase();
           return fileext;
         },
       },
@@ -157,8 +158,9 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         accessorKey: "file",
         header: "Lainnya",
         cell: ({ row }) => {
+          const val = row.getValue("file") as any;
           return (
-            <a className="text-blue-500" href={row.getValue("file").preview}>Download</a>
+            <a className="text-blue-500" href={val.preview}>Download</a>
           )
         },
       },
