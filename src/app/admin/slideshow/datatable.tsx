@@ -68,7 +68,7 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
 
   useEffect(() => {
     refetch();
-  }, [pagination])
+  }, [pagination, refetch])
 
   const columns: ColumnDef<Slideshow>[] = useMemo(() => {
     return [
@@ -177,7 +177,7 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         },
       }
     ]
-  }, []);
+  }, [handleDelete, handleEdit]);
 
   const table = useReactTable({
     data: slideshows?.data ?? [],

@@ -178,7 +178,7 @@ export default function Datatable({ handleDelete, handleEdit }: DatatableProps) 
         }
       }
     ]
-  }, []);
+  }, [handleEdit, handleDelete]);
 
   const table = useReactTable({
     data: slideshows?.data ?? [],
