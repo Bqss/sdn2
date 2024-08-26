@@ -10,7 +10,7 @@ import { motion } from 'framer-motion'
 const Contact = () => {
   return (
     <section className="relative overflow-hidden">
-      <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
+      <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-full w-full" />
       <div className="py-16 flex flex-col items-center relative ">
         <motion.h1
           initial="hidden"

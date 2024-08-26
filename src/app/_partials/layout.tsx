@@ -49,7 +49,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               </div>
 
             </div>
-            <div className="py-4 border-t border-[#E2E2B6]">
+            <div className="py-6 border-t border-[#E2E2B6]">
               <div className="text-center text-sm">© Copyright <Link href={"/"} className="text-yellow-500">KKN Unikama Tamanharjo 2024</Link>.<br /> All Rights Reserved</div>
             </div>
           </div>

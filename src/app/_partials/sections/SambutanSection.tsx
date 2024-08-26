@@ -10,7 +10,7 @@ const SambutanSection = ({profile}: any) => {
   return (
     <section
       className="relative overflow-hidden">
-      <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
+      <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-full w-full" />
       <div className="h-fit relative ">
         <motion.div
           initial="hidden"
@@ -33,7 +33,7 @@ const SambutanSection = ({profile}: any) => {
               hidden: { opacity: 0, x: -100 }
             }}
             className=" w-full sm:w-2/5 border border-white flex-shrink-0 p-5 rounded-lg">
-            <Image className="rounded-lg filter -z-1 brightness-75 w-full" src={profile.foto_kepsek} width={400} height={400} alt={profile.nama_kepsek} />
+            <Image className="rounded-lg filter  -z-1 brightness-75 w-full" src={profile.foto_kepsek} width={400} height={400} alt={profile.nama_kepsek} />
             <div className="flex flex-col items-center mt-4">
               <span className="font-bold">{profile.nama_kepsek}</span>
               <Separator className="my-2 w-20 bg-white " />

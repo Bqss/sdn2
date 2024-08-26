@@ -100,9 +100,9 @@ export default async function Home() {
             {news.length > 0 ?
               news.map((berita: any, i: number) => <NewsCard delay={i * 0.05} key={berita.id} data={JSON.stringify(berita)} />)
               : (
-                <div className="py-12 w-full border border-white rounded-lg mt-12">
-                  <div className="text-center">belum ada data berita yang ditambahkan</div>
-                </div>
+                <div className="py-8 md:py-12 px-16 w-full border border-white rounded-lg">
+                <div className="text-sm md:text-base text-center">Tidak ada berita yang ditambahkan</div>
+              </div>
               )
             }
           </div>
@@ -114,7 +114,7 @@ export default async function Home() {
         </div>
       </section>
       <section className="relative overflow-hidden">
-        <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
+        <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-full w-full" />
         <div className="h-fit relative py-10 sm:py-16 flex flex-col items-center ">
           <h1 className="text-2xl text-center font-bold  text-white">Ekstrakurikuler</h1>
           <Separator className="my-2 w-20 bg-white" />
@@ -124,17 +124,16 @@ export default async function Home() {
         </div>
       </section>
       <section className="w-full relative overflow-hidden">
-        <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-auto w-full" />
+        <Image src={"/images/background-dark.png"} width={1440} alt="dark-background" height={600} className="filter absolute inset-0 brightness-[2.5] h-full w-full" />
         <div className="py-10 sm:py-16 flex flex-col items-center relative ">
           <h1 className="text-2xl text-center font-bold  text-white">Prestasi Terbaru</h1>
           <Separator className="my-2 w-20 bg-white" />
           <div className="flex flex-col mt-10 sm:mt-16 w-full container">
-
             {awards.length > 0 ?
               awards.map((award: any) => <PrestasiCard key={award.id} data={JSON.stringify(award)} />)
               : (
-                <div className="py-12 w-full border border-white rounded-lg">
-                  <div className="text-center">belum ada data berita yang ditambahkan</div>
+                <div className="py-8 md:py-12 px-16 w-full border border-white rounded-lg">
+                  <div className="text-sm md:text-base text-center">belum ada data berita yang ditambahkan</div>
                 </div>
               )
             }
@@ -144,7 +143,6 @@ export default async function Home() {
               <Link href={"/prestasi"} className="text-white px-6 py-2 border border-white rounded-md hover:text-gray-500">Lihat Prestasi Lainnya</Link>
             ) : null}
           </div>
-
         </div>
       </section>
       <ClientOnly>
