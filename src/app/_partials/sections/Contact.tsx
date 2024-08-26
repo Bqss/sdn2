@@ -50,10 +50,12 @@ const Contact = () => {
               visible: { opacity: 1, scale: 1 },
               hidden: { opacity: 0, scale: .75 }
             }}
-            className="flex flex-col gap-3 w-1/2 text-sm">
+            className="flex flex-col gap-3 w-full lg:w-1/2 text-sm">
             <h3 className="text-2xl font-bold mb-4">Kontak</h3>
             <div className="flex gap-3 items-center">
-              <IoLocationOutline className="text-2xl" size={30} />
+              <span className='flex-shrink-0'>
+                <IoLocationOutline className="text-2xl" size={30} />
+              </span>
               <div className="flex flex-col">
                 <span>Alamat</span>
                 <span>Jl. Tamanharjo No. 1, Kec. Lowokwaru, Kota Malang</span>

@@ -42,8 +42,8 @@ const Header = () => {
 
   return (
     <>
-      <header className={cn(" fixed top-0 inset-x-0 transition-all duration-300 z-99 align-center p-4 `", (isScrolled ? "bg-white text-black" : ""))}>
-        <div className="container flex justify-between">
+      <header className={cn(" fixed top-0 inset-x-0 transition-all duration-300 z-99 align-center `", (isScrolled ? "bg-white text-black" : ""))}>
+        <div className="container flex justify-between p-4">
           <motion.span
             initial={{ height: 0, opacity: 0, }}
             animate={{ opacity: 1, height: "auto" }}
