@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import LoadingButton from '@/components/Atoms/LoadingButton';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
 
 const SignIn: React.FC = () => {
@@ -19,17 +20,19 @@ const SignIn: React.FC = () => {
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
+
     const response = await signIn('credentials', { email, password, redirect: false });
 
-    // setIsPending(false);
+
     
     if (response?.ok) {
       router.push('/admin/dashboard');
     } else {
-      if (response?.error === 'CredentialsSignin') {
-        alert('Invalid credentials');
-      } else {
-        alert('An error occurred');
+      setIsPending(false);
+      if(response?.error == "Invalid password"){
+        toast.error('Password yang anda masukkan salah');
+      }else{
+        toast.error('User tidak ditemukan');
       }
     }
   }
