@@ -10,6 +10,17 @@
     font-size: 0.8em;
   }
 
+  .blog ul{
+    list-style: circle;
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+  }
+ .blog ol{
+    list-style: decimal;
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+  }
+
   h1, h2, h3, h4, h5, h6 {  
     font-weight: bold;
   }

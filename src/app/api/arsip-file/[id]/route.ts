@@ -1,5 +1,6 @@
 import { firestore, storage } from "@/lib/firebase";
 import { getDownloadURL } from "firebase-admin/storage";
+import { revalidateTag } from "next/cache";
 import * as yup from "yup";
 
 export async function GET(
@@ -117,6 +118,8 @@ export async function PUT(
       .update({
         ...payload,
       });
+
+      revalidateTag("arsip-file");
     return Response.json(
       {
         message: "Arsip berhasil diupdate",
@@ -178,6 +181,7 @@ export async function DELETE(
   try {
     await firestore().collection("arsip-file").doc(params.id).delete();
     await storage().bucket().file(dataPegawai.data()?.file).delete();
+    revalidateTag("arsip-file");
     return Response.json({
       message: "Data pegawai berhasil dihapus",
       success: true,

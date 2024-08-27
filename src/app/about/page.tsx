@@ -1,13 +1,13 @@
 import Layout from "@/app/_partials/layout";
 import { Separator } from "@/components/ui/separator";
-import { firestore } from "@/lib/firebase";
 import Image from "next/image";
 import "@/css/blog.css"
+import { getChachedProfile } from "@/actions/profile";
 
 
 export default async function Page({ params }: { params: { id: string } }) {
 
-  const profile = (await firestore().collection("profile-sekolah").doc("profile").get()).data();
+  const profile = await getChachedProfile();
 
   return (
     <Layout>
@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <Image src={"/images/pramuka.jpg"} width={1440} height={600} alt={"foto bg"} className="rounded-lg aspect-video object-cover" />
           </div>
           <Separator className="w-full bg-gray-500 mt-6" />
-          <div className="mt-4" dangerouslySetInnerHTML={{
+          <div className="mt-4 blog" dangerouslySetInnerHTML={{
             __html: profile?.profile_lengkap
           }}>
           </div>

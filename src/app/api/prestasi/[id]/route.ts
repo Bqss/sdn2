@@ -1,5 +1,6 @@
 import { firestore, storage } from "@/lib/firebase";
 import { getDownloadURL } from "firebase-admin/storage";
+import { revalidateTag } from "next/cache";
 import * as yup from "yup";
 
 export async function GET(
@@ -118,6 +119,7 @@ export async function PUT(
       .update({
         ...payload,
       });
+    revalidateTag("awards");
     return Response.json(
       {
         message: "Prestasi berhasil diupdate",
@@ -185,6 +187,7 @@ export async function DELETE(
   try {
     await firestore().collection("prestasi").doc(params.id).delete();
     await storage().bucket().file(dataPegawai.data()?.foto).delete();
+    revalidateTag("awards");
     return Response.json({
       message: "Prestasi berhasil dihapus",
       success: true,

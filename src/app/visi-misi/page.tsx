@@ -1,12 +1,13 @@
 import Layout from "@/app/_partials/layout";
 import { Separator } from "@/components/ui/separator";
-import { firestore } from "@/lib/firebase";
+
 import Image from "next/image";
 import "@/css/blog.css"
+import { getChachedProfile } from "@/actions/profile";
 
 export default async function Page({ params }: { params: { id: string } }) {
 
-  const profile = (await firestore().collection("profile-sekolah").doc("profile").get()).data();
+  const profile = await getChachedProfile();
 
   return (
     <Layout>
@@ -25,7 +26,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               __html: profile?.visi,
             }}></div>
             <h5 className="text-base font-medium mt-4">Misi Sekolah</h5>
-            <div className="mt-1" dangerouslySetInnerHTML={{
+            <div className="mt-4 blog" dangerouslySetInnerHTML={{
               __html: profile?.misi,
             }}></div>
           </div>

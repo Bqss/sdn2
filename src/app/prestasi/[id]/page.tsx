@@ -7,27 +7,25 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FaRegUser } from "react-icons/fa6";
 import "@/css/blog.css"
+import { getChachedDetailAward } from "@/actions/awards";
 
 export default async function Page({ params }: { params: { id: string } }) {
 
-  const prestasi = (await firestore().collection("prestasi").doc(params.id).get()).data();
+  const prestasi = await getChachedDetailAward(params.id);
   if (!prestasi) {
     return notFound();
   }
-  const foto = (await getDownloadURL(storage().bucket().file(prestasi?.foto)));
-  const date = new Date(prestasi.created_at._seconds * 1000);
-  const options: any = { day: 'numeric', month: 'long', year: 'numeric' };
-  const formattedDate = date.toLocaleDateString('id-ID', options).split(" ");
+ 
 
 
   return (
     <Layout>
       <div className="container py-32">
         <div className="relative">
-          <Image src={foto} width={1440} height={900} alt={prestasi.judul} className="rounded-lg aspect-video object-cover" />
+          <Image src={prestasi.foto} width={1440} height={900} alt={prestasi.judul} className="rounded-lg aspect-video object-cover" />
           <div className="absolute left-2 bottom-2 p-3 rounded-md bg-blue-500/80 flex flex-col">
-            <span className="text-xl md:text-3xl font-bold">{formattedDate[0]}</span>
-            <span className="text-sm md:text-base">{formattedDate[1]}, {formattedDate[2]}</span>
+            <span className="text-xl md:text-3xl font-bold">{prestasi.created_at[0]}</span>
+            <span className="text-sm md:text-base">{prestasi.created_at[1]}, {prestasi.created_at[2]}</span>
           </div>
         </div>
         <div className="mt-8">

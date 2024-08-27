@@ -3,18 +3,11 @@ import Layout from "../_partials/layout";
 import { firestore, storage } from "@/lib/firebase";
 import { getDownloadURL } from "firebase-admin/storage";
 import GalleryCard from "../_partials/GalleryCard";
+import { getCachedgallery } from "@/actions/gallery";
 
 export default async function Page() {
-  const gallerySnapshot = (await firestore().collection("gallery").orderBy("created_at", "desc").get()).docs;
-  const galleries = await Promise.all(gallerySnapshot.map(async(doc) => {
-    const { foto, ...rest } = doc.data();
-    return {
-      id: doc.id,
-      foto: await getDownloadURL(storage().bucket().file(foto)),
-      ...rest,
-    };
-  }));
 
+  const galleries = await getCachedgallery();
   return (
     <Layout>
       <div className="py-26 container">

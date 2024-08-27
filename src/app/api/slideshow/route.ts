@@ -1,6 +1,7 @@
 import { firestore } from "@/lib/firebase";
 import { storage } from "firebase-admin";
 import { getDownloadURL } from "firebase-admin/storage";
+import { revalidateTag } from "next/cache";
 import * as yup from "yup";
 
 export async function GET(request: Request) {
@@ -83,6 +84,7 @@ export async function POST(request: Request) {
       payload.order = parseInt(payload.order.toString(), 10) as any;
     }
     await firestore().collection("slideshow").add(payload);
+    revalidateTag("slideshow");
     return Response.json({
       message: "Data slideshow berhasil ditambahkan",
     }, { status: 200 });

@@ -12,8 +12,7 @@ export const metadata: Metadata = {
   description: "Website resmi SDN 2 Tamanharjo",
   abstract: "Merupakan website resmi dari SDN 2 Tamanharjo",
   keywords: ["SDN 2 Tamanharjo", "website", "resmi","profile"],
-  category: "Education",
-  robots: "index, follow",
+  category: "Education, School, Profile",
 };
 
 export default function RootLayout({

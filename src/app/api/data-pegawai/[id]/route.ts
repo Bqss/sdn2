@@ -1,5 +1,6 @@
 import { firestore, storage } from "@/lib/firebase";
 import { getDownloadURL } from "firebase-admin/storage";
+import { revalidateTag } from "next/cache";
 import * as yup from "yup";
 
 export async function GET(
@@ -121,6 +122,7 @@ export async function PUT(
         order: parseInt(order.toString(), 10),
         ...restPayload,
       });
+    revalidateTag("staff");
     return Response.json(
       {
         message: "Profile sekolah berhasil diupdate",
@@ -182,6 +184,7 @@ export async function DELETE(
   try {
     await firestore().collection("pegawai").doc(params.id).delete();
     await storage().bucket().file(dataPegawai.data()?.foto).delete();
+    revalidateTag("staff");
     return Response.json({
       message: "Data pegawai berhasil dihapus",
       success: true,

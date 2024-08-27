@@ -3,13 +3,14 @@ import { storage } from "firebase-admin";
 import { getDownloadURL } from "firebase-admin/storage";
 import * as yup from "yup";
 import admin from "firebase-admin";
+import { revalidateTag } from "next/cache";
 
 export async function GET() {
-  const berita = await firestore().collection("prestasi").get();
+  const prestasi = await firestore().collection("prestasi").get();
 
   try {
     const mappedData = await Promise.all(
-      berita.docs.map(async (doc) => {
+      prestasi.docs.map(async (doc) => {
         const { foto, ...rest } = doc.data();
         return {
           id: doc.id,
@@ -82,6 +83,7 @@ export async function POST(request: Request) {
         ...payload,
         created_at: admin.firestore.FieldValue.serverTimestamp(),
       });
+    revalidateTag("awards");
     return Response.json(
       {
         message: "Berhasil menambahkan prestasi",

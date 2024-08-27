@@ -1,6 +1,7 @@
 import { firestore } from "@/lib/firebase";
 import { storage } from "firebase-admin";
 import { getDownloadURL } from "firebase-admin/storage";
+import { revalidateTag } from "next/cache";
 import * as yup from "yup";
 
 export async function GET() {
@@ -68,6 +69,7 @@ export async function POST(request: Request) {
     // Add the file URL to the payload
     // Save the payload to Firestore
     await firestore().collection("arsip-file").add(payload);
+    revalidateTag("arsip-file");
 
     return Response.json(
       {

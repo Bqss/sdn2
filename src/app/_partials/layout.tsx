@@ -34,7 +34,6 @@ export default function Layout({ children }: { children: ReactNode }) {
                   <Link href={"#"} className="text-white text-sm">Beranda</Link>
                   <Link href={"#"} className="text-white text-sm">Tentang</Link>
                   <Link href={"#"} className="text-white text-sm">Kontak</Link>
-                  <Link href={"#"} className="text-white text-sm">PPDB</Link>
                 </div>
               </div>
 

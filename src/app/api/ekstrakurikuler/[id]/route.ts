@@ -1,5 +1,6 @@
 import { firestore, storage } from "@/lib/firebase";
 import { getDownloadURL } from "firebase-admin/storage";
+import { revalidateTag } from "next/cache";
 import * as yup from "yup";
 
 export async function GET(
@@ -112,12 +113,15 @@ export async function PUT(
       }
     }
 
+
     await firestore()
       .collection("ekstrakurikuler")
       .doc(params.id)
       .update({
         ...payload,
       });
+
+    revalidateTag("ekskul");
     return Response.json(
       {
         message: "Ekstrakurikuler berhasil diupdate",
@@ -182,6 +186,7 @@ export async function DELETE(
   try {
     await firestore().collection("ekstrakurikuler").doc(params.id).delete();
     await storage().bucket().file(dataEkstra.data()?.thumbnail).delete();
+    revalidateTag("ekskul");
     return Response.json({
       message: "Berita berhasil dihapus",
       success: true,

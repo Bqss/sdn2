@@ -3,6 +3,7 @@ import { storage } from "firebase-admin";
 import { getDownloadURL } from "firebase-admin/storage";
 import * as yup from "yup";
 import admin from "firebase-admin";
+import { revalidateTag } from "next/cache";
 
 export async function GET() {
   const ekskul = await firestore().collection("ekstrakurikuler").get();
@@ -79,6 +80,7 @@ export async function POST(request: Request) {
       .add({
         ...payload,
       });
+    revalidateTag("ekskul");
     return Response.json(
       {
         message: "Berhasil menambahkan ekstrakurikuler",

@@ -1,5 +1,6 @@
 import { firestore, storage } from "@/lib/firebase";
 import { getDownloadURL } from "firebase-admin/storage";
+import { revalidateTag } from "next/cache";
 import * as yup from "yup";
 
 export async function GET() {
@@ -88,6 +89,7 @@ export async function POST(request: Request) {
       sejarah: payload.sejarah,
       tujuan: payload.tujuan,
     });
+    revalidateTag("profile");
     return Response.json(
       {
         message: "Profile sekolah berhasil diupdate",

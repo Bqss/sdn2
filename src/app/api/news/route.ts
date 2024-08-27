@@ -3,6 +3,7 @@ import { storage } from "firebase-admin";
 import { getDownloadURL } from "firebase-admin/storage";
 import * as yup from "yup";
 import admin from "firebase-admin";
+import { revalidateTag } from "next/cache";
 
 export async function GET() {
   const berita = await firestore().collection("news").orderBy("created_at","desc").get();
@@ -80,6 +81,7 @@ export async function POST(request: Request) {
         ...payload,
         created_at: admin.firestore.FieldValue.serverTimestamp(),
       });
+    revalidateTag("news");
     return Response.json(
       {
         message: "Berhasil menambahkan berita",

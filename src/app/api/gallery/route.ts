@@ -3,6 +3,7 @@ import { storage } from "firebase-admin";
 import { getDownloadURL } from "firebase-admin/storage";
 import * as yup from "yup";
 import admin from "firebase-admin";
+import { revalidateTag } from "next/cache";
 
 export async function GET() {
   const berita = await firestore().collection("gallery").get();
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
     id: yup.string().nullable(),
     judul: yup.string().required("Judul tidak boleh kosong"),
     deskripsi: yup.string().required("Deskripsi tidak boleh kosong"),
-    foto: yup.mixed().required("Foto tidak boleh kosong")
+    foto: yup.mixed().required("Foto tidak boleh kosong"),
   });
 
   const body = await request.formData();
@@ -75,6 +76,7 @@ export async function POST(request: Request) {
         ...payload,
         created_at: admin.firestore.FieldValue.serverTimestamp(),
       });
+    revalidateTag("gallery");
     return Response.json(
       {
         message: "Berhasil menambahkan gallery",
@@ -84,7 +86,7 @@ export async function POST(request: Request) {
       }
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     if (error instanceof yup.ValidationError) {
       return new Response(
         JSON.stringify({

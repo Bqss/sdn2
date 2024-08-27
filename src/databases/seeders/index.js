@@ -34,7 +34,7 @@ async function seed() {
     try {
         const user = await db.collection(FirebaseCollections.Users).add({
             name: "Administrator",
-            email: "admin@sdn2tamanharjo.com",
+            email: "admin.sdn2tamanharjo@gmail.com",
             password: bcrypt.hashSync("sdntamanharjo2", 10),
         })
         console.log("Seed completed");

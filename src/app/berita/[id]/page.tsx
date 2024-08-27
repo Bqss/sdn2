@@ -6,26 +6,23 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FaRegUser } from "react-icons/fa6";
 import "@/css/blog.css"
+import { getCachedDetailNew } from "@/actions/news";
 
 export default async function Page({ params }: { params: { id: string } }) {
 
-  const berita = (await firestore().collection("news").doc(params.id).get()).data();
+  const berita =  await getCachedDetailNew(params.id);
   if (!berita) {
     return notFound();
   }
-  const thumbnail = (await getDownloadURL(storage().bucket().file(berita?.thumbnail)));
-  const date = new Date(berita.created_at._seconds * 1000);
-  const options: any = { day: 'numeric', month: 'long', year: 'numeric' };
-  const formattedDate = date.toLocaleDateString('id-ID', options).split(" ");
 
   return (
     <Layout>
       <div className="container py-32">
         <div className="relative">
-          <Image src={thumbnail} width={1440} height={900} alt={berita.judul} className="rounded-lg aspect-video object-cover" />
+          <Image src={berita.thumbnail} width={1440} height={900} alt={berita.judul} className="rounded-lg aspect-video object-cover" />
           <div className="absolute left-2 bottom-2 p-3 rounded-md bg-blue-500/80 flex flex-col">
-            <span className="text-xl md:text-3xl font-bold">{formattedDate[0]}</span>
-            <span className="text-sm md:text-base">{formattedDate[1]}, {formattedDate[2]}</span>
+            <span className="text-xl md:text-3xl font-bold">{berita.created_at[0]}</span>
+            <span className="text-sm md:text-base">{berita.created_at[1]}, {berita.created_at[2]}</span>
           </div>
         </div>
         <div className="mt-8">
@@ -35,10 +32,10 @@ export default async function Page({ params }: { params: { id: string } }) {
             <span>Admin</span>
           </div>
           <Separator className="bg-gray-500 my-4" />
-          <div style={{
+          <div  style={{
             wordBreak: 'break-word',
             overflowWrap: 'break-word',
-          }} className="mt-8 lg:mt-12" dangerouslySetInnerHTML={{ __html: berita.content }}>
+          }} className="mt-8 lg:mt-12 blog" dangerouslySetInnerHTML={{ __html: berita.content }}>
 
           </div>
         </div>

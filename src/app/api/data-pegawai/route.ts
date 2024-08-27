@@ -1,6 +1,7 @@
 import { firestore } from "@/lib/firebase";
 import { storage } from "firebase-admin";
 import { getDownloadURL } from "firebase-admin/storage";
+import { revalidateTag } from "next/cache";
 import * as yup from "yup";
 
 export async function GET() {
@@ -70,6 +71,7 @@ export async function POST(request: Request) {
       ...restPayload,
       order: parseInt(order.toString(), 10),
     });
+    revalidateTag("staff");
 
     return Response.json({
       message: "Data pegawai berhasil ditambahkan",
