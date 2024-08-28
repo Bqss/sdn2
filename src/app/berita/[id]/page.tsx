@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { firestore, storage } from "@/lib/firebase";
 import { getDownloadURL } from "firebase-admin/storage";
 import Image from "next/image";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { FaRegUser } from "react-icons/fa6";
 import "@/css/blog.css"
 import { getCachedDetailNew } from "@/actions/news";
@@ -21,25 +21,21 @@ export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  // read route params
-  const id = params.id
 
-  const berita = await getCachedDetailNew(id);
+  const berita = await getCachedDetailNew(params.id);
   if (!berita) {
-    return notFound();
+    redirect("/404");
   }
-
-
   return {
     title: berita.judul,
-    description: berita.description,
+    description: berita.deskripsi,
     publisher: "administrator",
     openGraph: {
       title: berita.judul,
-      description: berita.description,
+      description: berita.deskripsi,
       images: [
         {
-          url: await getDownloadURL(storage().bucket().file(berita.thumbnail)),
+          url: berita.thumbnail,
           width: 800,
           height: 600,
           alt: berita.judul,

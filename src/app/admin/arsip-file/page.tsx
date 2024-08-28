@@ -20,6 +20,7 @@ import Datatable from "./datatable";
 import { ArsipService } from "@/services/arsip";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
 export default function Page() {
@@ -179,10 +180,26 @@ export default function Page() {
                     name="tag"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tag <span className="text-red-500">*</span></FormLabel>
-                        <FormControl>
-                          <Input placeholder="Masukkan tag" {...field} />
-                        </FormControl>
+                        <FormLabel>Jenis file<span className="text-red-500">*</span></FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Pilih jenis file" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="dokumen-akademik">Dokumen akademik</SelectItem>
+                            <SelectItem value="dokumen-administrasi">Dokumen administrasi</SelectItem>
+                            <SelectItem value="dokumen-informasi-kegiatan-sekolah">Dokumen informasi kegiatan sekolah</SelectItem>
+                            <SelectItem value="dokumen-kebijakan-dan-regulasi">Dokumen kebijakan dan regulasi</SelectItem>
+                            <SelectItem value="dokumen-laporan-dan-transparansi">Dokumen laporan dan transparansi </SelectItem>
+                            <SelectItem value="dokumen-pendukung-pembelajaran-dan-pengembangan">Dokumen pendukung pembelajaran dan pengembangan</SelectItem>
+                            <SelectItem value="dokumen-kesehatan-dan-keselamatan">Dokumen kesehatan dan keselamatan</SelectItem>
+                            <SelectItem value="dokumen-korespondensi">Dokumen korespondensi</SelectItem>
+                            <SelectItem value="dokumen-alumni-dan-reuni">Dokumen alumni dan reuni</SelectItem>
+                            <SelectItem value="lain-lain">Dokumen lain-lain</SelectItem>
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}

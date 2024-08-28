@@ -74,7 +74,7 @@ export default async function Home() {
         <div className="h-fit relative py-10 sm:py-16 flex flex-col items-center ">
           <h1 className="text-2xl text-center font-bold  text-white">Ekstrakurikuler</h1>
           <Separator className="my-2 w-20 bg-white" />
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-8 sm:mt-12 gap-6 ">
+          <div className="grid w-full grid-cols-1 md:grid-cols-2 xl:grid-cols-2 mt-8 sm:mt-12 gap-6 container">
             {ekskuls.map((ekskul: any, i : number) => <EkskulCard key={ekskul.id} data={ekskul} delay={i * 0.05} />)}
           </div>
         </div>

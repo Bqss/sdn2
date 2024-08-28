@@ -18,7 +18,7 @@ const HeroSection = ({ slideshows }: { slideshows: Array<Slideshow> }) => {
       <Swiper
         spaceBetween={10}
         slidesPerView={1}
-        autoplay={{ delay: 6000 }}
+        autoplay={{ delay: 8000 }}
         effect='cube'
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
         pagination={{ clickable: true }}
@@ -32,7 +32,7 @@ const HeroSection = ({ slideshows }: { slideshows: Array<Slideshow> }) => {
                 <Image src={slideshow.gambar} width={1200} height={700} alt="slideshow" className="filter w-full h-full object-cover brightness-50" />
                 <div className="absolute inset-0 container flex justify-center text-left flex-col mx-auto">
                   <motion.h1
-                    className="text-3xl lg:text-4xl text-gray-200 xl:text-5xl font-bold"
+                    className="text-2xl sm:text-3xl lg:text-4xl text-gray-200 xl:text-5xl font-bold"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 3 }}

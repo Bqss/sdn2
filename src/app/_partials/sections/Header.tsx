@@ -58,7 +58,7 @@ const Header = () => {
             initial={{ height: 0, opacity: 0, }}
             animate={{ opacity: 1, height: "auto" }}
             transition={{ delay: 0.4, duration: 0.3 }}
-            className='lg:hidden'>
+            className='xl:hidden'>
             <button className={cn("p-2 rounded-md border ", (isScrolled ? "border-black" : "border-white"))} onClick={handleOpenModal}>
               <RiMenu2Fill size={18} />
             </button>
@@ -85,8 +85,8 @@ const Header = () => {
               )}
             </AnimatePresence>
           </motion.div>
-          <div className="lg:flex gap-6 items-center hidden ">
-            <ul className="hidden lg:flex items-center text-base gap-6">
+          <div className="xl:flex gap-6 items-center hidden ">
+            <ul className="hidden xl:flex items-center text-base gap-6">
               {
                 landingmenus.map((menu, i) => (
                   <motion.li key={i}

@@ -6,6 +6,7 @@ import { BiSlideshow } from "react-icons/bi";
 import { FaPeopleLine } from "react-icons/fa6";
 import { TfiMedall } from "react-icons/tfi";
 import { VscFileSubmodule } from "react-icons/vsc";
+import { url } from "inspector";
 
 export const menus = [
   {
@@ -102,5 +103,9 @@ export const landingmenus = [
   {
     name: "Gallery",
     url: "/gallery"
+  },
+  {
+    name: "Arsip File",
+    url: "/arsip-file"
   }
 ];

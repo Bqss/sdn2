@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     <Layout>
       <div className="overflow-hidden relative">
         <Image src={"/images/background-dark.png"} width={1440} height={900} alt={"bg-dark"} className="filter brightness-[2] w-full absolute inset-0 h-full object-cover" />
-        <div className="container max-w-4xl mx-auto py-24 relative">
+        <div className="container max-w-5xl mx-auto py-24 relative">
           <h1 className="text-center text-xl font-bold md:text-2xl mt-8">Tentang SDN 2 Tamanharjo</h1>
           <Separator className="w-36 bg-white mx-auto mt-3" />
           <div className="relative mt-10">

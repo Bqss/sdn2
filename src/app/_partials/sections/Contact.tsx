@@ -58,21 +58,21 @@ const Contact = () => {
               </span>
               <div className="flex flex-col">
                 <span>Alamat</span>
-                <span>Jl. Tamanharjo No. 1, Kec. Lowokwaru, Kota Malang</span>
+                <span>Jl. Rogonoto Komplek TNI Pringgodani No.1, Damean, Tamanharjo, Kec. Singosari, Kabupaten Malang, Jawa Timur 65153</span>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <MdOutlinePhone className="text-2xl" size={30} />
               <div className="flex flex-col">
                 <span>Telepon</span>
-                <span>0341-123456</span>
+                <span>(0341) 455155</span>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <MdOutlineMail className="text-2xl" size={30} />
               <div className="flex flex-col">
                 <span>Email</span>
-                <span>tes@gmail.com</span>
+                <span>sdnegeri2tamanharjo@gmail.com</span>
               </div>
             </div>
             <div className="flex items-center gap-3">

@@ -18,8 +18,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <Layout>
       <div className="relative overflow-hidden">
-        <Image src={"/images/background.png"} width={1440} height={900} alt={"bg-dark"} className="filter brightness-150 w-full absolute inset-0 h-full object-cover" />
-        <div className="container max-w-4xl mx-auto py-24 relative">
+        <Image src={"/images/background-dark.png"} width={1440} height={900} alt={"bg-dark"} className="filter brightness-150 w-full absolute inset-0 h-full object-cover" />
+        <div className="container max-w-5xl mx-auto py-24 relative">
           <h1 className="text-center font-bold text-2xl mt-8">Visi & Misi</h1>
           <Separator className="w-20 bg-white mx-auto mt-3" />
           <div className="relative mt-10">

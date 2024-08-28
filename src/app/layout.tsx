@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "SDN 2 Tamanharjo",
   description: "Website resmi SDN 2 Tamanharjo",
   abstract: "Merupakan website resmi dari SDN 2 Tamanharjo",
-  keywords: ["SDN 2 Tamanharjo", "website", "resmi","profile"],
+  keywords: ["SDN 2 Tamanharjo", "website", "resmi", "profile"],
   category: "Education, School, Profile",
 };
 
@@ -23,8 +23,11 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <meta name="google-site-verification" content="08Hf3rcvT3tP5goIVLkEn1MS1aKHEibdBMGVSF7sTJk" />
+      </head>
       <body className={inter.className + ' min-h-screen antialiased'}>
-          {children}
+        {children}
       </body>
       <Toaster toastOptions={{
         classNames: {
