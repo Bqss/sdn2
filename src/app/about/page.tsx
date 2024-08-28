@@ -5,12 +5,6 @@ import "@/css/blog.css"
 import { getChachedProfile } from "@/actions/profile";
 import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Tentang Kami | SDN 2 Tamanharjo",
-  description: "Tentang kami SDN 2 Tamanharjo, profil sekolah, visi misi, sejarah, dan lainnya",
-  abstract: ""
-}
-
 interface Props {
   params: {
     id: string
@@ -35,12 +29,12 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <Layout>
       <div className="overflow-hidden relative">
-        <Image src={"/images/background-dark.png"} width={1440} height={900} alt={"bg-dark"} className="filter brightness-125 w-full absolute inset-0 h-full object-cover" />
+        <Image src={"/images/background-dark.png"} width={1440} height={900} alt={"bg-dark"} className="filter brightness-[2] w-full absolute inset-0 h-full object-cover" />
         <div className="container max-w-4xl mx-auto py-24 relative">
           <h1 className="text-center text-xl font-bold md:text-2xl mt-8">Tentang SDN 2 Tamanharjo</h1>
           <Separator className="w-36 bg-white mx-auto mt-3" />
           <div className="relative mt-10">
-            <Image src={"/images/pramuka.jpg"} width={1440} height={600} alt={"foto bg"} className="rounded-lg aspect-video object-cover" />
+            <Image src={"/images/depan.jpeg"} width={1440} height={600} alt={"foto bg"} className="rounded-lg aspect-video object-cover" />
           </div>
           <Separator className="w-full bg-gray-500 mt-6" />
           <div className="mt-4 blog" dangerouslySetInnerHTML={{

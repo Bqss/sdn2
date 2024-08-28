@@ -32,7 +32,7 @@ const HeroSection = ({ slideshows }: { slideshows: Array<Slideshow> }) => {
                 <Image src={slideshow.gambar} width={1200} height={700} alt="slideshow" className="filter w-full h-full object-cover brightness-50" />
                 <div className="absolute inset-0 container flex justify-center text-left flex-col mx-auto">
                   <motion.h1
-                    className="text-3xl sm:text-5xl font-bold"
+                    className="text-3xl lg:text-4xl text-gray-200 xl:text-5xl font-bold"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 3 }}
