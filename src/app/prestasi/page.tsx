@@ -4,6 +4,12 @@ import Link from "next/link";
 import PrestasiCard from "../_partials/PrestasiCard";
 import { getCachedPaginatedAwards } from "@/actions/awards";
 
+export const metadata = {
+  title: "Prestasi | SDN 2 Tamanharjo",
+  description: "Halaman prestasi, berisikan beberapa prestasi terbaru dari SDN 2 Tamanharjo",
+  abstract: "Halaman prestasi ini ditujukan untuk menampilkan beberapa prestasi terbaru dari SDN 2 Tamanharjo",
+}
+
 export default async function Page({ searchParams }: { searchParams: any }) {
 
   const page = parseInt(searchParams.page) || 1;

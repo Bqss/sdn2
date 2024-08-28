@@ -7,10 +7,53 @@ import { notFound } from "next/navigation";
 import { FaRegUser } from "react-icons/fa6";
 import "@/css/blog.css"
 import { getCachedDetailNew } from "@/actions/news";
+import { Metadata, ResolvingMetadata } from "next";
 
-export default async function Page({ params }: { params: { id: string } }) {
 
-  const berita =  await getCachedDetailNew(params.id);
+interface Props {
+  params: {
+    id: string
+  }
+  searchParams: URLSearchParams
+}
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+  const id = params.id
+
+  const berita = await getCachedDetailNew(id);
+  if (!berita) {
+    return notFound();
+  }
+
+
+  return {
+    title: berita.judul,
+    description: berita.description,
+    publisher: "administrator",
+    openGraph: {
+      title: berita.judul,
+      description: berita.description,
+      images: [
+        {
+          url: await getDownloadURL(storage().bucket().file(berita.thumbnail)),
+          width: 800,
+          height: 600,
+          alt: berita.judul,
+        },
+      ],
+    },
+    
+  }
+}
+
+
+export default async function Page({ params }: Props) {
+
+  const berita = await getCachedDetailNew(params.id);
   if (!berita) {
     return notFound();
   }
@@ -32,7 +75,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <span>Admin</span>
           </div>
           <Separator className="bg-gray-500 my-4" />
-          <div  style={{
+          <div style={{
             wordBreak: 'break-word',
             overflowWrap: 'break-word',
           }} className="mt-8 lg:mt-12 blog" dangerouslySetInnerHTML={{ __html: berita.content }}>

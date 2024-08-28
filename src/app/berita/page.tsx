@@ -4,6 +4,16 @@ import NewsCard from "../_partials/NewsCard";
 import Link from "next/link";
 import Image from "next/image";
 import { getCachedPaginatedNews } from "@/actions/news";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Halaman Berita | SDN 2 Tamanharjo",
+  description: "Halaman berita, berisikan beberapa berita terbaru dari SDN 2 Tamanharjo",
+  abstract: "Halaman berita ini ditujukan untuk menampilkan beberapa berita terbaru dari SDN 2 Tamanharjo",
+  keywords: ["SDN 2 Tamanharjo", "website", "resmi", "berita"],
+  category: "Education, School, Profile",
+};
+
 
 export default async function Page({ searchParams }: { searchParams: any }) {
 

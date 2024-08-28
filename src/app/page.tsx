@@ -44,8 +44,6 @@ export default async function Home() {
   const awards = await getCachedAwards();
   const pegawai = await getCachedStaff();
 
-
-
   return (
     <Layout>
       <HeroSection slideshows={slideshows} />

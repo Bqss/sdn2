@@ -7,9 +7,48 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FaRegUser } from "react-icons/fa6";
 import "@/css/blog.css"
-import { getChachedDetailAward } from "@/actions/awards";
+import { getCachedAwards, getChachedDetailAward } from "@/actions/awards";
+import { Metadata, ResolvingMetadata } from "next";
 
-export default async function Page({ params }: { params: { id: string } }) {
+interface Props {
+  params: {
+    id: string
+  }
+  searchParams: URLSearchParams
+}
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+
+  const award = await getChachedDetailAward(params.id);
+  if (!award) {
+    return notFound();
+  }
+
+  return {
+    title: award.judul,
+    description: `${award.peraih} meraih prestasi ${award.judul} pada ${award.created_at[0]} ${award.created_at[1]} ${award.created_at[2]}, yang diselenggarakan oleh ${award.penyelenggara} dan termasuk skala ${ucFirst(award.skala)}`,
+    publisher: "administrator",
+    openGraph: {
+      title: award.judul,
+      description: award.description,
+      images: [
+        {
+          url: await getDownloadURL(storage().bucket().file(award.foto)),
+          width: 800,
+          height: 600,
+          alt: award.judul,
+        },
+      ],
+    },
+    
+  }
+}
+
+
+export default async function Page({ params }: Props) {
 
   const prestasi = await getChachedDetailAward(params.id);
   if (!prestasi) {

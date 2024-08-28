@@ -1,9 +1,14 @@
 import { Separator } from "@/components/ui/separator";
 import Layout from "../_partials/layout";
-import { firestore, storage } from "@/lib/firebase";
-import { getDownloadURL } from "firebase-admin/storage";
+
 import GalleryCard from "../_partials/GalleryCard";
 import { getCachedgallery } from "@/actions/gallery";
+
+export const metadata = {
+  title: "Gallery | SDN 2 Tamanharjo",
+  description: "Gallery SDN 2 Tamanharjo, berisi beberapa foto kegiatan sekolah",
+  abstract: "Halaman gallery ini merupakan halaman yang berisi beberapa foto kegiatan sekolah SDN 2 Tamanharjo",
+}
 
 export default async function Page() {
 

@@ -3,11 +3,34 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import "@/css/blog.css"
 import { getChachedProfile } from "@/actions/profile";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tentang Kami | SDN 2 Tamanharjo",
+  description: "Tentang kami SDN 2 Tamanharjo, profil sekolah, visi misi, sejarah, dan lainnya",
+  abstract: ""
+}
+
+interface Props {
+  params: {
+    id: string
+  }
+}
+
+export async function generateMetadata({ params }: Props) {
+  const profile = await getChachedProfile();
+  return {
+    title: "Tentang Kami | " + "SDN 2 Tamanharjo",
+    description: "Tentang kami SDN 2 Tamanharjo, profil sekolah, visi misi, sejarah, dan lainnya",
+    abstract: profile?.profile_lengkap,
+  }
+}
 
 
 export default async function Page({ params }: { params: { id: string } }) {
 
   const profile = await getChachedProfile();
+
 
   return (
     <Layout>

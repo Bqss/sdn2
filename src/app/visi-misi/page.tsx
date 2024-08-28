@@ -5,6 +5,12 @@ import Image from "next/image";
 import "@/css/blog.css"
 import { getChachedProfile } from "@/actions/profile";
 
+export const metadata = {
+  title: "Visi & Misi | SDN 2 Tamanharjo",
+  description: "Visi dan misi sekolah SDN 2 Tamanharjo",
+  abstract: "Visi dan misi sekolah SDN 2 Tamanharjo",
+}
+
 export default async function Page({ params }: { params: { id: string } }) {
 
   const profile = await getChachedProfile();
