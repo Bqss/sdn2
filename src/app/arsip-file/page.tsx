@@ -67,7 +67,7 @@ export default async function Page() {
                 }}>
                   {res[j].map((item: any, i: number) => (
                     <li key={i}>
-                      <Link className="hover:text-yellow-500" href={item.file}>{item.nama}</Link>
+                      <Link className="hover:text-yellow-500" target="_blank" href={item.file}>{item.nama}</Link>
                     </li>
                   ))}
                 </ul>
