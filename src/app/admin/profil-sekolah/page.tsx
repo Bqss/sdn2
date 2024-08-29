@@ -88,98 +88,102 @@ function Page() {
     <>
       <Card className='py-5 text-sm'>
         <CardContent>
-          {isLoading ? <div>Loading...</div> : (
-            <form className='flex flex-col gap-5' onSubmit={handleSubmit(onSubmit)}>
-              <h3 className='text-base font-medium'>Kepala Sekolah</h3>
-              <div className="border border-gray-400 p-4 flex flex-col gap-4 rounded-lg">
-                <div>
-                  <label className="mb-5 block" >Nama kepala sekolah <span className="text-red-500">*</span></label>
-                  <Input name='nama_kepala_sekolah' value={watch("nama_kepsek")} onChange={(e) => setValue("nama_kepsek", e.target.value)} />
-                  {errors.nama_kepsek && <span className="text-red-500 text-xs mt-2">{errors.nama_kepsek.message}</span>}
+          {isLoading ?
+            <div className='flex justify-center py-12'>
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-solid border-primary border-t-transparent"></div>
+            </div>
+            : (
+              <form className='flex flex-col gap-5' onSubmit={handleSubmit(onSubmit)}>
+                <h3 className='text-base font-medium'>Kepala Sekolah</h3>
+                <div className="border border-gray-400 p-4 flex flex-col gap-4 rounded-lg">
+                  <div>
+                    <label className="mb-5 block" >Nama kepala sekolah <span className="text-red-500">*</span></label>
+                    <Input name='nama_kepala_sekolah' value={watch("nama_kepsek")} onChange={(e) => setValue("nama_kepsek", e.target.value)} />
+                    {errors.nama_kepsek && <span className="text-red-500 text-xs mt-2">{errors.nama_kepsek.message}</span>}
+                  </div>
+                  <div>
+                    <label className="mb-5 block" >Sambutan Kepala Sekolah <span className="text-red-500">*</span></label>
+                    <Ckeditor
+                      id="text-case"
+                      data={watch('sambutan_kepsek')}
+                      className={errors.sambutan_kepsek ? 'border-red-500' : ''}
+                      onChange={(event: any, editor: any) => {
+                        setValue('sambutan_kepsek', editor.getData());
+                      }}
+                    />
+                    {errors.sambutan_kepsek && <span className="text-red-500 text-xs mt-1">{errors.sambutan_kepsek.message}</span>}
+                  </div>
+                  <div>
+                    <label className="mb-5 block" >Foto kepala sekolah <span className="text-red-500">*</span></label>
+                    <FileUpload name='foto_kepsek' setFiles={setValue} files={watch("foto_kepsek") as any} accept='image/*' maxSize={2} />
+                    {errors.foto_kepsek && <span className="text-red-500 text-xs mt-2">{errors.foto_kepsek.message}</span>}
+                  </div>
                 </div>
                 <div>
-                  <label className="mb-5 block" >Sambutan Kepala Sekolah <span className="text-red-500">*</span></label>
+                  <label className="mb-5 block" >Profil Lengkap Sekolah <span className="text-red-500">*</span></label>
                   <Ckeditor
                     id="text-case"
-                    data={watch('sambutan_kepsek')}
-                    className={errors.sambutan_kepsek ? 'border-red-500' : ''}
+                    data={watch('profile_lengkap')}
+                    className={errors.profile_lengkap ? 'border-red-500' : ''}
                     onChange={(event: any, editor: any) => {
-                      setValue('sambutan_kepsek', editor.getData());
+                      setValue('profile_lengkap', editor.getData());
                     }}
                   />
-                  {errors.sambutan_kepsek && <span className="text-red-500 text-xs mt-1">{errors.sambutan_kepsek.message}</span>}
+                  {errors.profile_lengkap && <span className="text-red-500 text-xs mt-1">{errors.profile_lengkap.message}</span>}
                 </div>
                 <div>
-                  <label className="mb-5 block" >Foto kepala sekolah <span className="text-red-500">*</span></label>
-                  <FileUpload name='foto_kepsek' setFiles={setValue} files={watch("foto_kepsek") as any} accept='image/*' maxSize={2} />
-                  {errors.foto_kepsek && <span className="text-red-500 text-xs mt-2">{errors.foto_kepsek.message}</span>}
+                  <label className="mb-5 block" >Visi Sekolah <span className="text-red-500">*</span></label>
+                  <Ckeditor
+                    id="text-case"
+                    data={watch('visi')}
+                    className={errors.visi ? 'border-red-500' : '' + 'min-h-96'}
+                    onChange={(event: any, editor: any) => {
+                      setValue('visi', editor.getData());
+                    }}
+                  />
+                  {errors.visi && <span className="text-red-500 text-xs mt-1">{errors.visi.message}</span>}
                 </div>
-              </div>
-              <div>
-                <label className="mb-5 block" >Profil Lengkap Sekolah <span className="text-red-500">*</span></label>
-                <Ckeditor
-                  id="text-case"
-                  data={watch('profile_lengkap')}
-                  className={errors.profile_lengkap ? 'border-red-500' : ''}
-                  onChange={(event: any, editor: any) => {
-                    setValue('profile_lengkap', editor.getData());
-                  }}
-                />
-                {errors.profile_lengkap && <span className="text-red-500 text-xs mt-1">{errors.profile_lengkap.message}</span>}
-              </div>
-              <div>
-                <label className="mb-5 block" >Visi Sekolah <span className="text-red-500">*</span></label>
-                <Ckeditor
-                  id="text-case"
-                  data={watch('visi')}
-                  className={errors.visi ? 'border-red-500' : '' + 'min-h-96'}
-                  onChange={(event: any, editor: any) => {
-                    setValue('visi', editor.getData());
-                  }}
-                />
-                {errors.visi && <span className="text-red-500 text-xs mt-1">{errors.visi.message}</span>}
-              </div>
-              <div>
-                <label className="mb-5 block" >Misi Sekolah <span className="text-red-500">*</span></label>
-                <Ckeditor
-                  id="text-case"
-                  data={watch('misi')}
-                  className={errors.misi ? 'border-red-500' : ''}
-                  onChange={(event: any, editor: any) => {
-                    setValue('misi', editor.getData());
-                  }}
-                />
-                {errors.misi && <span className="text-red-500 text-xs mt-1">{errors.misi.message}</span>}
-              </div>
-              <div>
-                <label className="mb-5 block" >Tujuan Sekolah <span className="text-red-500">*</span></label>
-                <Ckeditor
-                  id="text-case"
-                  data={watch('tujuan')}
-                  className={errors.tujuan ? 'border-red-500' : ''}
-                  onChange={(event: any, editor: any) => {
-                    setValue('tujuan', editor.getData());
-                  }}
-                />
-                {errors.tujuan && <span className="text-red-500 text-xs mt-1">{errors.tujuan.message}</span>}
-              </div>
-              <div>
-                <label className="mb-5 block" >Sejarah Sekolah <span className="text-red-500">*</span></label>
-                <Ckeditor
-                  id="text-case"
-                  data={watch('sejarah')}
-                  className={errors.sejarah ? 'border-red-500' : ''}
-                  onChange={(event: any, editor: any) => {
-                    setValue('sejarah', editor.getData());
-                  }}
-                />
-                {errors.sejarah && <span className="text-red-500 text-xs mt-1">{errors.sejarah.message}</span>}
-              </div>
-              <div className="flex justify-end">
-                <LoadingButton isLoading={isPending} type="submit">Simpan</LoadingButton>
-              </div>
-            </form>
-          )}
+                <div>
+                  <label className="mb-5 block" >Misi Sekolah <span className="text-red-500">*</span></label>
+                  <Ckeditor
+                    id="text-case"
+                    data={watch('misi')}
+                    className={errors.misi ? 'border-red-500' : ''}
+                    onChange={(event: any, editor: any) => {
+                      setValue('misi', editor.getData());
+                    }}
+                  />
+                  {errors.misi && <span className="text-red-500 text-xs mt-1">{errors.misi.message}</span>}
+                </div>
+                <div>
+                  <label className="mb-5 block" >Tujuan Sekolah <span className="text-red-500">*</span></label>
+                  <Ckeditor
+                    id="text-case"
+                    data={watch('tujuan')}
+                    className={errors.tujuan ? 'border-red-500' : ''}
+                    onChange={(event: any, editor: any) => {
+                      setValue('tujuan', editor.getData());
+                    }}
+                  />
+                  {errors.tujuan && <span className="text-red-500 text-xs mt-1">{errors.tujuan.message}</span>}
+                </div>
+                <div>
+                  <label className="mb-5 block" >Sejarah Sekolah <span className="text-red-500">*</span></label>
+                  <Ckeditor
+                    id="text-case"
+                    data={watch('sejarah')}
+                    className={errors.sejarah ? 'border-red-500' : ''}
+                    onChange={(event: any, editor: any) => {
+                      setValue('sejarah', editor.getData());
+                    }}
+                  />
+                  {errors.sejarah && <span className="text-red-500 text-xs mt-1">{errors.sejarah.message}</span>}
+                </div>
+                <div className="flex justify-end">
+                  <LoadingButton isLoading={isPending} type="submit">Simpan</LoadingButton>
+                </div>
+              </form>
+            )}
           {/* )} */}
         </CardContent>
       </Card>
