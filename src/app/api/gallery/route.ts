@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   const pegawaiSchema = yup.object({
     id: yup.string().nullable(),
     judul: yup.string().required("Judul tidak boleh kosong"),
-    deskripsi: yup.string().required("Deskripsi tidak boleh kosong"),
+    deskripsi: yup.string().nullable("Deskripsi tidak boleh kosong"),
     foto: yup.mixed().required("Foto tidak boleh kosong"),
   });
 

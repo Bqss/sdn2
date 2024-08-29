@@ -62,7 +62,7 @@ export async function PUT(
 
   const updateGallerySchema = yup.object({
     judul: yup.string().required("Judul harus diisi"),
-    deskripsi: yup.string().required("Deskripsi "),
+    deskripsi: yup.string().nullable("Deskripsi "),
     content: yup.string().nullable("Content tidak boleh kosong"),
     foto: yup.mixed().required("Thumbnail tidak boleh kosong"),
   });
