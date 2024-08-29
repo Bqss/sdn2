@@ -51,8 +51,8 @@ const Header = () => {
             transition={{ delay: 0.1, duration: 0.3 }}
           >
             <Link href={"/"} className="flex items-center gap-2 justify-center">
-              <Image src={"/images/logo-sdn.png"} width={60} height={60} className="w-16 h-16  " alt="tutwuri" />
-              <span className="text-2xl font-bold">SDN 2 Tamanharjo</span>
+              <Image src={"/images/logo-sdn.png"} width={60} height={60} className="w-12 h-12 md:w-16 md:h-16  " alt="tutwuri" />
+              <span className="text-lg lg:text-2xl font-bold">SDN 2 Tamanharjo</span>
             </Link>
           </motion.span>
           <motion.div
