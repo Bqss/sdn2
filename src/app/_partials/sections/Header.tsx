@@ -99,10 +99,7 @@ const Header = () => {
 
             </ul>
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, delay: 1.2 }}
+              {...(isOnIndexPage ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 0.5, duration: 0.3 } } : {})}
             >
               {session ? (
                 <Link href={"/admin/dashboard"} className={cn("px-6 py-2 border  rounded-md", (isScrolled ? "border-black text-black" : "border-white"))}>Dashboard</Link>
