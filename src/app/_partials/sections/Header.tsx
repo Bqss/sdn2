@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { RiMenu2Fill } from "react-icons/ri";
 
 const Header = () => {
@@ -14,6 +14,7 @@ const Header = () => {
   const path = usePathname();
   const [isOpenMenuDropdown, setIsOpenMenuDropdown] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
+  const isOnIndexPage = useMemo(() => path === "/", [path]);
 
   const handleOpenModal = () => {
     if (isOpenMenuDropdown === false) {
@@ -55,9 +56,8 @@ const Header = () => {
             </Link>
           </motion.span>
           <motion.div
-            initial={{ height: 0, opacity: 0, }}
-            animate={{ opacity: 1, height: "auto" }}
-            transition={{ delay: 0.4, duration: 0.3 }}
+            {...(isOnIndexPage ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 0.5, duration: 0.3 } } : {})}
+
             className='xl:hidden'>
             <button className={cn("p-2 rounded-md border ", (isScrolled ? "border-black" : "border-white"))} onClick={handleOpenModal}>
               <RiMenu2Fill size={18} />
@@ -90,11 +90,7 @@ const Header = () => {
               {
                 landingmenus.map((menu, i) => (
                   <motion.li key={i}
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-
-                    transition={{ duration: 0.3, delay: .5 + i * 0.1 }}
+                    {...(isOnIndexPage ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 0.5 + (i * 0.1), duration: 0.3 } } : {})}
                   >
                     <Link href={menu.url} className={cn("hover:text-gray-500", (path == menu.url ? "text-yellow-500" : ""))}>{menu.name}</Link>
                   </motion.li>
@@ -106,14 +102,14 @@ const Header = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, delay:  1.2 }}
+              transition={{ duration: 0.3, delay: 1.2 }}
             >
-               {session ? (
-                  <Link href={"/admin/dashboard"} className={cn("px-6 py-2 border  rounded-md" , (isScrolled ? "border-black text-black": "border-white" ))}>Dashboard</Link>
-                ) : (
-                  <Link href={"/auth/login"} className="hidden lg:block px-6 py-2 hover:bg-blue-700 rounded-md bg-blue-500 text-white font-medium">Login</Link>
-                )}
-             
+              {session ? (
+                <Link href={"/admin/dashboard"} className={cn("px-6 py-2 border  rounded-md", (isScrolled ? "border-black text-black" : "border-white"))}>Dashboard</Link>
+              ) : (
+                <Link href={"/auth/login"} className="hidden lg:block px-6 py-2 hover:bg-blue-700 rounded-md bg-blue-500 text-white font-medium">Login</Link>
+              )}
+
             </motion.div>
           </div>
         </div>
