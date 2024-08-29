@@ -14,13 +14,13 @@ export const metadata = {
   openGraph: {
     title: "Visi & Misi | SDN 2 Tamanharjo",
     description: "Visi dan misi sekolah SDN 2 Tamanharjo",
-    url: "https://sdn2tamanharjo.web.id/visi-misi",
+    url: "https://sdnegeri2tamanharjo.web.id/visi-misi",
     type: "website",
     locale: "id_ID",
     siteName: "SDN 2 Tamanharjo",
     images: [
       {
-        url: "https://sdn2tamanharjo.web.id/images/logo.png",
+        url: "https://sdnegeri2tamanharjo.web.id/images/logo-sdn.png",
         width: 800,
         height: 600,
         alt: "SDN 2 Tamanharjo",

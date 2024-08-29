@@ -35,14 +35,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SDN 2 Tamanharjo",
     description: "Halaman beranda, website profile resmi SDN 2 Tamanharjo",
-    url: "https://sdn2tamanharjo.web.id",
+    url: "https://sdnegeri2tamanharjo.web.id",
     countryName: "Indonesia",
     type: "website",
     locale: "id_ID",
     siteName: "SDN 2 Tamanharjo",
     images: [
       {
-        url: "https://sdn2tamanharjo.web.id/images/logo.png",
+        url: "https://sdnegeri2tamanharjo.web.id/images/logo-sdn.png",
         width: 800,
         height: 600,
         alt: "SDN 2 Tamanharjo",
