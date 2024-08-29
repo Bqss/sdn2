@@ -23,8 +23,8 @@ export default function Layout({ children }: { children: ReactNode }) {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 container py-8 md:py-20">
               <div>
                 <span className="inline-flex gap-2 items-center">
-                  <Image src={"/images/tutwuri.png"} width={60} height={60} alt="tutwuri" />
-                  <span className="text-xl font-bold">SDN 2 TAMARHARJO</span>
+                  <Image src={"/images/logo-sdn.png"} width={60} height={60} alt="tutwuri" />
+                  <span className="text-2xl font-bold">SDN 2 Tamanharjo</span>
                 </span>
                 <p className="text-sm mt-3">
                   SD Negeri Tamanharjo 02 merupakan merupakan salah satu Sekolah Dasar yang terletak di Jalan Rogonoto Komplek Pringgondani Lanud Abdulrachman Saleh Desa Tamanharjo Kecamatan Singosari Kabupaten Malang dengan memiliki visi “Terwujudnya pelajar sepanjang hayat, kreatif dan inovatif”.

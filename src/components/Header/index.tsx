@@ -1,7 +1,7 @@
 "use client"
 import  Link  from 'next/link';
 import DropdownUser from './DropdownUser';
-import LogoIcon from '../../images/logo/logo-icon.svg';
+
 
 import Image from 'next/image';
 
@@ -56,7 +56,7 @@ const Header = (props: {
           {/* <!-- Hamburger Toggle BTN --> */}
 
           <Link className="block flex-shrink-0 lg:hidden" href="/">
-            <Image src={LogoIcon} alt="Logo" />
+            <Image src={"/images/logo-sdn.png"} alt="Logo" width={32} height={32} className='rouded-lg'/>
           </Link>
         </div>
         <div className="flex items-center gap-3 2xsm:gap-7">

@@ -43,16 +43,16 @@ const Header = () => {
 
   return (
     <>
-      <header className={cn(" fixed top-0 inset-x-0 transition-all duration-300 z-99 align-center `", (isScrolled ? "bg-white text-black" : ""))}>
-        <div className="container flex justify-between p-4">
+      <header className={cn(" fixed top-0 inset-x-0 transition-all duration-300 z-99 align-center `", (isScrolled ? "bg-white/90 text-black" : ""))}>
+        <div className="container flex justify-between items-center px-4 py-2">
           <motion.span
             initial={{ height: 0, opacity: 0, }}
             animate={{ opacity: 1, height: "auto" }}
             transition={{ delay: 0.1, duration: 0.3 }}
           >
             <Link href={"/"} className="flex items-center gap-2 justify-center">
-              <Image src={"/images/tutwuri.png"} width={60} height={60} className="w-8 h-8 md:h-12 md:w-12" alt="tutwuri" />
-              <span className="text-sm sm:text-xl  font-bold">SDN 2 TAMANHARJO</span>
+              <Image src={"/images/logo-sdn.png"} width={60} height={60} className="w-16 h-16  " alt="tutwuri" />
+              <span className="text-2xl font-bold">SDN 2 Tamanharjo</span>
             </Link>
           </motion.span>
           <motion.div

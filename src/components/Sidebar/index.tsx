@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import NavLink from 'next/link';
-import Logo from '@/images/logo/logo.svg';
 import Image from 'next/image';
 import { menus } from '@/data/menu';
 import SidebarLinkItem from './SidebarLinkItem';
@@ -64,8 +63,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <NavLink href="/admin/dashboard">
-          <h2 className='text-white text-xl font-bold'>SDN 2 Admin Panel</h2>
+        <NavLink href="/admin/dashboard" className='flex items-center gap-4'>
+          <Image src={"/images/logo-sdn.png"} width={50} height={50} alt='logo'/>
+          <span className="text-lg text-white font-bold">SDN 2 Tamanharjo</span>
         </NavLink>
 
         <button

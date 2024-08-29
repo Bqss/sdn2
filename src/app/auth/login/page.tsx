@@ -44,7 +44,7 @@ const SignIn: React.FC = () => {
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <Link href={"/"} className="text-3xl font-bold">
-                <Image src={"/images/tutwuri.png"} alt='logo tutwuri' width={300} height={300}  />
+                <Image src={"/images/logo-sdn.png"} alt='logo tutwuri' width={300} height={300}  />
               </Link>
             </div>
           </div>
