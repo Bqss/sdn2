@@ -30,23 +30,26 @@ const HeroSection = ({ slideshows }: { slideshows: Array<Slideshow> }) => {
             <SwiperSlide key={slideshow.id}>
               <div className='w-full h-full relative overflow-hidden vignette'>
                 <Image src={slideshow.gambar} width={1200} height={700} alt="slideshow" className="filter w-full h-full object-cover brightness-50" />
-                <div className="absolute inset-0 container flex justify-center text-left flex-col mx-auto">
-                  <motion.h1
-                    className="text-2xl sm:text-3xl lg:text-4xl text-gray-200 xl:text-5xl font-bold"
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 3 }}
-                  >
-                    {slideshow.judul}
-                  </motion.h1>
-                  <motion.p
-                    className="text-base mt-3 sm:text-xl"
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 3 }}
-                  >
-                    {slideshow.deskripsi}
-                  </motion.p>
+                <div className="absolute inset-0 container  ">
+                  <div className="max-w-3xl h-full flex justify-center text-left flex-col">
+                    <motion.h1
+                      className="text-2xl sm:text-3xl lg:text-4xl text-gray-200 font-bold"
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 3 }}
+                    >
+                      {slideshow.judul}
+                    </motion.h1>
+                    <motion.p
+                      className="text-base mt-3 sm:text-xl"
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 3 }}
+                    >
+                      {slideshow.deskripsi}
+                    </motion.p>
+                  </div>
+
                 </div>
               </div>
             </SwiperSlide>

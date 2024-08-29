@@ -26,7 +26,9 @@ export default function Layout({ children }: { children: ReactNode }) {
                   <Image src={"/images/tutwuri.png"} width={60} height={60} alt="tutwuri" />
                   <span className="text-xl font-bold">SDN 2 TAMARHARJO</span>
                 </span>
-                <p className="text-sm mt-3">SMA Negeri 1 Yogyakarta telah menjadi bagian tak terpisahkan dari perjalanan Yogyakarta sebagai kota pendidikan sejak tahun 1957. Dijiwai motto Teladan Jayamahe, Sekolah ini mengantar keluarga besarnya untuk berjaya di manapun dan kapanpun.</p>
+                <p className="text-sm mt-3">
+                  SD Negeri Tamanharjo 02 merupakan merupakan salah satu Sekolah Dasar yang terletak di Jalan Rogonoto Komplek Pringgondani Lanud Abdulrachman Saleh Desa Tamanharjo Kecamatan Singosari Kabupaten Malang dengan memiliki visi “Terwujudnya pelajar sepanjang hayat, kreatif dan inovatif”.
+                </p>
               </div>
               <div className="lg:pl-24">
                 <h3 className="text-xl font-bold mt-3">Navigasi</h3>

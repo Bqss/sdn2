@@ -40,7 +40,7 @@ const NewsCard = ({ data, delay }: { data: any, delay: number }) => {
         </div>
       </div>
       <div className='bg-white text-black p-3 rounded-md mt-2'>
-        <Link href={`/berita/${convertedData.id}`} className='font-bold text-base hover:text-blue-500'>{makeEllipsis(convertedData.judul, 50)}</Link>
+        <Link href={`/berita/${convertedData.id}`} className='font-bold text-base hover:text-blue-500'>{makeEllipsis(convertedData.judul,200)}</Link>
         <p className='mt-4 text-sm'>{makeEllipsis(convertedData.deskripsi, 150)}</p>
         <div className='mt-3 flex gap-2'>
           <FaUserSecret size={18} className='text-sm text-gray-500' />

@@ -50,6 +50,9 @@ export default function CKEditor({ ...props }) {
           overflow-wrap: break-word; /* Break long words */
           max-width: 100%; /* Ensure it doesn't overflow its container */
         }
+        .ck-editor p {
+          margin-bottom: .7rem;
+        }
       `}</style>
       <CKEditorComponent editor={ClassicEditor} config={config as any} {...props} />
     </>
