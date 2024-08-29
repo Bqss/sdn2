@@ -177,7 +177,7 @@ export default function Page() {
                       <FormItem>
                         <FormLabel>Deskripsi <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Masukkan deskripsi" {...field} />
+                          <Textarea placeholder="Masukkan deskripsi" {...field} value={galleryForm.watch("deskripsi") ??""} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
