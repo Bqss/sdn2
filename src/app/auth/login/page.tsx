@@ -7,6 +7,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import LoadingButton from '@/components/Atoms/LoadingButton';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
+import Image from 'next/image';
 
 
 const SignIn: React.FC = () => {
@@ -42,7 +43,9 @@ const SignIn: React.FC = () => {
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
-              <Link href={"/"} className="text-3xl font-bold">Logo here</Link>
+              <Link href={"/"} className="text-3xl font-bold">
+                <Image src={"/images/tutwuri.png"} alt='logo tutwuri' width={300} height={300}  />
+              </Link>
             </div>
           </div>
           <div className="w-full xl:w-1/2 xl:border-l-2">
