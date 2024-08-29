@@ -53,6 +53,10 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="mt-4 blog" dangerouslySetInnerHTML={{
               __html: profile?.misi,
             }}></div>
+            <h5 className="text-base font-medium mt-4">Tujuan</h5>
+            <div className="mt-4 blog" dangerouslySetInnerHTML={{
+              __html: profile?.tujuan,
+            }}></div>
           </div>
         </div>
       </div>
