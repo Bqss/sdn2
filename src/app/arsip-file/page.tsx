@@ -10,6 +10,22 @@ export const metadata: Metadata = {
   title: "Arsip File | SDN 2 Tamanharjo",
   description: "Halaman arsip file, berisikan beberapa file yang telah diunggah oleh pihak sekolah",
   abstract: "Halaman arsip file ini ditujukan untuk menampilkan beberapa file yang telah diunggah oleh pihak sekolah",
+  openGraph: {
+    title: "Arsip File | SDN 2 Tamanharjo",
+    description: "Halaman arsip file, berisikan beberapa file yang telah diunggah oleh pihak sekolah",
+    url: "https://sdnegeri2tamanharjo.web.id/arsip-file",
+    type: "website",
+    locale: "id_ID",
+    siteName: "SDN 2 Tamanharjo",
+    images: [
+      {
+        url: "https://sdnegeri2tamanharjo.web.id/images/logo.png",
+        width: 800,
+        height: 600,
+        alt: "SDN 2 Tamanharjo",
+      },
+    ],
+  }
 }
 
 const fileCategories: any = {

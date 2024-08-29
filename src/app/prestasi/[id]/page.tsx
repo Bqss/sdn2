@@ -32,7 +32,7 @@ export async function generateMetadata(
     description: `${award.peraih} meraih prestasi ${award.judul} pada ${award.created_at[0]} ${award.created_at[1]} ${award.created_at[2]}, yang diselenggarakan oleh ${award.penyelenggara} dan termasuk skala ${ucFirst(award.skala)}`,
     publisher: "administrator",
     openGraph: {
-      title: award.judul,
+      title: `SDN 2 Tamanharjo | ${award.judul}`,
       description: award.description,
       images: [
         {

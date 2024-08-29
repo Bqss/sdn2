@@ -17,6 +17,24 @@ export async function generateMetadata({ params }: Props) {
     title: "Tentang Kami | " + "SDN 2 Tamanharjo",
     description: "Tentang kami SDN 2 Tamanharjo, profil sekolah, visi misi, sejarah, dan lainnya",
     abstract: profile?.profile_lengkap,
+    keywords: ["SDN 2 Tamanharjo", "website", "resmi", "profile"],
+    category: "Education",
+    openGraph: {
+      title: "Tentang Kami | " + "SDN 2 Tamanharjo",
+      description: "Tentang kami SDN 2 Tamanharjo, profil sekolah, visi misi, sejarah, dan lainnya",
+      url: "https://sdnegeri2tamanharjo.web.id/about",
+      type: "website",
+      locale: "id_ID",
+      siteName: "SDN 2 Tamanharjo",
+      images: [
+        {
+          url: "https://sdnegeri2tamanharjo.web.id/images/logo.png",
+          width: 800,
+          height: 600,
+          alt: "SDN 2 Tamanharjo",
+        },
+      ],
+    }
   }
 }
 

@@ -31,7 +31,23 @@ export const metadata: Metadata = {
   description: "Halaman beranda, website resmi SDN 2 Tamanharjo",
   abstract: "",
   keywords: ["SDN 2 Tamanharjo", "website", "resmi","profile"],
-  category: "Education, School, Profile",
+  category: "Education",
+  openGraph: {
+    title: "SDN 2 Tamanharjo",
+    description: "Halaman beranda, website resmi SDN 2 Tamanharjo",
+    url: "https://sdn2tamanharjo.sch.id",
+    type: "website",
+    locale: "id_ID",
+    siteName: "SDN 2 Tamanharjo",
+    images: [
+      {
+        url: "https://sdn2tamanharjo.sch.id/images/logo.png",
+        width: 800,
+        height: 600,
+        alt: "SDN 2 Tamanharjo",
+      },
+    ],
+  }
 };
 
 

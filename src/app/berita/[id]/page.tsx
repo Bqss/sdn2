@@ -27,7 +27,7 @@ export async function generateMetadata(
     redirect("/404");
   }
   return {
-    title: berita.judul,
+    title: `SDN 2 Tamanharjo | ${berita.judul}`,
     description: berita.deskripsi,
     publisher: "administrator",
     openGraph: {

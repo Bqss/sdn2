@@ -9,6 +9,24 @@ export const metadata = {
   title: "Visi & Misi | SDN 2 Tamanharjo",
   description: "Visi dan misi sekolah SDN 2 Tamanharjo",
   abstract: "Visi dan misi sekolah SDN 2 Tamanharjo",
+  keywords: ["SDN 2 Tamanharjo", "website", "resmi", "profile"],
+  category: "Education",
+  openGraph: {
+    title: "Visi & Misi | SDN 2 Tamanharjo",
+    description: "Visi dan misi sekolah SDN 2 Tamanharjo",
+    url: "https://sdn2tamanharjo.sch.id/visi-misi",
+    type: "website",
+    locale: "id_ID",
+    siteName: "SDN 2 Tamanharjo",
+    images: [
+      {
+        url: "https://sdn2tamanharjo.sch.id/images/logo.png",
+        width: 800,
+        height: 600,
+        alt: "SDN 2 Tamanharjo",
+      },
+    ],
+  }
 }
 
 export default async function Page({ params }: { params: { id: string } }) {

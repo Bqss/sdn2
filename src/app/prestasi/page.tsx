@@ -9,6 +9,24 @@ export const metadata = {
   title: "Prestasi | SDN 2 Tamanharjo",
   description: "Halaman prestasi, berisikan beberapa prestasi terbaru dari SDN 2 Tamanharjo",
   abstract: "Halaman prestasi ini ditujukan untuk menampilkan beberapa prestasi terbaru dari SDN 2 Tamanharjo",
+  keywords: ["SDN 2 Tamanharjo", "website", "resmi", "prestasi"],
+  category: "Education",
+  openGraph: {
+    title: "Prestasi | SDN 2 Tamanharjo",
+    description: "Halaman prestasi, berisikan beberapa prestasi terbaru dari SDN 2 Tamanharjo",
+    url: "https://sdnegeri2tamanharjo.web.id/prestasi",
+    type: "website",
+    locale: "id_ID",
+    siteName: "SDN 2 Tamanharjo",
+    images: [
+      {
+        url: "https://sdnegeri2tamanharjo.web.id/images/logo.png",
+        width: 800,
+        height: 600,
+        alt: "SDN 2 Tamanharjo",
+      },
+    ],
+  }
 }
 
 export default async function Page({ searchParams }: { searchParams: any }) {
