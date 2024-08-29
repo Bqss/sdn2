@@ -129,23 +129,20 @@ export default function Page() {
   }
 
   const handleClickDelete = async (id: string) => {
-    const confirmed = confirm("Apakah anda yakin ingin menghapus data ini?");
-    if (confirmed) {
-      toggleLoader(true);
-      try {
-        const result = await deleteGallery(id);
-        queryClientInstance.invalidateQueries({
-          queryKey: ["gallery"],
-        });
-        toast.success(result.message);
+    toggleLoader(true);
+    try {
+      const result = await deleteGallery(id);
+      queryClientInstance.invalidateQueries({
+        queryKey: ["gallery"],
+      });
+      toast.success(result.message);
 
-      } catch (err) {
-        if (err instanceof AxiosError) {
-          toast.error(err?.response?.data.message);
-        }
-      } finally {
-        toggleLoader(false);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        toast.error(err?.response?.data.message);
       }
+    } finally {
+      toggleLoader(false);
     }
   }
   return (
