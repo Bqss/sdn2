@@ -174,102 +174,104 @@ function Page() {
                   <DialogTitle >{isOnUpdateProcess ? "Edit data pegawai " : "Tambah data pegawai"}</DialogTitle>
                 </DialogHeader>
                 <Form {...pegawaiForm}>
-                  <form onSubmit={pegawaiForm.handleSubmit(onSubmit)} className=" mt-3 flex flex-col gap-3">
-                    <FormField
-                      control={pegawaiForm.control}
-                      name="nama"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Nama Pegawai <span className="text-red-500">*</span></FormLabel>
-                          <FormControl>
-                            <Input placeholder="Masukkan nama pegawai" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={pegawaiForm.control}
-                      name="jabatan"
-                      render={({ field }) => (
-                        <FormItem >
-                          <FormLabel>Jabatan <span className="text-red-500">*</span></FormLabel>
-                          <FormControl>
-                            <Input placeholder="Masukkan jabatan pegawai" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={pegawaiForm.control}
-                      name="order"
-                      render={({ field }) => (
-                        <FormItem >
-                          <FormLabel>Urutan <span className="text-red-500">*</span></FormLabel>
-                          <FormControl>
-                            <Input placeholder="urutan" type='number'  {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={pegawaiForm.control}
-                      name="is_male"
-                      render={({ field }) => (
-                        <FormItem >
-                          <FormLabel>Jenis Kelamin <span className="text-red-500">*</span></FormLabel>
-                          <FormControl>
-                            <RadioGroup
-                              onValueChange={field.onChange}
-                              value={field.value}
-                              className="flex gap-5 mt-4"
-                            >
-                              <FormItem className="flex items-center space-x-3 space-y-0">
-                                <FormControl>
-                                  <RadioGroupItem value="1" />
-                                </FormControl>
-                                <FormLabel className="font-normal">Laki-laki</FormLabel>
-                              </FormItem>
-                              <FormItem className="flex items-center space-x-3 space-y-0">
-                                <FormControl>
-                                  <RadioGroupItem value="0" />
-                                </FormControl>
-                                <FormLabel className="font-normal">Perempuan</FormLabel>
-                              </FormItem>
-                            </RadioGroup>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={pegawaiForm.control}
-                      name="deskripsi"
-                      render={({ field }) => (
-                        <FormItem >
-                          <FormLabel>Deskripsi</FormLabel>
-                          <FormControl>
-                            <Textarea placeholder='Masukkan deskripsi pegawai' {...field} value={pegawaiForm.watch("deskripsi") ??""}  />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={pegawaiForm.control}
-                      name="foto"
-                      render={({ field }) => (
-                        <FormItem >
-                          <FormLabel>Foto</FormLabel>
-                          <FormControl>
-                            <FileUpload {...field} maxSize={2} accept='image/*' files={pegawaiForm.watch("foto") as any} setFiles={pegawaiForm.setValue} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <form onSubmit={pegawaiForm.handleSubmit(onSubmit)} className=" mt-3 ">
+                    <div className="max-h-[70vh] overflow-y-auto p-2 flex flex-col gap-3">
+                      <FormField
+                        control={pegawaiForm.control}
+                        name="nama"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Nama Pegawai <span className="text-red-500">*</span></FormLabel>
+                            <FormControl>
+                              <Input placeholder="Masukkan nama pegawai" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={pegawaiForm.control}
+                        name="jabatan"
+                        render={({ field }) => (
+                          <FormItem >
+                            <FormLabel>Jabatan <span className="text-red-500">*</span></FormLabel>
+                            <FormControl>
+                              <Input placeholder="Masukkan jabatan pegawai" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={pegawaiForm.control}
+                        name="order"
+                        render={({ field }) => (
+                          <FormItem >
+                            <FormLabel>Urutan <span className="text-red-500">*</span></FormLabel>
+                            <FormControl>
+                              <Input placeholder="urutan" type='number'  {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={pegawaiForm.control}
+                        name="is_male"
+                        render={({ field }) => (
+                          <FormItem >
+                            <FormLabel>Jenis Kelamin <span className="text-red-500">*</span></FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={field.onChange}
+                                value={field.value}
+                                className="flex gap-5 mt-4"
+                              >
+                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                  <FormControl>
+                                    <RadioGroupItem value="1" />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">Laki-laki</FormLabel>
+                                </FormItem>
+                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                  <FormControl>
+                                    <RadioGroupItem value="0" />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">Perempuan</FormLabel>
+                                </FormItem>
+                              </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={pegawaiForm.control}
+                        name="deskripsi"
+                        render={({ field }) => (
+                          <FormItem >
+                            <FormLabel>Deskripsi</FormLabel>
+                            <FormControl>
+                              <Textarea placeholder='Masukkan deskripsi pegawai' {...field} value={pegawaiForm.watch("deskripsi") ?? ""} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={pegawaiForm.control}
+                        name="foto"
+                        render={({ field }) => (
+                          <FormItem >
+                            <FormLabel>Foto</FormLabel>
+                            <FormControl>
+                              <FileUpload {...field} maxSize={2} accept='image/*' files={pegawaiForm.watch("foto") as any} setFiles={pegawaiForm.setValue} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                     {/* <FormField  */}
                     <div className="flex justify-end items-center mt-8 gap-3">
                       <DialogClose className='px-5 py-2 rounded-md text-sm bg-slate-100'>
@@ -308,7 +310,7 @@ function Page() {
 const PegawaiCard = ({ dataPegawai, handleClickEdit, handleClickDelete }: { dataPegawai: any, handleClickEdit: (id: string) => void, handleClickDelete: (id: string) => void }) => {
   return (
     <div className='p-.5 rounded-lg border flex flex-col border-gray-400 group cursor-pointer overflow-hidden hover:scale-105 transition-all duration-200 relative'>
-      <Image src={dataPegawai.foto?? (dataPegawai.is_male == "1" ? "/images/guru-placeholder-male.jpg": "/images/guru-placeholder-female.png")} width={100} height={100} className='w-full aspect-square rounded-md object-cover  transition-all duration-300' alt={dataPegawai?.nama} />
+      <Image src={dataPegawai.foto ?? (dataPegawai.is_male == "1" ? "/images/guru-placeholder-male.jpg" : "/images/guru-placeholder-female.png")} width={100} height={100} className='w-full aspect-square rounded-md object-cover  transition-all duration-300' alt={dataPegawai?.nama} />
       <div className='opacity-0 group-hover:opacity-100 grid place-content-center absolute inset-0 bg-black/20 transition-opacity duratin-300 ease-in-out'>
         <div className="flex gap-2">
           <AlertDialog>
