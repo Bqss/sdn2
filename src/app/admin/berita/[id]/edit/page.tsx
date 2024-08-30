@@ -82,7 +82,7 @@ export default function Page() {
     if (id) {
       getNewsDetail();
     }
-  }, [getNewsDetail, id]);
+  }, []);
 
 
   const onSubmit = async (data: any) => {
