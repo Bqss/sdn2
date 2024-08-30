@@ -2,15 +2,32 @@ import { firestore } from "@/lib/firebase";
 import { storage } from "firebase-admin";
 import { getDownloadURL } from "firebase-admin/storage";
 import * as yup from "yup";
-import admin from "firebase-admin";
+
 import { revalidateTag } from "next/cache";
 
-export async function GET() {
-  const ekskul = await firestore().collection("ekstrakurikuler").get();
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") || "0", 10);
+  const size = parseInt(url.searchParams.get("size") || "10", 10);
+
+  const cursor = page * size - 1;
+  let snapshot;
+  const all = await firestore().collection("ekstrakurikuler").get();
+  const lastVisible = all.docs[cursor];
 
   try {
+    if (cursor < 0) {
+      snapshot = await firestore().collection("ekstrakurikuler").limit(size).get();
+    } else {
+      snapshot = await firestore()
+        .collection("ekstrakurikuler")
+        .startAfter(lastVisible)
+        .limit(size)
+        .get();
+    }
+
     const mappedData = await Promise.all(
-      ekskul.docs.map(async (doc) => {
+      snapshot.docs.map(async (doc) => {
         const { thumbnail, ...rest } = doc.data();
         return {
           id: doc.id,
@@ -24,6 +41,8 @@ export async function GET() {
     return Response.json(
       {
         data: mappedData,
+        pageCount: Math.ceil(all.size / size),
+        rowCount: all.size,
         message: "Data ekskul berhasil diambil",
       },
       {

@@ -74,7 +74,7 @@ export default async function Page() {
               </div>
             )) : (
               <div className="py-12 w-full border border-white rounded-lg mt-12">
-                <div className="text-center">belum ada data prestasi yang ditambahkan</div>
+                <div className="text-center">belum ada arsip file yang ditambahkan</div>
               </div>
             )}
           </div>

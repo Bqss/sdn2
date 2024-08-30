@@ -4,14 +4,28 @@ import { getDownloadURL } from "firebase-admin/storage";
 import { revalidateTag } from "next/cache";
 import * as yup from "yup";
 
-export async function GET() {
-  const arsip = await firestore().collection("arsip-file").get();
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") || "0", 10);
+  const size = parseInt(url.searchParams.get("size") || "10", 10);
 
+  const cursor = page * size - 1;
+  let snapshot;
+  const all = await firestore().collection("arsip-file").get();
+  const lastVisible = all.docs[cursor];
   try {
+    if (cursor < 0) {
+      snapshot = await firestore().collection("arsip-file").limit(size).get();
+    } else {
+      snapshot = await firestore()
+        .collection("arsip-file")
+        .startAfter(lastVisible)
+        .limit(size)
+        .get();
+    }
     const mappedData = await Promise.all(
-      arsip.docs.map(async (doc) => {
+      snapshot.docs.map(async (doc) => {
         const { file, ...rest } = doc.data();
-      
         return {
           id: doc.id,
           file: {

@@ -5,12 +5,37 @@ import * as yup from "yup";
 import admin from "firebase-admin";
 import { revalidateTag } from "next/cache";
 
-export async function GET() {
-  const berita = await firestore().collection("news").orderBy("created_at","desc").get();
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get("page") || "0", 10);
+  const size = parseInt(url.searchParams.get("size") || "10", 10);
+
+  const cursor = page * size - 1;
+  let snapshot;
+  const all = await firestore()
+    .collection("news")
+    .orderBy("created_at", "desc")
+    .get();
+  const lastVisible = all.docs[cursor];
 
   try {
+    if (cursor < 0) {
+      snapshot = await firestore()
+        .collection("news")
+        .orderBy("created_at", "asc")
+        .limit(size)
+        .get();
+    } else {
+      snapshot = await firestore()
+        .collection("news")
+        .orderBy("created_at", "asc")
+        .startAfter(lastVisible)
+        .limit(size)
+        .get();
+    }
+
     const mappedData = await Promise.all(
-      berita.docs.map(async (doc) => {
+      snapshot.docs.map(async (doc) => {
         const { thumbnail, ...rest } = doc.data();
         return {
           id: doc.id,
@@ -24,6 +49,8 @@ export async function GET() {
     return Response.json(
       {
         data: mappedData,
+        pageCount: Math.ceil(all.size / size),
+        rowCount: all.size,
         message: "Data berita berhasil diambil",
       },
       {
@@ -91,7 +118,7 @@ export async function POST(request: Request) {
       }
     );
   } catch (error) {
-    console.log(error)
+    console.log(error);
     if (error instanceof yup.ValidationError) {
       return new Response(
         JSON.stringify({
