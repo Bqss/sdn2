@@ -14,7 +14,7 @@ const HeroSection = ({ slideshows }: { slideshows: Array<Slideshow> }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 2, duration: 0.5 }}
-      className="flex w-full h-screen ">
+      className="flex w-full h-[80vh] lg:h-screen ">
       <Swiper
         spaceBetween={10}
         slidesPerView={1}

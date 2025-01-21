@@ -42,7 +42,7 @@ export async function generateMetadata(
         },
       ],
     },
-    
+
   }
 }
 
@@ -65,8 +65,8 @@ export default async function Page({ params }: Props) {
           </div>
         </div>
         <div className="mt-8">
-          <h1 className="text-xl md:text-2xl font-bold">{berita.judul}</h1>
-          <div className="mt-4 text-sm flex items-center gap-2 text-white">
+          <h1 className="text-base sm:text-lg md:text-2xl font-bold">{berita.judul}</h1>
+          <div className="mt-4 text-sm sm:text-base flex items-center gap-2 text-white">
             <FaRegUser />
             <span>Admin</span>
           </div>

@@ -53,16 +53,13 @@ const Header = (props: {
               </span>
             </span>
           </button>
-          {/* <!-- Hamburger Toggle BTN --> */}
 
           <Link className="block flex-shrink-0 lg:hidden" href="/">
             <Image src={"/images/logo-sdn.png"} alt="Logo" width={32} height={32} className='rouded-lg'/>
           </Link>
         </div>
         <div className="flex items-center gap-3 2xsm:gap-7">
-          {/* <!-- User Area --> */}
           <DropdownUser />
-          {/* <!-- User Area --> */}
         </div>
       </div>
     </header>

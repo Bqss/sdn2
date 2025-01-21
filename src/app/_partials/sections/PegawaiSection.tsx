@@ -13,7 +13,7 @@ interface PegawaiSectionProps {
 }
 
 const PegawaiSection: FC<PegawaiSectionProps> = ({ pegawai }) => {
-  
+
   const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
   const isMediumDevice = useMediaQuery(
     "only screen and (min-width : 769px) and (max-width : 992px)"
